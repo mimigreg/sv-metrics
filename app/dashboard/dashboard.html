@@ -1,0 +1,28 @@
+<md-tabs selected="selectedIndex" noink center>
+  <md-tab label="Charts">
+    <div>
+    <div layout="horizontal" layout-padding ng-repeat="chart in charts" inline-block>
+      <md-whiteframe class="md-whiteframe-z2" layout="vertical">
+
+        <b>{{chart.name}}</b>
+        <svm-chart config="chart"></svm-chart>
+
+      </md-whiteframe>
+    </div>
+    </div>
+  </md-tab>
+    <md-tab label="Metrics">
+      <md-list>
+        <md-item ng-repeat="metric in registry.metrics">
+          <div class="md-tile-content">
+            {{metric.id}} {{registry.getValue(metric.id).value}}
+          </div>
+        </md-item>
+      <md-list>
+    </md-tab>
+    <md-tab label="Alerts">
+      <md-content>
+        <ng-include src="'dashboard/alerts.html'"></ng-include>
+      </md-content>
+    </md-tab>
+</md-tabs>

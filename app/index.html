@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="bower_components/hammerjs/hammer.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/traceur-runtime/traceur-runtime.js"></script>
+  <link rel='stylesheet' href='bower_components/angular-material/angular-material.css' type='text/css'/>
+  <link rel="stylesheet" href="bower_components/angular-material/themes/blue-theme.css">
+
+  <script src="bower_components/d3/d3.js"></script>
+  <script src="bower_components/nvd3/nv.d3.js"></script>
+  <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"/>
+
+  <link rel="stylesheet" href="app/app.css"/>
+
+  <script src="bower_components/requirejs/require.js"></script>
+  <!-- <script src="dist/app.js"></script> -->
+
+  <script>
+    require.config({
+      baseUrl: 'dist',
+      paths: {
+          //app: '../app'
+      }
+    });
+    require(["app"],function(){
+      angular.element(document).ready(function() {
+        angular.bootstrap(document, ['sv-metrics']);
+      });
+    });
+  </script>
+</head>
+<body layout="horizontal" ng-controller="MainCtrl" md-theme="blue">
+  <md-sidenav component-id="side-nav" class="md-sidenav-left md-whiteframe-z2" is-locked-open="showSideNav">
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <a ng-click="toggleSideNav()"><md-icon icon="/img/icons/ic_arrow_back_24px.svg"></md-icon></a>
+        </div>
+      </md-toolbar>
+      <div>
+      <md-content flex>
+        <button class="menu-item menu-title" ng-class="{active: menu.isSectionSelected(section)}" ink-ripple>
+          View
+        </button>
+
+        <a class="menu-item menu-sub-item" ng-repeat="d in dashboards" ng-class="{active: menu.isSectionSelected(section)}" ng-href="#/view/dashboard/{{$index}}">
+          {{d.name}}
+        </a>
+
+        <button class="menu-item menu-title" ng-class="{active: menu.isSectionSelected(section)}" ink-ripple>
+          Configure
+        </button>
+        <a class="menu-item menu-sub-item" ng-class="{active: menu.isSectionSelected(section)}" ng-click="$location.url('configure')">
+          General
+        </a>
+        <a class="menu-item menu-sub-item" ng-class="{active: menu.isSectionSelected(section)}" ng-href="#/configure/dashboards">
+          Dashboards
+        </a>
+        <a class="menu-item menu-sub-item" ng-class="{active: menu.isSectionSelected(section)}" ng-href="#/configure/charts">
+          Charts
+        </a>
+        <a class="menu-item menu-sub-item" ng-class="{active: menu.isSectionSelected(section)}" ng-href="#/configure/metrics">
+          Metrics
+        </a>
+    </md-content>
+  </div>
+  </md-sidenav>
+  <md-content flex>
+    <md-toolbar class="md-theme-light">
+      <div class="md-toolbar-tools">
+        <a ng-click="toggleSideNav()" ng-show="!showSideNav"><md-icon icon="/img/icons/ic_menu_24px.svg"></md-icon></a>
+        &nbsp;sv-metrics
+      </div>
+    </md-toolbar>
+    <div ng-view></div>
+  </md-content>
+
+</body>
+</html>

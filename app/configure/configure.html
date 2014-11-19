@@ -1,0 +1,17 @@
+<md-subheader class="md-primary">Global Configuration</md-subheader>
+ <div class="svm-form-row" layout="horizontal">
+    <div flex="10">
+        <span>Update Interval</span>
+    </div>
+    <md-slider flex ng-model="configuration.metricsInterval" min="1" max="30"
+        aria-label="Update Interval" id="update-interval-slider">
+    </md-slider>
+    <div flex="10" layout layout-align="center center">
+        <input type="number" ng-model="configuration.metricsInterval"
+            min="0" max="30"
+            aria-label="update interval" aria-controls="update-interval-slider">
+    </div>
+</div>
+<div class="svm-form-row" layout="horizontal">
+  <md-text-float label="Metrics URL" ng-model="configuration.metricsUrl"> </md-text-float>
+</div>
