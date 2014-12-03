@@ -3,7 +3,7 @@ import {api} from 'metrics/api';
 import {DashboardController} from 'dashboard/dashboard';
 import {configuration} from 'configure/configuration';
 import {GlobalCfgCtrl} from 'configure/GlobalCfgCtrl';
-import {DashsCfgCtrl} from 'configure/DashsCfgCtrl';
+import {DashsCfgCtrl,DashModifCtrl} from 'configure/dashboard/controllers';
 import {ChartsCfgCtrl} from 'configure/ChartsCfgCtrl';
 import {MetricsCfgCtrl} from 'configure/MetricsCfgCtrl';
 import {chart} from 'chart/chart-directives.js';
@@ -26,6 +26,10 @@ app.config(function($routeProvider, $locationProvider) {
     .when('/configure/dashboards', {
       templateUrl: 'configure/dashboards.html',
       controller: DashsCfgCtrl
+    })
+    .when('/configure/dashboards/:dashboardId', {
+      templateUrl: 'configure/dashboard/modify.html',
+      controller: DashModifCtrl
     })
     .when('/configure/charts', {
       templateUrl: 'configure/charts.html',

@@ -1,0 +1,41 @@
+<md-subheader class="md-primary">Dashboard</md-subheader>
+
+<md-content>
+<div class="row">
+  <form style="padding:20px">
+    <md-text-float label="Name" ng-model="dashboard.name"> </md-text-float>
+    <md-text-float label="Description" ng-model="dashboard.desc" class="long"> </md-text-float>
+  </form>
+</div>
+</md-content>
+
+<md-subheader class="md-primary">Charts</md-subheader>
+
+<md-content style="padding:10px">
+  <md-list>
+    <md-item ng-repeat="chart in dashboard.charts">
+      <md-item-content class="md-whiteframe-z1 svm-list-item">
+        <div class="md-tile-left">{{chart.name}}</div>
+        <div class="md-tile-content">
+          xx
+        </div>
+        <md-button ng-click="removeChart(chart)">
+          <md-icon icon="/img/icons/ic_delete_24px.svg"></md-icon>
+        </md-button>
+      </md-item-content>
+    </md-item>
+  </md-list>
+</md-content>
+<md-content>
+<div layout="row" class="svm-actions">
+  <md-button ng-click="cancel()" class="md-raised">
+    Cancel
+  </md-button>
+  <md-button ng-click="ok()" class="md-raised md-primary">
+    Ok
+  </md-button>
+</div>
+</md-content>
+<md-button ng-click="addChart($event)" class="md-primary md-fab md-fab-bottom-right">
+  <md-icon icon="/img/icons/ic_add_24px.svg"></md-icon>
+</md-button>

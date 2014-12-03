@@ -52,10 +52,12 @@ var charts=[
 var dashboards= [
   {
     name: "dashboard JVM",
+    desc: "View of main JVM Metrics",
     charts: [ charts[0],charts[1]]
   },
   {
     name: "dashboard NodeJS",
+    desc: "Main Node.js metrics charts",
     charts: [charts[2],charts[3]]
   }
 ];
