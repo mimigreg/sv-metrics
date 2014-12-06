@@ -6,7 +6,7 @@ import {GlobalCfgCtrl} from 'configure/GlobalCfgCtrl';
 import {DashsCfgCtrl,DashModifCtrl} from 'configure/dashboard/controllers';
 import {ChartsCfgCtrl} from 'configure/ChartsCfgCtrl';
 import {MetricsCfgCtrl} from 'configure/MetricsCfgCtrl';
-import {chart} from 'chart/chart-directives.js';
+import 'chart/chart-directives';
 
 export var app= angular.module('sv-metrics', ['ngMaterial','sv-metrics.charts','ngRoute']);
 app.config(function($routeProvider, $locationProvider) {

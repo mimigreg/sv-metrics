@@ -11,7 +11,7 @@ gulp.task('build', function () {
         .pipe(
         	traceur(
             {
-              modules: 'amd' // 'commonjs','register','inline','amd'
+              modules: 'instantiate' // 'commonjs','register','inline','amd'
               //,sourceMaps: 'file'
         	  }))
 
@@ -28,7 +28,7 @@ gulp.task('watch', function() {
 
 gulp.task('connect', function() {
   connect.server({
-    root: ['.','app'],
+    root: ['.'],
     livereload: true,
     port: 8000,
     middleware: function(connect, opt) {

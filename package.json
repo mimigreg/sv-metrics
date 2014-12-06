@@ -14,11 +14,6 @@
     "gulp-connect": "^2.2.0",
     "gulp-traceur": "^0.14.1",
     "gulp-sourcemaps": "^1.2.8",
-    "gulp-concat": "^2.4.1",
-
-    "grunt": "~0.4.5",
-    "load-grunt-tasks": "~1.0.0",
-    "grunt-traceur":"~0.2.9",
-    "grunt-contrib-connect": "~0.8.0"
+    "gulp-concat": "^2.4.1"
   }
 }
