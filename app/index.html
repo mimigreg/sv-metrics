@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <script src="../bower_components/es6-module-loader/dist/es6-module-loader.js"></script>
   <script src="../bower_components/traceur/traceur.js"></script>
+  <script src="../bower_components/es6-module-loader/dist/es6-module-loader.js"></script>
   <script src="../bower_components/hammerjs/hammer.min.js"></script>
   <script src="../bower_components/angular/angular.js"></script>
   <script src="../bower_components/angular-animate/angular-animate.js"></script>
@@ -22,6 +22,10 @@
   <script>
 
     //System.baseURL = '.';
+    System.traceurOptions={
+      //annotations: true,
+      sourceMaps: true
+    };
 
     System.import('app').then(function(app) {
       angular.element(document).ready(function() {
