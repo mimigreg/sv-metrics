@@ -4,7 +4,7 @@ import {DashboardController} from 'dashboard/dashboard';
 import {configuration} from 'configure/configuration';
 import {GlobalCfgCtrl} from 'configure/GlobalCfgCtrl';
 import {DashsCfgCtrl,DashModifCtrl} from 'configure/dashboard/controllers';
-import {ChartsCfgCtrl} from 'configure/ChartsCfgCtrl';
+import {ChartsCfgCtrl,ChartModifCtrl} from 'configure/chart/controllers';
 import {MetricsCfgCtrl} from 'configure/MetricsCfgCtrl';
 import 'chart/chart-directives';
 
@@ -34,6 +34,10 @@ app.config(function($routeProvider, $locationProvider) {
     .when('/configure/charts', {
       templateUrl: 'configure/charts.html',
       controller: ChartsCfgCtrl
+    })
+    .when('/configure/charts/:chartId', {
+      templateUrl: 'configure/chart/modify.html',
+      controller: ChartModifCtrl
     })
     .when('/configure/metrics', {
       templateUrl: 'configure/metrics.html',

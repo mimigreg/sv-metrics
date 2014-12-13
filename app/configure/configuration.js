@@ -72,7 +72,6 @@ var conf= {
 
 export var configuration={
 
-
   getConfiguration: function(){
     return conf;
   },
@@ -83,6 +82,20 @@ export var configuration={
 
   getCharts: function(){
     return charts;
+  },
+
+  removeChart: function(chartIdx){
+    var ch= charts[chartIdx];
+    for (var i = 0; i < dashboards.length; i++) {
+      var dash= dashboards[i];
+      for (var ii = 0; ii < dash.charts.length; ii++) {
+        if(dash.charts[ii]===ch){
+          dash.charts.splice(ii,1);
+          break; // max. once per dashboard
+        }
+      }
+    }
+    charts.splice(chartIdx,1);
   }
 
 }

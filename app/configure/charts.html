@@ -6,15 +6,15 @@
       <div class="md-tile-content">
           xxxxx
       </div>
-      <md-button>
-        <md-icon icon="/img/icons/ic_settings_24px.svg"></md-icon>
+      <md-button href="#/configure/charts/{{$index}}">
+        <md-icon icon="img/icons/ic_settings_24px.svg"></md-icon>
       </md-button>
-      <md-button>
-        <md-icon icon="/img/icons/ic_delete_24px.svg"></md-icon>
+      <md-button ng-click="remove($index)">
+        <md-icon icon="img/icons/ic_delete_24px.svg"></md-icon>
       </md-button>
     </md-item-content>
   </md-item>
 </md-list>
-<md-button class="md-primary md-fab md-fab-bottom-right">
-  <md-icon icon="/img/icons/ic_add_24px.svg"></md-icon>
+<md-button ng-click="add()" class="md-primary md-fab md-fab-bottom-right">
+  <md-icon icon="img/icons/ic_add_24px.svg"></md-icon>
 </md-button>
