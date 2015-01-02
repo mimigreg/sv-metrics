@@ -86,6 +86,6 @@ app.config(function($routeProvider, $locationProvider) {
      $scope.$location = $location;
      // $scope.$routeParams = $routeParams;
 
-     $scope.dashboards= configuration.getDashboards();
+     $scope.configuration= configuration.getConfiguration();
 })
 .controller("DashboardController",DashboardController);

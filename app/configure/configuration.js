@@ -1,74 +1,63 @@
-var charts=[
-  { // 0
-    name:"JVM Heap",
-    series: [
-      {
-        name:"Heap Used",
-        metricId:"jvm.memory.heap.used"
-      },{
-        name:"Heap Max",
-        metricId:"jvm.memory.heap.max"
-      }
-    ]
-  },{ // 1
-    name:"JVM Memory",
-    series: [
-      {
-        name:"Total Used",
-        metricId:"jvm.memory.total.used"
-      },{
-        name:"Max",
-        metricId: "jvm.memory.total.max"
-      }
-    ]
-  },{ // 2
-        name:"Heap (Node)",
-        series: [
-          {
-            name:"total",
-            metricId:"node.process.memory.heap.total"
-          },{
-            name:"used",
-            metricId: "node.process.memory.heap.used"
-          }
-        ]
-    },{ // 3
-        name:"Load (Node)",
-        series: [
-          {
-            name:"load - 1min",
-            metricId:"node.os.loadavg1"
-          },{
-            name:"load - 5min",
-            metricId:"node.os.loadavg5"
-          },{
-            name:"load - 15min",
-            metricId:"node.os.loadavg15"
-          }
-        ]
-    }
-]
+import {DEFAULT_CONF} from "configure/defaults";
 
-var dashboards= [
-  {
-    name: "dashboard JVM",
-    desc: "View of main JVM Metrics",
-    charts: [ charts[0],charts[1]]
-  },
-  {
-    name: "dashboard NodeJS",
-    desc: "Main Node.js metrics charts",
-    charts: [charts[2],charts[3]]
+function copyProperties(propNames,source,target){
+  for (var i = 0; i < propNames.length; i++) {
+    target[propNames[i]]= source[propNames[i]];
   }
-];
+  return target;
+}
 
+function shallowCopy(source,target) {
+  var cp=target?target:{};
+  for(var p in source){
+    if(typeof source[p]!=="object" && !p.startsWith('$$')){ // don't copy objects or angular properties ($$hashKey,...)
+      cp[p]=source[p];
+    }
+  }
+  return cp;
+}
+
+function shallowArrayCopy(array){
+  var cp= [];
+  for (var i = 0; i < array.length; i++) {
+    cp[i]= shallowCopy(array[i]);
+  }
+  return cp;
+}
+
+function copyCharts(charts) {
+  var copiedCharts= [];
+  for (var i = 0; i < charts.length; i++) {
+    copiedCharts[i]= shallowCopy(charts[i]);
+    copiedCharts[i].series= shallowArrayCopy(charts[i].series);
+  }
+  return copiedCharts;
+}
+
+function restoreDash(dash,charts) {
+  var restoredDash= shallowCopy(dash);
+  restoredDash.charts= dash.charts.map(chartIdx=>charts[chartIdx]);
+  return restoredDash;
+}
+
+function resotreDashboards(dashs,charts) {
+  return dashs.map( d => restoreDash(d,charts) );
+}
+
+function restoreConfig(sourceConf,targetConf) {
+  shallowCopy(sourceConf,targetConf);
+  targetConf.charts= copyCharts(sourceConf.charts);
+  targetConf.dashboards= resotreDashboards(sourceConf.dashboards,targetConf.charts);
+}
 
 var conf= {
 
-    metricsUrl: '/metrics',
-    metricsInterval: 5, // seconds
-    chartRefresh: 1 // 0 no automatic refresh, 1 refresh when new metrics data
+  global: {},
+  charts: [],
+  dashboards: []
 };
+
+restoreConfig(DEFAULT_CONF,conf);
 
 export var configuration={
 
@@ -77,17 +66,17 @@ export var configuration={
   },
 
   getDashboards: function(){
-    return dashboards;
+    return conf.dashboards;
   },
 
   getCharts: function(){
-    return charts;
+    return conf.charts;
   },
 
   removeChart: function(chartIdx){
-    var ch= charts[chartIdx];
-    for (var i = 0; i < dashboards.length; i++) {
-      var dash= dashboards[i];
+    var ch= conf.charts[chartIdx];
+    for (var i = 0; i < conf.dashboards.length; i++) {
+      var dash= conf.dashboards[i];
       for (var ii = 0; ii < dash.charts.length; ii++) {
         if(dash.charts[ii]===ch){
           dash.charts.splice(ii,1);
@@ -95,7 +84,39 @@ export var configuration={
         }
       }
     }
-    charts.splice(chartIdx,1);
+    conf.charts.splice(chartIdx,1);
+  },
+
+  save: function() {
+
+    var copiedConf= shallowCopy(conf);
+
+    copiedConf.charts= copyCharts(conf.charts);
+
+    var copiedDashs=
+      conf.dashboards.map(function(d){
+        // find indeces of contained charts (avoid stringifying references)
+        var chartIdxs= d.charts.map(function(sc){
+            return conf.charts.findIndex(function(c){
+              return c===sc;
+            });
+        });
+        var copiedDash= shallowCopy(d);
+        copiedDash.charts= chartIdxs;
+        return copiedDash;
+      });
+      copiedConf.dashboards= copiedDashs;
+
+    window.localStorage.setItem("cfg",JSON.stringify(copiedConf));
+  },
+
+  restore: function(){
+    var cfg= window.localStorage.getItem("cfg");
+    conf= restoreConfig(JSON.parse(cfg),conf);
+  },
+
+  restoreDefault: function(){
+    conf= restoreConfig(DEFAULT_CONF,conf);
   }
 
 }

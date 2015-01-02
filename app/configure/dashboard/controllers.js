@@ -24,14 +24,6 @@ function addChartCtrl($scope, $mdDialog, dashboard){
     }
   );
 
-  //$scope.chartsWrapper.forEach( ch => ch.inDash=dashboard.charts.some(e=>ch===e) );
-
-  /*for(var ch of $scope.charts){
-    if(dashboard.charts.find(e=>e.name==ch.name)){
-      ch.inDash= true;
-    }
-  }*/
-
   $scope.ok = function(chartsWrapper) {
     $mdDialog.hide();
     dashboard.charts= [];

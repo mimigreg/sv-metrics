@@ -15,3 +15,14 @@
 <div class="svm-form-row" layout="horizontal">
   <md-text-float label="Metrics URL" ng-model="configuration.metricsUrl"> </md-text-float>
 </div>
+<div class="svm-actions" layout="row">
+    <md-button ng-click="save()" class="md-raised md-primary">
+      Save
+    </md-button>
+    <md-button ng-click="restore()" class="md-raised">
+      Restore
+    </md-button>
+    <md-button ng-click="default()" class="md-raised">
+      Restore Default
+    </md-button>
+</div>

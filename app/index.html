@@ -39,7 +39,7 @@
   <md-sidenav component-id="side-nav" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="showSideNav">
       <md-toolbar>
         <div class="md-toolbar-tools">
-          <a ng-click="toggleSideNav()"><md-icon icon="/img/icons/ic_arrow_back_24px.svg"></md-icon></a>
+          <a ng-click="toggleSideNav()"><md-icon icon="img/icons/ic_arrow_back_24px.svg"></md-icon></a>
         </div>
       </md-toolbar>
       <div>
@@ -48,7 +48,7 @@
           View
         </button>
 
-        <a class="menu-item menu-sub-item" ng-repeat="d in dashboards" ng-class="{active: menu.isSectionSelected(section)}" ng-href="#/view/dashboard/{{$index}}">
+        <a class="menu-item menu-sub-item" ng-repeat="d in configuration.dashboards" ng-class="{active: menu.isSectionSelected(section)}" ng-href="#/view/dashboard/{{$index}}">
           {{d.name}}
         </a>
 
@@ -73,7 +73,7 @@
   <md-content flex>
     <md-toolbar class="md-theme-light">
       <div class="md-toolbar-tools">
-        <a ng-click="toggleSideNav()" ng-show="!showSideNav"><md-icon icon="/img/icons/ic_menu_24px.svg"></md-icon></a>
+        <a ng-click="toggleSideNav()" ng-show="!showSideNav"><md-icon icon="img/icons/ic_menu_24px.svg"></md-icon></a>
         &nbsp;sv-metrics
       </div>
     </md-toolbar>
