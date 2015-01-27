@@ -9,7 +9,12 @@ import {MetricsCfgCtrl} from 'configure/MetricsCfgCtrl';
 import 'chart/chart-directives';
 
 export var app= angular.module('sv-metrics', ['ngMaterial','sv-metrics.charts','ngRoute']);
-app.config(function($routeProvider, $locationProvider) {
+app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
+
+   $mdThemingProvider.theme('default')
+    .primaryColor('deep-orange')
+    .accentColor('orange');
+
   $routeProvider
     .when('/view', {
         templateUrl: 'view/view.html',

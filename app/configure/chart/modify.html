@@ -3,8 +3,14 @@
 <md-content>
 <div class="row">
   <form style="padding:20px">
-    <md-text-float label="Name" ng-model="chart.name"> </md-text-float>
-    <md-text-float label="Description" ng-model="chart.desc" class="long"> </md-text-float>
+    <md-input-container flex>
+      <label>Name</label>
+      <input  ng-model="chart.name">
+    </md-input-container>
+    <md-input-container flex>
+      <label>Description</label>
+      <input ng-model="chart.desc">
+    </md-input-container>
   </form>
 </div>
 </md-content>
