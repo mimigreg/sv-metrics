@@ -1,6 +1,15 @@
 import {registry} from 'metrics/MetricsRegistry';
 import {configuration} from 'configure/configuration';
 
+
+function getChartSize(size){
+  switch(size){
+    case 'S': return {width:325,height:150};
+    case 'M': return {width:325,height:300};
+    case 'L': return {width:750,height:300};
+  }
+}
+
 export function DashboardController($scope,$routeParams){
 
       $scope.dashboardId= $routeParams.dashboardId;
@@ -31,7 +40,13 @@ export function DashboardController($scope,$routeParams){
           };
           $scope.$broadcast("mx-ud");
         });
-        $scope.charts.push({name:chart.name,data:c});
+        var sz= getChartSize(chart.size);
+        $scope.charts.push({
+            name:chart.name,
+            width:sz.width,height:sz.height,
+            data:c,
+            style:{width:sz.width+"px",height:sz.height+"px"}
+          });
       };
 
       /*

@@ -2,7 +2,7 @@
   <md-tab label="Charts">
     <div>
       <div ng-repeat="chart in charts" layout style="float:left;margin:5px">
-        <md-whiteframe class="md-whiteframe-z2" style="width:750px;">
+        <md-whiteframe class="md-whiteframe-z2" ng-style="chart.style">
           <div><b>{{chart.name}}</b></div>
           <svm-chart config="chart"></svm-chart>
         </md-whiteframe>

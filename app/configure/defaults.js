@@ -1,6 +1,8 @@
 const DEFAULT_CHARTS=[
   { // 0
     name:"JVM Heap",
+    desc:"JVM heap chart",
+    size:'S',
     series: [
       {
         name:"Heap Used",
@@ -12,6 +14,7 @@ const DEFAULT_CHARTS=[
     ]
   },{ // 1
     name:"JVM Memory",
+    size:'M',
     series: [
       {
         name:"Total Used",
@@ -23,6 +26,7 @@ const DEFAULT_CHARTS=[
     ]
   },{ // 2
     name:"Heap (Node)",
+    size:'L',
     series: [
       {
         name:"total",
@@ -34,6 +38,7 @@ const DEFAULT_CHARTS=[
     ]
   },{ // 3
     name:"Load (Node)",
+    size:'M',
     series: [
       {
         name:"load - 1min",

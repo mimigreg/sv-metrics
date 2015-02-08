@@ -41,7 +41,8 @@ function AddMetricsCtrl($scope, $mdDialog, chart){
         chart.series.push(
           {
             metricId:w.metricId,
-            name:w.name
+            name:w.name,
+            size:w.size
           }
         );
       }
@@ -58,6 +59,7 @@ function copyChart(chart){
   var cp={
     name: chart.name,
     desc: chart.desc,
+    size: chart.size,
     series:[]
   };
   for(var s of chart.series){
@@ -73,6 +75,7 @@ export function ChartModifCtrl($scope,$routeParams,$mdDialog,$location){
     $scope.chart= {
       name:"",
       desc:"",
+      size:'M',
       series:[]
     };
   }else{
@@ -99,6 +102,7 @@ export function ChartModifCtrl($scope,$routeParams,$mdDialog,$location){
       var ch= configuration.getCharts()[$scope.chartId];
       ch.name= $scope.chart.name;
       ch.desc= $scope.chart.desc;
+      ch.size= $scope.chart.size;
       ch.series= $scope.chart.series;
     }else{
       configuration.getCharts().push($scope.chart);
