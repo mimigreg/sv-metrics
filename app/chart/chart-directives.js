@@ -7,11 +7,13 @@ angular.module('sv-metrics.charts', [])
         },
         controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs){
 
+          /*
           $scope.width=  $scope.config.width?$scope.config.width:750;
           $scope.height= $scope.config.height?$scope.config.width:300;
 
           $element.css({width:$scope.width+"px",height:$scope.height+"px"});
-
+          */
+          $element.css({width:"100%",height:"100%","padding":"15px"});
           $scope.d3Call = function(data, chart){
 
                     chart.xAxis.tickFormat(function(d) {

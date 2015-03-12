@@ -2,7 +2,8 @@ const DEFAULT_CHARTS=[
   { // 0
     name:"JVM Heap",
     desc:"JVM heap chart",
-    size:'S',
+    width:4,
+    height:2,
     series: [
       {
         name:"Heap Used",
@@ -14,7 +15,8 @@ const DEFAULT_CHARTS=[
     ]
   },{ // 1
     name:"JVM Memory",
-    size:'M',
+    width:2,
+    height:2,
     series: [
       {
         name:"Total Used",
@@ -26,7 +28,8 @@ const DEFAULT_CHARTS=[
     ]
   },{ // 2
     name:"Heap (Node)",
-    size:'L',
+    width:4,
+    height:2,
     series: [
       {
         name:"total",
@@ -37,8 +40,19 @@ const DEFAULT_CHARTS=[
       }
     ]
   },{ // 3
+    name:"RSS (Node)",
+    width:2,
+    height:2,
+    series: [
+      {
+        name:"total",
+        metricId:"node.process.memory.rss"
+      }
+    ]
+  },{ // 4
     name:"Load (Node)",
-    size:'M',
+    width:6,
+    height:2,
     series: [
       {
         name:"load - 1min",
@@ -49,6 +63,19 @@ const DEFAULT_CHARTS=[
       },{
         name:"load - 15min",
         metricId:"node.os.loadavg15"
+      }
+    ]
+  },{ // 5
+    name:"Mem OS",
+    width:6,
+    height:2,
+    series: [
+      {
+        name:"freemem",
+        metricId:"node.os.freemem"
+      },{
+        name:"totalmem",
+        metricId:"node.os.totalmem"
       }
     ]
   }
@@ -63,7 +90,12 @@ const DEFAULT_DASHBOARDS= [
   {
     name: "dashboard NodeJS",
     desc: "Main Node.js metrics charts",
-    charts: [2,3]
+    charts: [2,3,4]
+  },
+  {
+    name: "dashboard System",
+    desc: "OS metrics charts",
+    charts: [4,5]
   }
 ];
 

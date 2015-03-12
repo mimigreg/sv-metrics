@@ -11,12 +11,19 @@
       <label>Description</label>
       <input ng-model="chart.desc">
     </md-input-container>
-    <p>Size:</p>
-    <md-radio-group ng-model="chart.size">
-      <md-radio-button value="S">S</md-radio-button>
-      <md-radio-button value="M">M</md-radio-button>
-      <md-radio-button value="L">L</md-radio-button>
-    </md-radio-group>
+    <p style="font-size: 0.8em;color: #777;margin-bottom:0">Size (height x width):</p>
+    <div layout="row">
+        <md-select ng-model="chart.height">
+          <md-option value="2">2</md-option>
+          <md-option value="4">4</md-option>
+        </md-select>
+        <md-select ng-model="chart.width">
+          <md-option value="2">2</md-option>
+          <md-option value="3">3</md-option>
+          <md-option value="3">4</md-option>
+          <md-option value="6">6</md-option>
+        </md-select>
+    </div>
   </form>
 </div>
 </md-content>
@@ -32,7 +39,7 @@
           {{series.metricId}}
         </div>
         <md-button ng-click="removeMetric(metrics)">
-          <md-icon icon="img/icons/ic_delete_24px.svg"></md-icon>
+          <md-icon md-svg-src="img/icons/ic_delete_24px.svg"></md-icon>
         </md-button>
       </md-item-content>
     </md-item>
@@ -49,5 +56,5 @@
 </div>
 </md-content>
 <md-button ng-click="addMetrics($event)" class="md-primary md-fab md-fab-bottom-right">
-  <md-icon icon="img/icons/ic_add_24px.svg"></md-icon>
+  <md-icon md-svg-src="img/icons/ic_add_24px.svg"></md-icon>
 </md-button>

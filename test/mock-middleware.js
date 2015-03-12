@@ -25,6 +25,8 @@ var mock= {
       "node.os.loadavg1":{"value":1},
       "node.os.loadavg5":{"value":5},
       "node.os.loadavg15":{"value":3},
+      "node.os.totalmem":{"value":3},
+      "node.os.freemem":{"value":3}
   }
 };
 
@@ -49,6 +51,9 @@ function change(){
   mock.gauges["node.os.loadavg1"].value= os.loadavg()[0];
   mock.gauges["node.os.loadavg5"].value= os.loadavg()[1];
   mock.gauges["node.os.loadavg15"].value= os.loadavg()[2];
+
+  mock.gauges["node.os.totalmem"].value= os.totalmem();
+  mock.gauges["node.os.freemem"].value= os.freemem();
 }
 
 module.exports= function(req,res,next){

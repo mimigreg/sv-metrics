@@ -1,12 +1,15 @@
 <md-tabs md-selected="selectedIndex" class="md-accent">
   <md-tab label="Charts">
     <div>
-      <div ng-repeat="chart in charts" layout style="float:left;margin:5px">
-        <md-whiteframe class="md-whiteframe-z2" ng-style="chart.style">
-          <div><b>{{chart.name}}</b></div>
-          <svm-chart config="chart"></svm-chart>
-        </md-whiteframe>
-      </div>
+      <md-grid-list md-cols-sm="1" md-cols-md="3" md-cols-gt-md="6" 
+                    md-row-height="210px"
+                    md-gutter="8px" md-gutter-gt-sm="4px">
+
+         <md-grid-tile ng-repeat="chart in charts" md-rowspan="{{chart.height}}" md-colspan="{{chart.width}}">
+            <svm-chart config="chart"></svm-chart>
+            <md-grid-tile-footer><h3>{{chart.name}}</h3></md-grid-tile-footer>
+        </md-grid-tile>
+     </md-grid-list>
     </div>
   </md-tab>
   <md-tab label="Metrics">
