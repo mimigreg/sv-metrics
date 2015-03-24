@@ -1,66 +1,101 @@
 var os= require('os');
+var Measured= require('measured');
 
-var mock= {
-  "gauges":{
+var metrics={
+  meters: Measured.createCollection(),
+  timers: Measured.createCollection(),
+  gauges: Measured.createCollection(),
+  toJSON: function(){
+            return {
+              meters:metrics.meters.toJSON(),
+              timers:metrics.timers.toJSON(),
+              gauges:metrics.gauges.toJSON()
+            }
+          }
+};
+
+var jvmMock= {
       "jvm.memory.heap.used":{"value":31000000},
       "jvm.memory.heap.max":{"value":53703504},
       "jvm.memory.total.used":{"value":38703504},
       "jvm.memory.total.max":{"value":58703504},
-
-      "threads.count":{"value":57},
-      "threads.peakCount":{"value":58},
-      "jvm.threads.http":{"value":5},
-      "jvm.threads.ajp":{"value":3},
       "jvm.memory.total":{"value":51703504},
       "jvm.memory.free":{"value":28274864},
-      "jvm.memory.max":{"value":71849728},
-      "os.loadAverage":{"value":1.0},
-
-      "cometd.channels":{"value":60},
-      "cometd.sessions":{"value":7},
-
-      "node.process.memory.rss":{"value":0},
-      "node.process.memory.heap.total":{"value":0},
-      "node.process.memory.heap.used":{"value":0},
-      "node.os.loadavg1":{"value":1},
-      "node.os.loadavg5":{"value":5},
-      "node.os.loadavg15":{"value":3},
-      "node.os.totalmem":{"value":3},
-      "node.os.freemem":{"value":3}
-  }
+      "jvm.memory.max":{"value":71849728}
 };
 
-function change(){
 
-  mock.gauges["jvm.memory.heap.used"].value+=Math.round(Math.random()*4000000-2000000);
-  mock.gauges["jvm.memory.heap.max"].value+=Math.round(Math.random()*4000000-2000000);
-  mock.gauges["jvm.memory.total.used"].value+=Math.round(Math.random()*4000000-2000000);
-  mock.gauges["jvm.memory.total.max"].value+=Math.round(Math.random()*4000000-2000000);
+metrics.gauges.gauge('jvm.memory.heap.used',function() {
+  jvmMock["jvm.memory.heap.used"].value+=Math.round(Math.random()*4000000-2000000);
+  return jvmMock["jvm.memory.heap.used"].value;
+});
+metrics.gauges.gauge('jvm.memory.heap.max',function() {
+  jvmMock["jvm.memory.heap.max"].value+=Math.round(Math.random()*4000000-2000000);
+  return jvmMock["jvm.memory.heap.max"].value;
+});
+metrics.gauges.gauge('jvm.memory.total.used',function() {
+  jvmMock["jvm.memory.total.used"].value+=Math.round(Math.random()*4000000-2000000);
+  return jvmMock["jvm.memory.total.used"].value;
+});
+metrics.gauges.gauge('jvm.memory.total.max',function() {
+  jvmMock["jvm.memory.total.max"].value+=Math.round(Math.random()*4000000-2000000);
+  return jvmMock["jvm.memory.total.max"].value;
+});
+metrics.gauges.gauge('jvm.memory.total',function() {
+  jvmMock["jvm.memory.total"].value+=Math.round(Math.random()*4000000-2000000);
+  return jvmMock["jvm.memory.total"].value;
+});
+metrics.gauges.gauge('jvm.memory.free',function() {
+  jvmMock["jvm.memory.free"].value+=Math.round(Math.random()*4000000-2000000);
+  return jvmMock["jvm.memory.free"].value;
+});
+metrics.gauges.gauge('jvm.memory.max',function() {
+  jvmMock["jvm.memory.max"].value+=Math.round(Math.random()*4000000-2000000);
+  return jvmMock["jvm.memory.max"].value;
+});
 
-  mock.gauges["jvm.memory.total"].value+=Math.round(Math.random()*1000000-500000);
-  mock.gauges["jvm.memory.free"].value+=Math.round(Math.random()*1000000-500000);
-  mock.gauges["jvm.memory.max"].value+=Math.round(Math.random()*1000000-500000);
+metrics.gauges.gauge('node.memory.heap.total',function() {
+  return process.memoryUsage().heapTotal;
+});
+metrics.gauges.gauge('node.memory.heap.used',function() {
+  return process.memoryUsage().heapUsed;
+});
+metrics.gauges.gauge('node.memory.rss',function() {
+  return process.memoryUsage().rss;
+});
+metrics.gauges.gauge('node.os.loadavg1',function() {
+  return os.loadavg()[0];
+});
+metrics.gauges.gauge('node.os.loadavg5',function() {
+  return os.loadavg()[1];
+});
+metrics.gauges.gauge('node.os.loadavg15',function() {
+  return os.loadavg()[2];
+});
+metrics.gauges.gauge('node.os.totalmem',function() {
+  return os.totalmem();
+});
+metrics.gauges.gauge('node.os.freemem',function() {
+  return os.freemem();
+});
 
-  mock.gauges["cometd.channels"].value= Math.round(Math.random()*20+2);
-  mock.gauges["cometd.sessions"].value= Math.round(Math.random()*20+10);
-
-  mock.gauges["node.process.memory.rss"].value= process.memoryUsage().rss;
-  mock.gauges["node.process.memory.heap.total"].value= process.memoryUsage().heapTotal;
-  mock.gauges["node.process.memory.heap.used"].value= process.memoryUsage().heapUsed;
-
-  mock.gauges["node.os.loadavg1"].value= os.loadavg()[0];
-  mock.gauges["node.os.loadavg5"].value= os.loadavg()[1];
-  mock.gauges["node.os.loadavg15"].value= os.loadavg()[2];
-
-  mock.gauges["node.os.totalmem"].value= os.totalmem();
-  mock.gauges["node.os.freemem"].value= os.freemem();
-}
+var requestsPerSecond= metrics.meters.meter('requestsPerSecond');
+var responseTime= metrics.timers.timer('responseTime');
 
 module.exports= function(req,res,next){
+
   console.log("url: "+req.url+", method:"+req.method);
+
+  requestsPerSecond.mark();
+
+  var stopWatch= responseTime.start();
+  res.on('finish',function(){
+    stopWatch.end();
+  });
+
   if(req.url=='/metrics'){
-    change();
-    var jsonRes = JSON.stringify(mock);
+    var jsonRes = JSON.stringify(metrics.toJSON());
+    //console.log(jsonRes);
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Content-Length', jsonRes.length);
     res.end(jsonRes);

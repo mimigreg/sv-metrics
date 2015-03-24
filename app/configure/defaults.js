@@ -33,10 +33,10 @@ const DEFAULT_CHARTS=[
     series: [
       {
         name:"total",
-        metricId:"node.process.memory.heap.total"
+        metricId:"node.memory.heap.total"
       },{
         name:"used",
-        metricId: "node.process.memory.heap.used"
+        metricId: "node.memory.heap.used"
       }
     ]
   },{ // 3
@@ -46,7 +46,7 @@ const DEFAULT_CHARTS=[
     series: [
       {
         name:"total",
-        metricId:"node.process.memory.rss"
+        metricId:"node.memory.rss"
       }
     ]
   },{ // 4

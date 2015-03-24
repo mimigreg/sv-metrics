@@ -1,5 +1,6 @@
 var MAX_TIMELINE_LENGTH=100;
 
+
 class MetricsRegistry{
 
   //TODO: localstorage ...
@@ -31,11 +32,19 @@ class MetricsRegistry{
        if(!this.metrics[m]){
          registry.register(m,"gauges");
        }
-       registry.values[m].value= gauges[m].value;
+
+       if( gauges[m].value ){
+         // java metrics
+         registry.values[m].value= gauges[m].value;
+       }else{
+         // node-measured
+         registry.values[m].value= gauges[m];
+       }
+
        if(registry.values[m].timeline.length>MAX_TIMELINE_LENGTH){
          registry.values[m].timeline.shift();
        }
-       registry.values[m].timeline.push([new Date(),gauges[m].value]);
+       registry.values[m].timeline.push([new Date(),registry.values[m].value]);
     }
     for(var l of this.listeners){
       l();
