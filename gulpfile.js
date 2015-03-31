@@ -1,6 +1,6 @@
 var gulp    = require('gulp');
 var traceur = require('gulp-traceur');
-var connect = require('gulp-connect');
+var webserver = require('gulp-webserver');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var mockMiddleware= require('./test/mock-middleware');
@@ -24,18 +24,16 @@ gulp.task('watch', function() {
   gulp.watch(['app/**/*.js'], ['build']);
 });
 
-// https://github.com/bradcerasani/html-skeleton-gulp/blob/master/gulpfile.js
-
-gulp.task('connect', function() {
-  connect.server({
-    root: ['.'],
-    livereload: true,
-    port: 8000,
-    middleware: function(connect, opt) {
-      return [mockMiddleware]
-    }
-  });
+gulp.task('serve', function() {
+  gulp.src(['.'])
+    .pipe(webserver({
+      livereload: true,
+      directoryListing: true,
+      open: false,
+      port: 8000,
+      middleware: mockMiddleware
+    }));
 });
 
-gulp.task('dev', ['build', 'connect', 'watch']);
+gulp.task('dev', ['build', 'serve', 'watch']);
 gulp.task('default', ['dev']);

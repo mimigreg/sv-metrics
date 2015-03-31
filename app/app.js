@@ -12,8 +12,8 @@ export var app= angular.module('sv-metrics', ['ngMaterial','sv-metrics.charts','
 app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
 
    $mdThemingProvider.theme('default')
-    .primaryColor('deep-orange')
-    .accentColor('orange');
+    .primaryPalette('deep-orange')
+    .accentPalette('orange');
 
   $routeProvider
     .when('/view', {

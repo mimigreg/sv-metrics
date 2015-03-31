@@ -1,7 +1,10 @@
+import {CHART_TYPES} from 'chart/types';
+
 const DEFAULT_CHARTS=[
   { // 0
     name:"JVM Heap",
     desc:"JVM heap chart",
+    type: CHART_TYPES.GAUGE_CHART,
     width:4,
     height:2,
     series: [
@@ -17,6 +20,7 @@ const DEFAULT_CHARTS=[
     name:"JVM Memory",
     width:2,
     height:2,
+    type: CHART_TYPES.GAUGE_CHART,
     series: [
       {
         name:"Total Used",
@@ -30,6 +34,7 @@ const DEFAULT_CHARTS=[
     name:"Heap (Node)",
     width:4,
     height:2,
+    type: CHART_TYPES.GAUGE_CHART,
     series: [
       {
         name:"total",
@@ -43,6 +48,7 @@ const DEFAULT_CHARTS=[
     name:"RSS (Node)",
     width:2,
     height:2,
+    type: CHART_TYPES.GAUGE_CHART,
     series: [
       {
         name:"total",
@@ -53,6 +59,7 @@ const DEFAULT_CHARTS=[
     name:"Load (Node)",
     width:6,
     height:2,
+    type: CHART_TYPES.GAUGE_CHART,
     series: [
       {
         name:"load - 1min",
@@ -69,6 +76,7 @@ const DEFAULT_CHARTS=[
     name:"Mem OS",
     width:6,
     height:2,
+    type: CHART_TYPES.GAUGE_CHART,
     series: [
       {
         name:"freemem",
@@ -76,6 +84,28 @@ const DEFAULT_CHARTS=[
       },{
         name:"totalmem",
         metricId:"node.os.totalmem"
+      }
+    ]
+  },{ // 6
+    name:"Requests per second",
+    width:6,
+    height:2,
+    type: CHART_TYPES.METER_CHART,
+    series: [
+      {
+        name:"req/s",
+        metricId:"api.metrics.requestsPerSecond"
+      }
+    ]
+  },{ // 7
+    name:"Response Time",
+    width:6,
+    height:2,
+    type: CHART_TYPES.TIMER_CHART,
+    series: [
+      {
+        name:"resp.time",
+        metricId:"api.metrics.responseTime"
       }
     ]
   }
@@ -96,6 +126,11 @@ const DEFAULT_DASHBOARDS= [
     name: "dashboard System",
     desc: "OS metrics charts",
     charts: [4,5]
+  },
+  {
+    name: "REST/APIs",
+    desc: "REST/APIs",
+    charts: [6,7]
   }
 ];
 

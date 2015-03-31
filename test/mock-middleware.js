@@ -79,8 +79,8 @@ metrics.gauges.gauge('node.os.freemem',function() {
   return os.freemem();
 });
 
-var requestsPerSecond= metrics.meters.meter('requestsPerSecond');
-var responseTime= metrics.timers.timer('responseTime');
+var requestsPerSecond= metrics.meters.meter('api.metrics.requestsPerSecond');
+var responseTime= metrics.timers.timer('api.metrics.responseTime');
 
 module.exports= function(req,res,next){
 
@@ -99,7 +99,10 @@ module.exports= function(req,res,next){
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Content-Length', jsonRes.length);
     res.end(jsonRes);
+  }else if(req.url=='/pause'){ // to simulate long requests
+      setTimeout(function(){ res.end(jsonRes);},2000);
   }else{
-    next();
+      next();
   }
+
 }
