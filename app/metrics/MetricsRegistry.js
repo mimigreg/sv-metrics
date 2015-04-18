@@ -85,6 +85,7 @@ class MetricsRegistry{
        if(timers[m].meter && timers[m].histogram){
          // node-measured
          registry.values[m].value= timers[m].meter;
+         registry.values[m].value.meanRate= timers[m].meter.mean; // mean will be overwritten by histogram (TODO: dropwizzard metrics?)
          angular.extend(registry.values[m].value,timers[m].histogram);
        }else{
          // DropWizzard metrics
@@ -111,9 +112,10 @@ class MetricsRegistry{
 
   onUpdate(callback){
     this.listeners.push(callback);
+    var listeners= this.listeners;
     return function(){
-      var idx= this.listeners.indexOf(callback);
-      this.listener.splice(idx,1);
+      var idx= listeners.indexOf(callback);
+      listeners.splice(idx,1);
     }
   }
 

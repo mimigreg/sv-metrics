@@ -79,28 +79,46 @@ metrics.gauges.gauge('node.os.freemem',function() {
   return os.freemem();
 });
 
-var requestsPerSecond= metrics.meters.meter('api.metrics.requestsPerSecond');
-var responseTime= metrics.timers.timer('api.metrics.responseTime');
+var requestsPerSecond= metrics.meters.meter('web.requestsPerSecond');
+var responseTime= metrics.timers.timer('web.responseTime');
+
+var metricsRqPerSec= metrics.meters.meter('api.metrics.requestsPerSecond');
+var metricsRpTime= metrics.timers.timer('api.metrics.responseTime');
+
+var testRqPerSec= metrics.meters.meter('api.test.requestsPerSecond');
+var testRpTime= metrics.timers.timer('api.test.responseTime');
+
+function addRequestMetrics(meter,timer,res){
+
+    meter.mark();
+
+    var stopWatch= timer.start();
+    res.on('finish',function(){
+      stopWatch.end();
+    });
+}
+
 
 module.exports= function(req,res,next){
 
   console.log("url: "+req.url+", method:"+req.method);
 
-  requestsPerSecond.mark();
-
-  var stopWatch= responseTime.start();
-  res.on('finish',function(){
-    stopWatch.end();
-  });
+  addRequestMetrics(requestsPerSecond,responseTime,res);
 
   if(req.url=='/metrics'){
+
+    addRequestMetrics(metricsRqPerSec,metricsRpTime,res);
+
     var jsonRes = JSON.stringify(metrics.toJSON());
     //console.log(jsonRes);
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Content-Length', jsonRes.length);
     res.end(jsonRes);
-  }else if(req.url=='/pause'){ // to simulate long requests
-      setTimeout(function(){ res.end(jsonRes);},2000);
+  }else if(req.url=='/test'){ // to simulate long random requests
+      addRequestMetrics(testRqPerSec,testRpTime,res);
+      var pg= "<html><script>setTimeout(function(){document.location.reload()},20000*Math.random())</script></html>"
+      var to= Math.floor(500*Math.random());
+      setTimeout(function(){ res.end(pg);},to);
   }else{
       next();
   }

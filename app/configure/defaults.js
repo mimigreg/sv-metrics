@@ -4,7 +4,7 @@ const DEFAULT_CHARTS=[
   { // 0
     name:"JVM Heap",
     desc:"JVM heap chart",
-    type: CHART_TYPES.GAUGE_CHART,
+    type: CHART_TYPES.GAUGE,
     width:4,
     height:2,
     series: [
@@ -20,7 +20,7 @@ const DEFAULT_CHARTS=[
     name:"JVM Memory",
     width:2,
     height:2,
-    type: CHART_TYPES.GAUGE_CHART,
+    type: CHART_TYPES.GAUGE,
     series: [
       {
         name:"Total Used",
@@ -34,7 +34,7 @@ const DEFAULT_CHARTS=[
     name:"Heap (Node)",
     width:4,
     height:2,
-    type: CHART_TYPES.GAUGE_CHART,
+    type: CHART_TYPES.GAUGE,
     series: [
       {
         name:"total",
@@ -48,7 +48,7 @@ const DEFAULT_CHARTS=[
     name:"RSS (Node)",
     width:2,
     height:2,
-    type: CHART_TYPES.GAUGE_CHART,
+    type: CHART_TYPES.GAUGE,
     series: [
       {
         name:"total",
@@ -59,7 +59,7 @@ const DEFAULT_CHARTS=[
     name:"Load (Node)",
     width:6,
     height:2,
-    type: CHART_TYPES.GAUGE_CHART,
+    type: CHART_TYPES.GAUGE,
     series: [
       {
         name:"load - 1min",
@@ -76,7 +76,7 @@ const DEFAULT_CHARTS=[
     name:"Mem OS",
     width:6,
     height:2,
-    type: CHART_TYPES.GAUGE_CHART,
+    type: CHART_TYPES.GAUGE,
     series: [
       {
         name:"freemem",
@@ -90,7 +90,7 @@ const DEFAULT_CHARTS=[
     name:"Requests per second",
     width:6,
     height:2,
-    type: CHART_TYPES.METER_CHART,
+    type: CHART_TYPES.GAUGE,
     series: [
       {
         name:"req/s",
@@ -99,13 +99,41 @@ const DEFAULT_CHARTS=[
     ]
   },{ // 7
     name:"Response Time",
-    width:6,
+    width:4,
     height:2,
-    type: CHART_TYPES.TIMER_CHART,
+    type: CHART_TYPES.GAUGE,
     series: [
       {
         name:"resp.time",
         metricId:"api.metrics.responseTime"
+      }
+    ]
+  },{ // 8
+    name:"Response Time (histogram)",
+    width:2,
+    height:2,
+    type: CHART_TYPES.HISTOGRAM,
+    series: [
+      {
+        name:"resp.time",
+        metricId:"api.metrics.responseTime"
+      }
+    ]
+  },{ // 9
+    name:"Rates (requests/sec)",
+    width:2,
+    height:2,
+    type: CHART_TYPES.BULLET,
+    series: [
+      {
+        name:"resp.web",
+        metricId:"web.responseTime"
+      },{
+        name:"resp.metrics",
+        metricId:"api.metrics.responseTime"
+      },{
+        name:"resp.test",
+        metricId:"api.test.responseTime"
       }
     ]
   }
@@ -130,7 +158,7 @@ const DEFAULT_DASHBOARDS= [
   {
     name: "REST/APIs",
     desc: "REST/APIs",
-    charts: [6,7]
+    charts: [6,7,8,9]
   }
 ];
 

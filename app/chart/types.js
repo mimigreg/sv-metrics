@@ -1,6 +1,7 @@
 export const CHART_TYPES={
-  GAUGE_CHART: 0,
-  METER_CHART: 1,
-  TIMER_CHART: 2,
-  HISTOGRAM_CHART: 3
+  GAUGE: 0,
+  METER: 1,
+  TIMER: 2,
+  HISTOGRAM: 3,
+  BULLET: 4
 }
