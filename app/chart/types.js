@@ -5,3 +5,11 @@ export const CHART_TYPES={
   HISTOGRAM: 3,
   BULLET: 4
 }
+
+export var chartTypes=[
+  {name:"Gauge"},
+  {name:"Meter"},
+  {name:"Timer"},
+  {name:"Histogram"},
+  {name:"Bullet"}
+]

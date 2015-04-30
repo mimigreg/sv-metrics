@@ -6,6 +6,7 @@ import {GlobalCfgCtrl} from 'configure/GlobalCfgCtrl';
 import {DashsCfgCtrl,DashModifCtrl} from 'configure/dashboard/controllers';
 import {ChartsCfgCtrl,ChartModifCtrl} from 'configure/chart/controllers';
 import {MetricsCfgCtrl} from 'configure/MetricsCfgCtrl';
+import {MetricsViewCtrl} from 'view/metrics/metrics';
 import 'chart/chart-directives';
 
 export var app= angular.module('sv-metrics', ['ngMaterial','sv-metrics.charts','ngRoute']);
@@ -23,7 +24,11 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
     .when('/view/dashboard/:dashboardId', {
           templateUrl: 'dashboard/dashboard.html',
           controller: DashboardController
-      })
+    })
+    .when('/view/metrics', {
+            templateUrl: 'view/metrics/metrics.html',
+            controller: MetricsViewCtrl
+    })
     .when('/configure', {
         templateUrl: 'configure/configure.html',
         controller: GlobalCfgCtrl
@@ -54,26 +59,22 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
 
     var conf= configuration.getConfiguration();
 
-    function getMetrics(){
+    function getAndScheduelMetricsUpdate(){
       $http.get(conf.metricsUrl).success(
         function(data){
           registry.update(data);
-          $timeout(getMetrics,conf.metricsInterval*1000);
+          $timeout(getAndScheduelMetricsUpdate, conf.metricsInterval*1000);
         }
       ).error(
         function(e){
           console.error(e);
-          $timeout(getMetrics,conf.metricsInterval*1000); // TODO: toast?, metricsInterval or failover interval?
+          $timeout(getAndScheduelMetricsUpdate, conf.metricsInterval*1000); // TODO: toast?, metricsInterval or failover interval?
         }
       );
 
     }
 
-    function scheduleUpdate(){
-
-    }
-
-    $timeout(getMetrics,conf.metricsInterval*1000)
+    getAndScheduelMetricsUpdate();
 
 }).controller("MainCtrl",function MainCtrl($scope,$mdSidenav,$location){
 

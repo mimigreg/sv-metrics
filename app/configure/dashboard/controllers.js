@@ -1,4 +1,5 @@
 import {configuration} from 'configure/configuration';
+import {chartTypes} from 'chart/types';
 
 export function DashsCfgCtrl($scope,$location){
 
@@ -65,6 +66,8 @@ export function DashModifCtrl($scope,$routeParams,$mdDialog,$location){
     $scope.dashboardId= $routeParams.dashboardId;
     $scope.dashboard= copyDash(configuration.getDashboards()[$scope.dashboardId])
   };
+
+  $scope.chartTypes= chartTypes;
 
   $scope.addChart= function(ev){
     $mdDialog.show({

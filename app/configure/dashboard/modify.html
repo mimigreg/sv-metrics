@@ -20,15 +20,13 @@
 <md-content style="padding:10px">
   <md-list>
     <md-item ng-repeat="chart in dashboard.charts">
-      <md-item-content class="md-whiteframe-z1 svm-list-item">
-        <div class="md-tile-left">{{chart.name}}</div>
-        <div class="md-tile-content">
-          xx
-        </div>
+      <div layout="row" layout-margin  class="md-whiteframe-z1 svm-list-item">
+        <div flex="20">{{chart.name}}</div>
+        <div flex>{{chartTypes[chart.type].name}}</div>
         <md-button ng-click="removeChart(chart)">
-          <md-icon icon="img/icons/ic_delete_24px.svg"></md-icon>
+          <md-icon md-svg-icon="img/icons/ic_delete_24px.svg"></md-icon>
         </md-button>
-      </md-item-content>
+      </div>
     </md-item>
   </md-list>
 </md-content>

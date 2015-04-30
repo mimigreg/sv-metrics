@@ -1,13 +1,14 @@
 import {configuration} from 'configure/configuration';
-import {registry} from 'metrics/MetricsRegistry'
+import {registry} from 'metrics/MetricsRegistry';
+import {CHART_TYPES,chartTypes} from 'chart/types';
 
 export function ChartsCfgCtrl($scope,$location){
 
       $scope.configuration= configuration.getConfiguration();
       $scope.charts= configuration.getCharts();
+      $scope.chartTypes= chartTypes;
 
       $scope.add= function(){
-
         $location.path("/configure/charts/new");
       }
 
@@ -41,9 +42,7 @@ function AddMetricsCtrl($scope, $mdDialog, chart){
         chart.series.push(
           {
             metricId:w.metricId,
-            name:w.name,
-            width: width,
-            height:height
+            name:w.name
           }
         );
       }
@@ -62,6 +61,7 @@ function copyChart(chart){
     desc: chart.desc,
     width: chart.width,
     height:chart.height,
+    type: chart.type,
     series:[]
   };
   for(var s of chart.series){
@@ -79,6 +79,7 @@ export function ChartModifCtrl($scope,$routeParams,$mdDialog,$location){
       desc:"",
       width:2,
       height:2,
+      type: CHART_TYPES.GAUGE,
       series:[]
     };
   }else{
@@ -107,6 +108,7 @@ export function ChartModifCtrl($scope,$routeParams,$mdDialog,$location){
       ch.desc= $scope.chart.desc;
       ch.width= $scope.chart.width;
       ch.height= $scope.chart.height;
+      ch.type= $scope.chart.type;
       ch.series= $scope.chart.series;
     }else{
       configuration.getCharts().push($scope.chart);

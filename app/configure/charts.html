@@ -1,18 +1,17 @@
 <md-subheader class="md-primary">Charts Configuration</md-subheader>
 <md-list>
   <md-item ng-repeat="chart in charts">
-    <md-item-content class="md-whiteframe-z1 svm-list-item">
-      <div class="md-tile-left">{{chart.name}}</div>
-      <div class="md-tile-content">
-          xxxxx
+    <div  layout="row" layout-margin class="md-whiteframe-z1 svm-list-item">
+      <div flex="5"><md-icon md-svg-icon="img/icons/chart.svg"></md-icon></div>
+      <div flex="20">{{chart.name}}</div>
+      <div flex>
+          {{chartTypes[chart.type].name}}
       </div>
-      <md-button href="#/configure/charts/{{$index}}">
-        <md-icon md-svg-src="img/icons/ic_settings_24px.svg"></md-icon>
-      </md-button>
-      <md-button ng-click="remove($index)">
-        <md-icon md-svg-src="img/icons/ic_delete_24px.svg"></md-icon>
-      </md-button>
-    </md-item-content>
+      <div flex="5">
+        <a href="#/configure/charts/{{$index}}"><md-icon md-svg-src="img/icons/ic_settings_24px.svg"></md-icon></a>
+        <md-icon ng-click="remove($index)" md-svg-src="img/icons/ic_delete_24px.svg"></md-icon>
+      </div>
+    </div>
   </md-item>
 </md-list>
 <md-button ng-click="add()" class="md-primary md-fab md-fab-bottom-right">

@@ -11,6 +11,15 @@
       <label>Description</label>
       <input ng-model="chart.desc">
     </md-input-container>
+    <div layout="row">
+        <md-select ng-model="chart.type">
+          <md-option value="0">GAUGE</md-option>
+          <md-option value="1">METER</md-option>
+          <md-option value="2">Timer</md-option>
+          <md-option value="3">HISTOGRAM</md-option>
+          <md-option value="4">BULLET</md-option>
+        </md-select>
+    </div>
     <p style="font-size: 0.8em;color: #777;margin-bottom:0">Size (height x width):</p>
     <div layout="row">
         <md-select ng-model="chart.height">
@@ -33,15 +42,13 @@
 <md-content style="padding:10px">
   <md-list>
     <md-item ng-repeat="series in chart.series">
-      <md-item-content class="md-whiteframe-z1 svm-list-item">
-        <div class="md-tile-left"><md-text-float label="Name" ng-model="series.name"></div>
-        <div class="md-tile-content">
-          {{series.metricId}}
-        </div>
+      <div  layout="row" layout-margin class="md-whiteframe-z1 svm-list-item">
+        <div flex="20"><md-text-float label="Name" ng-model="series.name"></div>
+        <div flex>{{series.metricId}}</div>
         <md-button ng-click="removeMetric(metrics)">
           <md-icon md-svg-src="img/icons/ic_delete_24px.svg"></md-icon>
         </md-button>
-      </md-item-content>
+      </div>
     </md-item>
   </md-list>
 </md-content>

@@ -48,6 +48,7 @@ function restoreConfig(sourceConf,targetConf) {
   shallowCopy(sourceConf,targetConf);
   targetConf.charts= copyCharts(sourceConf.charts);
   targetConf.dashboards= resotreDashboards(sourceConf.dashboards,targetConf.charts);
+  return targetConf;
 }
 
 var conf= {
@@ -112,7 +113,7 @@ export var configuration={
 
   restore: function(){
     var cfg= window.localStorage.getItem("cfg");
-    conf= restoreConfig(JSON.parse(cfg),conf);
+    restoreConfig(JSON.parse(cfg),conf);
   },
 
   restoreDefault: function(){

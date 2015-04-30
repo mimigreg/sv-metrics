@@ -1,0 +1,8 @@
+
+<md-list>
+      <md-item ng-repeat="metric in registry.metrics">
+        <div class="md-tile-content">
+          {{metric.id}} {{registry.getValue(metric.id).value}}
+        </div>
+      </md-item>
+<md-list>

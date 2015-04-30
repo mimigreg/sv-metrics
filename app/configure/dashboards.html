@@ -1,18 +1,17 @@
 <md-subheader class="md-primary">Dashboards Configuration</md-subheader>
 <md-list>
   <md-item ng-repeat="dash in configuration.dashboards">
-    <md-item-content class="md-whiteframe-z1 svm-list-item">
-      <div class="md-tile-left">{{dash.name}}</div>
-      <div class="md-tile-content">
-          {{dash.desc}}
+    <div class="md-whiteframe-z1 svm-list-item" layout="row" layout-margin>
+      <div flex="5">
+        <md-icon md-svg-icon="img/icons/ic_view_quilt_24px.svg"></md-icon>&nbsp;&nbsp;
       </div>
-      <md-button href="#/configure/dashboards/{{$index}}">
-        <md-icon md-svg-src="img/icons/ic_settings_24px.svg"></md-icon>
-      </md-button>
-      <md-button ng-click="remove($index)">
-        <md-icon md-svg-src="img/icons/ic_delete_24px.svg"></md-icon>
-      </md-button>
-    </md-item-content>
+      <div flex="20" class="md-tile-left">{{dash.name}}</div>
+      <div flex class="md-tile-content">{{dash.desc}}</div>
+      <div flex="5">
+        <a href="#/configure/dashboards/{{$index}}"><md-icon md-svg-src="img/icons/ic_settings_24px.svg"></md-icon></a>
+        <md-icon md-svg-src="img/icons/ic_delete_24px.svg" ng-click="remove($index)"></md-icon>
+      </div>
+    </div>
   </md-item>
 </md-list>
 <md-button ng-click="add()" class="md-primary md-fab md-fab-bottom-right">

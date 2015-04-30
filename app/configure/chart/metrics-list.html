@@ -2,13 +2,12 @@
   <md-content>
     <md-list>
       <md-item ng-repeat="metric in metricsWrapper">
-        <md-item-content class="md-whiteframe-z1 svm-list-item">
-          <div class="md-tile-left" style="min-width:350px">{{ metric.metricId }}</div>
-          <div>
-            <md-checkbox ng-model="metric.inChart" aria-label="add/remove to Chart">
-            </md-checkbox>
+        <div layout="row" layout-margin class="md-whiteframe-z1 svm-list-item">
+          <div flex>{{ metric.metricId }}</div>
+          <div flex"10">
+            <md-checkbox ng-model="metric.inChart" aria-label="add/remove to Chart"></md-checkbox>
           </div>
-        </md-item-content>
+        </div>
       </md-item>
     </md-list>
   </md-content>

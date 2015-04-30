@@ -1,7 +1,6 @@
-<md-tabs md-selected="selectedIndex" class="md-accent">
-  <md-tab label="Charts">
-    <div>
-      <md-grid-list md-cols-sm="1" md-cols-md="3" md-cols-gt-md="6" 
+
+<div>
+      <md-grid-list md-cols-sm="1" md-cols-md="3" md-cols-gt-md="6"
                     md-row-height="210px"
                     md-gutter="8px" md-gutter-gt-sm="4px">
 
@@ -10,20 +9,4 @@
             <md-grid-tile-footer><h3>{{chart.name}}</h3></md-grid-tile-footer>
         </md-grid-tile>
      </md-grid-list>
-    </div>
-  </md-tab>
-  <md-tab label="Metrics">
-      <md-list>
-        <md-item ng-repeat="metric in registry.metrics">
-          <div class="md-tile-content">
-            {{metric.id}} {{registry.getValue(metric.id).value}}
-          </div>
-        </md-item>
-      <md-list>
-  </md-tab>
-  <md-tab label="Alerts">
-      <md-content>
-        <ng-include src="'dashboard/alerts.html'"></ng-include>
-      </md-content>
-  </md-tab>
-</md-tabs>
+</div>

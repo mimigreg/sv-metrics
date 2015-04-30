@@ -1,15 +1,15 @@
 <md-dialog aria-label="Mango (Fruit)">
   <md-content>
     <md-list>
-      <md-item ng-repeat="chart in chartsWrapper">
-        <md-item-content class="md-whiteframe-z1 svm-list-item">
+      <md-list-item ng-repeat="chart in chartsWrapper">
+        <div  layout="row" layout-margin  class="md-whiteframe-z1 svm-list-item">
           <div class="md-tile-left" style="min-width:350px">{{ chart.chart.name }}</div>
           <div>
             <md-checkbox ng-model="chart.inDash" aria-label="add/remove to Dashboard">
             </md-checkbox>
           </div>
-        </md-item-content>
-      </md-item>
+        </div>
+      </md-list-item>
     </md-list>
   </md-content>
   <div class="md-actions" layout="row">
