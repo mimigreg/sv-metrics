@@ -7,15 +7,15 @@ export function GlobalCfgCtrl($scope){
 
     $scope.save= function(){
       configuration.save();
-    }
+    };
 
     $scope.restore= function(){
       configuration.restore();
-    }
+    };
 
     $scope.default= function(){
       configuration.restoreDefault();
       $scope.configuration= configuration.getConfiguration();
-    }
+    };
 
 }

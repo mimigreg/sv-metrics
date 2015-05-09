@@ -25,7 +25,7 @@ export class BulletChart extends Chart{
         markerLabels:['Previous Current Rate'],
         metricId: s.metricId
       });
-    };
+    }
     this.updateData();
 
     nv.addGraph(function(){
@@ -74,4 +74,4 @@ export class BulletChart extends Chart{
       //this.chart.update();
   }
 
-};
+}

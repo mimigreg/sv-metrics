@@ -12,20 +12,17 @@ export function DashboardController($scope,$routeParams){
       var unregisterCBs= [];
 
       for(var chart of $scope.dashboard.charts){
-
           unregisterCBs.push(
-            registry.onUpdate(function(){
+            registry.onUpdate( ()=>$scope.$broadcast("mx-ud") )
+          );
 
-                $scope.$broadcast("mx-ud");
-          }));
-
-      };
+      }
 
 
       $scope.$destroy= function(){
         //console.log("$destroy "+$scope.$id);
         for(let cb of unregisterCBs){
-          cb();  
+          cb();
         }
 
       };

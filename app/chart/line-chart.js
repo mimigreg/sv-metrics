@@ -28,7 +28,7 @@ export class LineChart extends Chart{
                 values: val ? val.timeline : []
           }
         );
-    };
+    }
 
 
     nv.addGraph(function(){
@@ -73,7 +73,7 @@ export class LineChart extends Chart{
 
 
           chart.xAxis.tickFormat(function(d) {
-                  return d3.time.format("%H:%M:%S")(new Date(d))
+                  return d3.time.format("%H:%M:%S")(new Date(d));
           });
 
           chart.yAxis
@@ -101,7 +101,7 @@ export class LineChart extends Chart{
         if(s.values!==val.timeline){
           s.values= val.timeline;
         }
-      };
+      }
 
       this.chart.update();
 

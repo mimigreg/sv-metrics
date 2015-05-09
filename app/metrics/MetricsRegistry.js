@@ -6,7 +6,7 @@ export const TYPES={
   TIMER:2,
   HISTOGRAM:3,
   COUNTER:4
-}
+};
 
 class MetricsRegistry{
 
@@ -22,7 +22,7 @@ class MetricsRegistry{
 
   register(id,type){
     this.metrics[id]= {id,type};
-    this.values[id]= {value:undefined,timeline:[]}
+    this.values[id]= {value:undefined,timeline:[]};
   }
 
   /*Metrics[]*/ getMetrics(){
@@ -102,9 +102,9 @@ class MetricsRegistry{
   }
 
   update(metrics){
-    this.updateGauges(metrics["gauges"]);
-    this.updateMeters(metrics["meters"]);
-    this.updateTimers(metrics["timers"]);
+    this.updateGauges(metrics.gauges);
+    this.updateMeters(metrics.meters);
+    this.updateTimers(metrics.timers);
     for(var l of this.listeners){
       l();
     }
@@ -116,7 +116,7 @@ class MetricsRegistry{
     return function(){
       var idx= listeners.indexOf(callback);
       listeners.splice(idx,1);
-    }
+    };
   }
 
 }

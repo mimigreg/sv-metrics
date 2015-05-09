@@ -38,7 +38,7 @@ angular.module('sv-metrics.charts', [])
             case CHART_TYPES.BULLET:
                   scope.chart= new BulletChart(chartId, scope.config);
                   break;
-            otherwise: console.error("unknown chart type: "+scope.config.type);
+            default: console.error("unknown chart type: "+scope.config.type);
           }
 
 
@@ -49,4 +49,4 @@ angular.module('sv-metrics.charts', [])
 
         }
   };
-}])
+}]);

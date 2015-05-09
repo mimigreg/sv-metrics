@@ -1,4 +1,5 @@
 var gulp    = require('gulp');
+var jshint = require('gulp-jshint');
 var traceur = require('gulp-traceur');
 var webserver = require('gulp-webserver');
 var sourcemaps = require('gulp-sourcemaps');
@@ -34,6 +35,12 @@ gulp.task('serve', function() {
       middleware: mockMiddleware
     }));
 });
+
+gulp.task('lint', function() {
+   return gulp.src('app/**/*.js')
+     .pipe(jshint())
+     .pipe(jshint.reporter('default'));
+ });
 
 gulp.task('dev', ['build', 'serve', 'watch']);
 gulp.task('default', ['dev']);

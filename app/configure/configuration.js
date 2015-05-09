@@ -120,4 +120,4 @@ export var configuration={
     conf= restoreConfig(DEFAULT_CONF,conf);
   }
 
-}
+};

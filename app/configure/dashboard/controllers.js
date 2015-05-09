@@ -8,20 +8,20 @@ export function DashsCfgCtrl($scope,$location){
       $scope.add= function(){
 
         $location.path("/configure/dashboards/new");
-      }
+      };
 
       $scope.remove= function(dashIdx){
         var dashboards= configuration.getDashboards();
         dashboards.splice(dashIdx,1);
-      }
+      };
 
-};
+}
 
 function addChartCtrl($scope, $mdDialog, dashboard){
 
   $scope.chartsWrapper= configuration.getCharts().map(
     function(ch){
-      return { chart:ch, inDash:dashboard.charts.some(e=>ch===e) }
+      return { chart:ch, inDash:dashboard.charts.some(e=>ch===e) };
     }
   );
 
@@ -64,8 +64,8 @@ export function DashModifCtrl($scope,$routeParams,$mdDialog,$location){
     };
   }else{
     $scope.dashboardId= $routeParams.dashboardId;
-    $scope.dashboard= copyDash(configuration.getDashboards()[$scope.dashboardId])
-  };
+    $scope.dashboard= copyDash(configuration.getDashboards()[$scope.dashboardId]);
+  }
 
   $scope.chartTypes= chartTypes;
 
@@ -90,10 +90,10 @@ export function DashModifCtrl($scope,$routeParams,$mdDialog,$location){
       configuration.getDashboards().push($scope.dashboard);
     }
     $location.path("/configure/dashboards");
-  }
+  };
 
   $scope.cancel= function(){
     $location.path("/configure/dashboards");
-  }
+  };
 
 }

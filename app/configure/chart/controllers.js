@@ -10,13 +10,13 @@ export function ChartsCfgCtrl($scope,$location){
 
       $scope.add= function(){
         $location.path("/configure/charts/new");
-      }
+      };
 
       $scope.remove= function(chartIdx){
         configuration.removeChart(chartIdx);
-      }
+      };
 
-};
+}
 
 function AddMetricsCtrl($scope, $mdDialog, chart){
 
@@ -29,7 +29,7 @@ function AddMetricsCtrl($scope, $mdDialog, chart){
         m.inChart=true;
         m.name=srs.name;
       }
-    };
+    }
     $scope.metricsWrapper.push(m);
   }
 
@@ -84,8 +84,8 @@ export function ChartModifCtrl($scope,$routeParams,$mdDialog,$location){
     };
   }else{
     $scope.chartId= $routeParams.chartId;
-    $scope.chart= copyChart(configuration.getCharts()[$scope.chartId])
-  };
+    $scope.chart= copyChart(configuration.getCharts()[$scope.chartId]);
+  }
 
   $scope.addMetrics= function(ev){
     $mdDialog.show({
@@ -114,10 +114,10 @@ export function ChartModifCtrl($scope,$routeParams,$mdDialog,$location){
       configuration.getCharts().push($scope.chart);
     }
     $location.path("/configure/charts");
-  }
+  };
 
   $scope.cancel= function(){
     $location.path("/configure/charts");
-  }
+  };
 
 }

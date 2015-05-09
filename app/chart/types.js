@@ -4,7 +4,7 @@ export const CHART_TYPES={
   TIMER: 2,
   HISTOGRAM: 3,
   BULLET: 4
-}
+};
 
 export var chartTypes=[
   {name:"Gauge"},
@@ -12,4 +12,4 @@ export var chartTypes=[
   {name:"Timer"},
   {name:"Histogram"},
   {name:"Bullet"}
-]
+];

@@ -34,9 +34,9 @@ export class HistogramChart extends Chart{
     nv.addGraph(function(){
 
         self.chart = nv.models.discreteBarChart()
-                  .x(function(d) { return d.label })
+                  .x(function(d) { return d.label; })
                   .y(function(d) {
-                    return d.value
+                    return d.value;
                   })
                   .staggerLabels(true)
                   //.staggerLabels(historicalBarChart[0].values.length > 8)
@@ -50,7 +50,7 @@ export class HistogramChart extends Chart{
         nv.utils.windowResize(self.chart.update);
 
         return self.chart;
-    })
+    });
   }
 
   updateData(){
@@ -71,4 +71,4 @@ export class HistogramChart extends Chart{
       this.updateData();
       this.chart.update();
   }
-};
+}
