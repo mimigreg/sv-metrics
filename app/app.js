@@ -1,11 +1,13 @@
 import {registry} from 'metrics/MetricsRegistry';
 import {api} from 'metrics/api';
-import {DashboardController} from 'dashboard/dashboard';
+import {DashboardController} from 'view/dashboard/dashboard';
 import {configuration} from 'configure/configuration';
-import {GlobalCfgCtrl} from 'configure/GlobalCfgCtrl';
-import {DashsCfgCtrl,DashModifCtrl} from 'configure/dashboard/controllers';
-import {ChartsCfgCtrl,ChartModifCtrl} from 'configure/chart/controllers';
-import {MetricsCfgCtrl} from 'configure/MetricsCfgCtrl';
+import {GlobalCfgCtrl} from 'configure/global/global';
+import {DashListCtrl} from 'configure/dashboards/dash-list/dash-list';
+import {DashEditCtrl} from 'configure/dashboards/dash-edit/dash-edit';
+import {ChartsCfgCtrl} from 'configure/charts/charts-list/charts-list';
+import {ChartEditCtrl} from 'configure/charts/chart-edit/chart-edit';
+import {MetricsCfgCtrl} from 'configure/metrics/metrics';
 import {MetricsViewCtrl} from 'view/metrics/metrics';
 import 'chart/chart-directives';
 
@@ -22,7 +24,7 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
         controller: function(){}
     })
     .when('/view/dashboard/:dashboardId', {
-          templateUrl: 'dashboard/dashboard.html',
+          templateUrl: 'view/dashboard/dashboard.html',
           controller: DashboardController
     })
     .when('/view/metrics', {
@@ -30,27 +32,27 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
             controller: MetricsViewCtrl
     })
     .when('/configure', {
-        templateUrl: 'configure/configure.html',
+        templateUrl: 'configure/global/global.html',
         controller: GlobalCfgCtrl
     })
     .when('/configure/dashboards', {
-      templateUrl: 'configure/dashboards.html',
-      controller: DashsCfgCtrl
+      templateUrl: 'configure/dashboards/dash-list/dash-list.html',
+      controller: DashListCtrl
     })
     .when('/configure/dashboards/:dashboardId', {
-      templateUrl: 'configure/dashboard/modify.html',
-      controller: DashModifCtrl
+      templateUrl: 'configure/dashboards/dash-edit/dash-edit.html',
+      controller: DashEditCtrl
     })
     .when('/configure/charts', {
-      templateUrl: 'configure/charts.html',
+      templateUrl: 'configure/charts/charts-list/charts-list.html',
       controller: ChartsCfgCtrl
     })
     .when('/configure/charts/:chartId', {
-      templateUrl: 'configure/chart/modify.html',
-      controller: ChartModifCtrl
+      templateUrl: 'configure/charts/chart-edit/chart-edit.html',
+      controller: ChartEditCtrl
     })
     .when('/configure/metrics', {
-      templateUrl: 'configure/metrics.html',
+      templateUrl: 'configure/metrics/metrics.html',
       controller: MetricsCfgCtrl
     })
     .otherwise("/view");

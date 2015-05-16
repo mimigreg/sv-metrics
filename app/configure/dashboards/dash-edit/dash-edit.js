@@ -1,44 +1,7 @@
 import {configuration} from 'configure/configuration';
+import {DashContentCtrl} from 'configure/dashboards/dash-content/dash-content';
 import {chartTypes} from 'chart/types';
 
-export function DashsCfgCtrl($scope,$location){
-
-      $scope.configuration= configuration.getConfiguration();
-
-      $scope.add= function(){
-
-        $location.path("/configure/dashboards/new");
-      };
-
-      $scope.remove= function(dashIdx){
-        var dashboards= configuration.getDashboards();
-        dashboards.splice(dashIdx,1);
-      };
-
-}
-
-function addChartCtrl($scope, $mdDialog, dashboard){
-
-  $scope.chartsWrapper= configuration.getCharts().map(
-    function(ch){
-      return { chart:ch, inDash:dashboard.charts.some(e=>ch===e) };
-    }
-  );
-
-  $scope.ok = function(chartsWrapper) {
-    $mdDialog.hide();
-    dashboard.charts= [];
-    for(var w of chartsWrapper){
-      if(w.inDash){
-        dashboard.charts.push(w.chart);
-      }
-    }
-  };
-
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-}
 
 /** Shallow copy */
 function copyDash(dash){
@@ -53,7 +16,7 @@ function copyDash(dash){
   return cp;
 }
 
-export function DashModifCtrl($scope,$routeParams,$mdDialog,$location){
+export function DashEditCtrl($scope,$routeParams,$mdDialog,$location){
 
 
   if($routeParams.dashboardId=='new'){
@@ -71,8 +34,8 @@ export function DashModifCtrl($scope,$routeParams,$mdDialog,$location){
 
   $scope.addChart= function(ev){
     $mdDialog.show({
-      controller: addChartCtrl,
-      templateUrl: 'configure/dashboard/charts-list.html',
+      controller: DashContentCtrl,
+      templateUrl: 'configure/dashboards/dash-content/dash-content.html',
       targetEvent: ev,
       locals:{dashboard:$scope.dashboard}
     });
