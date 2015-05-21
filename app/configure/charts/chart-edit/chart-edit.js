@@ -41,7 +41,7 @@ export function ChartEditCtrl($scope,$routeParams,$mdDialog,$location){
       ch.desc= $scope.chart.desc;
       ch.width= $scope.chart.width;
       ch.height= $scope.chart.height;
-      ch.type= $scope.chart.type;
+      ch.type= Number.parseInt($scope.chart.type);
       ch.series= $scope.chart.series;
     }else{
       configuration.getCharts().push($scope.chart);
