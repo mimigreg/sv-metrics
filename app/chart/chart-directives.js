@@ -1,6 +1,8 @@
 import {LineChart} from 'chart/line-chart';
+import {BarChart} from 'chart/bar-chart';
 import {HistogramChart} from 'chart/histogram-chart';
 import {BulletChart} from 'chart/bullet-chart';
+import {PieChart} from 'chart/pie-chart';
 import {CHART_TYPES} from 'chart/types';
 
 angular.module('sv-metrics.charts', [])
@@ -29,14 +31,20 @@ angular.module('sv-metrics.charts', [])
           element.attr('data-chartid', chartId);
 
           switch(scope.config.type){
-            case CHART_TYPES.GAUGE:
+            case CHART_TYPES.LINE:
                   scope.chart= new LineChart(chartId, scope.config);
+                  break;
+            case CHART_TYPES.BAR:
+                  scope.chart= new BarChart(chartId, scope.config);
                   break;
             case CHART_TYPES.HISTOGRAM:
                   scope.chart= new HistogramChart(chartId, scope.config);
                   break;
             case CHART_TYPES.BULLET:
                   scope.chart= new BulletChart(chartId, scope.config);
+                  break;
+            case CHART_TYPES.PIE:
+                  scope.chart= new PieChart(chartId, scope.config);
                   break;
             default: console.error("unknown chart type: "+scope.config.type);
           }

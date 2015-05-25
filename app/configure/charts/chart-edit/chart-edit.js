@@ -1,6 +1,6 @@
 import {configuration} from 'configure/configuration';
 import {ChartContentCtrl} from 'configure/charts/chart-content/chart-content';
-import {CHART_TYPES} from 'chart/types';
+import {CHART_TYPES,CHART_TYPE_INFOS} from 'chart/types';
 
 
 export function ChartEditCtrl($scope,$routeParams,$mdDialog,$location){
@@ -20,6 +20,8 @@ export function ChartEditCtrl($scope,$routeParams,$mdDialog,$location){
     $scope.chart= copyChart(configuration.getCharts()[$scope.chartId]);
   }
 
+  $scope.chartTypesInfos= CHART_TYPE_INFOS;
+
   $scope.addMetrics= function(ev){
     $mdDialog.show({
       controller: ChartContentCtrl,
@@ -35,17 +37,21 @@ export function ChartEditCtrl($scope,$routeParams,$mdDialog,$location){
   };
 
   $scope.ok= function(){
-    if($scope.chartId){
-      var ch= configuration.getCharts()[$scope.chartId];
-      ch.name= $scope.chart.name;
-      ch.desc= $scope.chart.desc;
-      ch.width= $scope.chart.width;
-      ch.height= $scope.chart.height;
-      ch.type= Number.parseInt($scope.chart.type);
-      ch.series= $scope.chart.series;
-    }else{
-      configuration.getCharts().push($scope.chart);
+    var ch;
+    if($scope.chartId){ // edit
+      ch= configuration.getCharts()[$scope.chartId];
+    }else{ // new
+      ch= {};
+      configuration.getCharts().push(ch);
     }
+
+    ch.name= $scope.chart.name;
+    ch.desc= $scope.chart.desc;
+    ch.width= $scope.chart.width;
+    ch.height= $scope.chart.height;
+    ch.type= Number.parseInt($scope.chart.type);
+    ch.series= $scope.chart.series;
+
     $location.path("/configure/charts");
   };
 

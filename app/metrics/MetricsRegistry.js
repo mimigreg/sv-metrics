@@ -75,8 +75,9 @@ class MetricsRegistry{
   }
 
 
-  // meter: 1MinuteRate,5MinuteRate,15MinuteRate,count,currentRate,mean
-  // histogram: count,max,mean,median,min,p75,p95,p99,p999,stddev,sum,variance
+  // meter (node-metered): 1MinuteRate,5MinuteRate,15MinuteRate,count,currentRate,mean
+  // histogram (node-metered): count,max,mean,median,min,p75,p95,p99,p999,stddev,sum,variance
+  // timer (java metrics): count,max,mean,min,p50,p75,p95,p98,p99,p999,stddev,m15_rate,m1_rate,m5_rate,mean_rate,duration_units,rate_units
   updateTimers(timers){
     for(let m in timers ){
        if(!this.metrics[m]){
@@ -85,7 +86,7 @@ class MetricsRegistry{
        if(timers[m].meter && timers[m].histogram){
          // node-measured
          registry.values[m].value= timers[m].meter;
-         registry.values[m].value.meanRate= timers[m].meter.mean; // mean will be overwritten by histogram (TODO: dropwizzard metrics?)
+         registry.values[m].value.mean_rate= timers[m].meter.mean; // mean will be overwritten by histogram (TODO: dropwizzard metrics?)
          angular.extend(registry.values[m].value,timers[m].histogram);
        }else{
          // DropWizzard metrics
@@ -95,9 +96,9 @@ class MetricsRegistry{
        if(registry.values[m].timeline.length>MAX_TIMELINE_LENGTH){
              registry.values[m].timeline.shift();
         }
+        // mean timeline
         registry.values[m].timeline.push([new Date(),registry.values[m].value.mean]); //TODO: 1MinuteRate,5MinuteRate,15MinuteRate ?
-
-
+        // TODO: + rate timeline ?
      }
   }
 

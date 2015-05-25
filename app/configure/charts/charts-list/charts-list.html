@@ -4,8 +4,8 @@
     <div  layout="row" layout-margin class="md-whiteframe-z1 svm-list-item">
       <div flex="5"><md-icon md-svg-icon="img/icons/chart.svg"></md-icon></div>
       <div flex="20">{{chart.name}}</div>
-      <div flex>
-          {{chartTypes[chart.type].name}}
+      <div flex class="md-caption" style="padding-top: 10px;">
+          {{chartTypeInfos[chart.type].name}}
       </div>
       <div flex="5">
         <a href="#/configure/charts/{{$index}}"><md-icon md-svg-src="img/icons/ic_settings_24px.svg"></md-icon></a>

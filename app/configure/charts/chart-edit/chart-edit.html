@@ -13,11 +13,7 @@
     </md-input-container>
     <div layout="row">
         <md-select ng-model="chart.type">
-          <md-option value="0">GAUGE</md-option>
-          <md-option value="1">METER</md-option>
-          <md-option value="2">Timer</md-option>
-          <md-option value="3">HISTOGRAM</md-option>
-          <md-option value="4">BULLET</md-option>
+          <md-option ng-repeat="chInfo in chartTypesInfos" value="{{$index}}">{{chInfo.name}}</md-option>
         </md-select>
     </div>
     <p style="font-size: 0.8em;color: #777;margin-bottom:0">Size (height x width):</p>

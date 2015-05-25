@@ -1,15 +1,20 @@
+import {TYPES} from 'metrics/MetricsRegistry';
+
 export const CHART_TYPES={
-  GAUGE: 0,
-  METER: 1,
-  TIMER: 2,
-  HISTOGRAM: 3,
-  BULLET: 4
+  LINE: 0,
+  HISTOGRAM: 1,
+  BULLET: 2,
+  BAR: 3,
+  PIE:4
 };
 
-export var chartTypes=[
-  {name:"Gauge"},
-  {name:"Meter"},
-  {name:"Timer"},
-  {name:"Histogram"},
-  {name:"Bullet"}
+export const CHART_TYPE_INFOS=[
+  {
+    name:"Line Chart",
+    metrics:[TYPES.GAUGE,TYPES.TIMER,TYPES.METER] // allowed metrics
+  },
+  {name:"Histogram",    metrics:[TYPES.TIMER,TYPES.HISTOGRAM]},
+  {name:"Bullet Chart", metrics:[TYPES.TIMER,TYPES.METER]},
+  {name:"Bar Chart",    metrics:[TYPES.GAUGE,TYPES.TIMER,TYPES.METER]},
+  {name:"Pie Chart",    metrics:[TYPES.GAUGE,TYPES.TIMER,TYPES.METER]}
 ];

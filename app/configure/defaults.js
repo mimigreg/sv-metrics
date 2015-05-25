@@ -4,7 +4,7 @@ const DEFAULT_CHARTS=[
   { // 0
     name:"JVM Heap",
     desc:"JVM heap chart",
-    type: CHART_TYPES.GAUGE,
+    type: CHART_TYPES.BAR,
     width:4,
     height:2,
     series: [
@@ -20,7 +20,7 @@ const DEFAULT_CHARTS=[
     name:"JVM Memory",
     width:2,
     height:2,
-    type: CHART_TYPES.GAUGE,
+    type: CHART_TYPES.LINE,
     series: [
       {
         name:"Total Used",
@@ -31,10 +31,24 @@ const DEFAULT_CHARTS=[
       }
     ]
   },{ // 2
+    name:"JVM Memory (Pie)",
+    width:2,
+    height:2,
+    type: CHART_TYPES.PIE,
+    series: [
+      {
+        name:"Heap Used",
+        metricId:"jvm.memory.heap.used"
+      },{
+        name:"Non-Heap Used",
+        metricId: "jvm.memory.non-heap.used"
+      }
+    ]
+  },{ // 3
     name:"Heap (Node)",
     width:4,
     height:2,
-    type: CHART_TYPES.GAUGE,
+    type: CHART_TYPES.LINE,
     series: [
       {
         name:"total",
@@ -44,22 +58,22 @@ const DEFAULT_CHARTS=[
         metricId: "node.memory.heap.used"
       }
     ]
-  },{ // 3
+  },{ // 4
     name:"RSS (Node)",
     width:2,
     height:2,
-    type: CHART_TYPES.GAUGE,
+    type: CHART_TYPES.LINE,
     series: [
       {
         name:"total",
         metricId:"node.memory.rss"
       }
     ]
-  },{ // 4
+  },{ // 5
     name:"Load (Node)",
     width:6,
     height:2,
-    type: CHART_TYPES.GAUGE,
+    type: CHART_TYPES.LINE,
     series: [
       {
         name:"load - 1min",
@@ -72,11 +86,11 @@ const DEFAULT_CHARTS=[
         metricId:"node.os.loadavg15"
       }
     ]
-  },{ // 5
+  },{ // 6
     name:"Mem OS",
     width:6,
     height:2,
-    type: CHART_TYPES.GAUGE,
+    type: CHART_TYPES.LINE,
     series: [
       {
         name:"freemem",
@@ -86,29 +100,29 @@ const DEFAULT_CHARTS=[
         metricId:"node.os.totalmem"
       }
     ]
-  },{ // 6
+  },{ // 7
     name:"Requests per second",
     width:6,
     height:2,
-    type: CHART_TYPES.GAUGE,
+    type: CHART_TYPES.LINE,
     series: [
       {
         name:"req/s",
         metricId:"api.metrics.requestsPerSecond"
       }
     ]
-  },{ // 7
+  },{ // 8
     name:"Response Time",
     width:4,
     height:2,
-    type: CHART_TYPES.GAUGE,
+    type: CHART_TYPES.LINE,
     series: [
       {
         name:"resp.time",
         metricId:"api.metrics.responseTime"
       }
     ]
-  },{ // 8
+  },{ // 9
     name:"Response Time (histogram)",
     width:2,
     height:2,
@@ -119,7 +133,7 @@ const DEFAULT_CHARTS=[
         metricId:"api.metrics.responseTime"
       }
     ]
-  },{ // 9
+  },{ // 10
     name:"Rates (requests/sec)",
     width:2,
     height:2,
@@ -141,24 +155,24 @@ const DEFAULT_CHARTS=[
 
 const DEFAULT_DASHBOARDS= [
   {
-    name: "dashboard JVM",
+    name: "JVM",
     desc: "View of main JVM Metrics",
-    charts: [0,1]
+    charts: [0,1,2]
   },
   {
-    name: "dashboard NodeJS",
+    name: "NodeJS",
     desc: "Main Node.js metrics charts",
-    charts: [2,3,4]
+    charts: [3,4,5]
   },
   {
-    name: "dashboard System",
+    name: "System",
     desc: "OS metrics charts",
-    charts: [4,5]
+    charts: [5,6]
   },
   {
     name: "REST/APIs",
     desc: "REST/APIs",
-    charts: [6,7,8,9]
+    charts: [7,8,9,10]
   }
 ];
 
