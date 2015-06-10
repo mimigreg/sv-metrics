@@ -58,9 +58,25 @@ var conf= {
   dashboards: []
 };
 
-restoreConfig(DEFAULT_CONF,conf);
+export const SAVE_ON_FLAG= {
+  NEVER: 0,
+  ON_MODIFICATION: 1,
+  ON_EXIT: 2
+};
 
 export var configuration={
+
+  dirty: false,
+
+  /** save configuration immediatly or set dirty=false (depending on the 'saveOn' flag) */
+  toBeSaved: function(){
+    if(conf.saveOn===SAVE_ON_FLAG.ON_MODIFICATION){
+      this.save();
+      dirty= false;
+    }else{
+      dirty= true;
+    }
+  },
 
   getConfiguration: function(){
     return conf;
@@ -86,9 +102,12 @@ export var configuration={
       }
     }
     conf.charts.splice(chartIdx,1);
+    this.toBeSaved();
   },
 
   save: function() {
+
+    conf.saved= new Date().toISOString();
 
     var copiedConf= shallowCopy(conf);
 
@@ -109,15 +128,25 @@ export var configuration={
       copiedConf.dashboards= copiedDashs;
 
     window.localStorage.setItem("cfg",JSON.stringify(copiedConf));
+    this.dirty= false;
   },
 
   restore: function(){
     var cfg= window.localStorage.getItem("cfg");
     restoreConfig(JSON.parse(cfg),conf);
+    this.dirty= false;
   },
 
   restoreDefault: function(){
     conf= restoreConfig(DEFAULT_CONF,conf);
+    this.dirt= false;
   }
-
 };
+
+try{
+  configuration.restore();
+}catch(err){
+  console.error(err);
+  //TODO: alert ?
+  configuration.restoreDefault();  
+}

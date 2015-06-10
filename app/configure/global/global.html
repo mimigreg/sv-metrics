@@ -1,4 +1,5 @@
 <md-subheader class="md-primary">Global Configuration</md-subheader>
+<form name="form">
  <div class="svm-form-row" layout="horizontal">
     <div flex="10">
         <span>Update Interval</span>
@@ -11,14 +12,21 @@
             min="0" max="30"
             aria-label="update interval" aria-controls="update-interval-slider">
     </div>
-</div>
-<div class="svm-form-row" layout="horizontal">
+ </div>
+ <div class="svm-form-row" layout="horizontal">
   <md-input-container>
     <label>Metrics URL</label>
     <input ng-model="configuration.metricsUrl">
   </md-input-container>
-</div>
-<div class="svm-actions" layout="row">
+ </div>
+ <div class="svm-form-row" layout="horizontal">
+  <md-select ng-model="configuration.saveOn" placeholder="Save on ...">
+    <md-option value="{{SAVE_ON_FLAG.NEVER}}">Never save automaticaly</md-option>
+    <md-option value="{{SAVE_ON_FLAG.ON_MODIFICATION}}">Save on Modfication</md-option>
+    <md-option value="{{SAVE_ON_FLAG.ON_EXIT}}">Save on Exit</md-option>
+  </md-select>
+ </div>
+ <div class="svm-actions" layout="row">
     <md-button ng-click="save()" class="md-raised md-primary">
       Save
     </md-button>
@@ -28,4 +36,6 @@
     <md-button ng-click="default()" class="md-raised">
       Restore Default
     </md-button>
-</div>
+ </div>
+ <div class="svm-form-row" layout="horizontal"><span class="md-caption">last saved: {{configuration.saved?configuration.saved:'-'}}</span></div>
+</form>

@@ -182,6 +182,7 @@ export const DEFAULT_CONF= {
   metricsUrl: '/metrics',
   metricsInterval: 5, // seconds
   chartRefresh: 1, // 0 no automatic refresh, 1 refresh when new metrics data
+  saveOn: 2, // 0 - never, 1 - on modification, 2 - on exit
 
   charts: DEFAULT_CHARTS,
   dashboards: DEFAULT_DASHBOARDS

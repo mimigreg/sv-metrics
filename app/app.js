@@ -1,7 +1,7 @@
 import {registry} from 'metrics/MetricsRegistry';
 import {api} from 'metrics/api';
 import {DashboardController} from 'view/dashboard/dashboard';
-import {configuration} from 'configure/configuration';
+import {configuration,SAVE_ON_FLAG} from 'configure/configuration';
 import {GlobalCfgCtrl} from 'configure/global/global';
 import {DashListCtrl} from 'configure/dashboards/dash-list/dash-list';
 import {DashEditCtrl} from 'configure/dashboards/dash-edit/dash-edit';
@@ -95,5 +95,13 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
      // $scope.$routeParams = $routeParams;
 
      $scope.configuration= configuration.getConfiguration();
+
+     window.addEventListener('beforeunload',function(){
+       if( $scope.configuration.saveOn===SAVE_ON_FLAG.ON_EXIT){
+         configuration.save();
+       }
+       return null;
+     });
+
 })
 .controller("DashboardController",DashboardController);

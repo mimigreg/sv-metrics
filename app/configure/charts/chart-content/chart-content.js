@@ -39,7 +39,7 @@ export function ChartContentCtrl($scope, $mdDialog, chart){
         );
       }
     }
-    configuration.dirty= true;
+    configuration.toBeSaved();
   };
 
   $scope.cancel = function() {

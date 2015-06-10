@@ -1,1 +1,12 @@
-vview
+<md-list>
+  <md-subheader class="md-primary">Choose a dashboard to view:</md-subheader>
+  <md-list-item ng-repeat="d in configuration.dashboards" class="menu-item menu-sub-item" ng-click="$location.url('view/dashboard/'+$index)">
+    <div  layout="row" layout-margin style="width:100%">
+      <div flex="5">
+        <md-icon md-svg-icon="img/icons/ic_view_quilt_24px.svg"></md-icon>&nbsp;&nbsp;
+      </div>
+      <div flex="20" class="md-tile-left"> {{ d.name }} </div>
+      <div flex="75"class="md-tile-content"> {{d.desc}} </div>
+    </div>
+  </md-list-item>
+</md-list>

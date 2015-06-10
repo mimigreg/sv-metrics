@@ -1,9 +1,9 @@
-import {configuration} from 'configure/configuration';
+import {configuration,SAVE_ON_FLAG} from 'configure/configuration';
 
 export function GlobalCfgCtrl($scope){
 
     $scope.configuration= configuration.getConfiguration();
-
+    $scope.SAVE_ON_FLAG= SAVE_ON_FLAG;
 
     $scope.save= function(){
       configuration.save();
@@ -18,4 +18,9 @@ export function GlobalCfgCtrl($scope){
       $scope.configuration= configuration.getConfiguration();
     };
 
+    $scope.$destroy= function(){
+      if($scope.form.$dirty){
+        configuration.toBeSaved();
+      }
+    };
 }

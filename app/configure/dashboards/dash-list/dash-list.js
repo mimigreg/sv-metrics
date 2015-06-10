@@ -12,6 +12,7 @@ export function DashListCtrl($scope,$location){
       $scope.remove= function(dashIdx){
         var dashboards= configuration.getDashboards();
         dashboards.splice(dashIdx,1);
+        configuration.toBeSaved();
       };
 
 }

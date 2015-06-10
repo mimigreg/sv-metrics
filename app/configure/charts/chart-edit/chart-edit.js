@@ -34,6 +34,7 @@ export function ChartEditCtrl($scope,$routeParams,$mdDialog,$location){
   $scope.removeMetric= function(index){
     var series= $scope.chart.series;
     series.splice(index,1);
+    configuration.toBeSaved();
   };
 
   $scope.ok= function(){
@@ -51,6 +52,8 @@ export function ChartEditCtrl($scope,$routeParams,$mdDialog,$location){
     ch.height= $scope.chart.height;
     ch.type= Number.parseInt($scope.chart.type);
     ch.series= $scope.chart.series;
+
+    configuration.toBeSaved();
 
     $location.path("/configure/charts");
   };
