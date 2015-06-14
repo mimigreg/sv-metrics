@@ -98,7 +98,7 @@ export class LineChart extends Chart{
 
       for(var s of this.data){
         var val= registry.getValue(s.metricId);
-        if(s.values!==val.timeline){
+        if(val && s.values!==val.timeline){
           s.values= val.timeline;
         }
       }

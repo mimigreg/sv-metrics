@@ -63,7 +63,7 @@ export class PieChart extends Chart{
 
       for(var s of this.data){
         var val= registry.getValue(s.metricId);
-        if(s.value!==val.value){
+        if(val && s.value!==val.value){
           s.value= val.value;
         }
       }
