@@ -36,6 +36,15 @@
     <md-button ng-click="default()" class="md-raised">
       Restore Default
     </md-button>
+    <md-button ng-click="export()" class="md-raised">
+      Export
+    </md-button>
+    <md-button ng-click="import($event)" class="md-raised">
+      Import
+    </md-button>
+    <input id="import-config-input" type="file" style="display:none"></input>
  </div>
  <div class="svm-form-row" layout="horizontal"><span class="md-caption">last saved: {{configuration.saved?configuration.saved:'-'}}</span></div>
 </form>
+
+<a id="export-config-link" href="" download="svm-config.json" style="display:none"></a>

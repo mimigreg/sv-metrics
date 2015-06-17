@@ -72,9 +72,9 @@ export var configuration={
   toBeSaved: function(){
     if(conf.saveOn===SAVE_ON_FLAG.ON_MODIFICATION){
       this.save();
-      dirty= false;
+      this.dirty= false;
     }else{
-      dirty= true;
+      this.dirty= true;
     }
   },
 
@@ -131,9 +131,11 @@ export var configuration={
     this.dirty= false;
   },
 
-  restore: function(){
-    var cfg= window.localStorage.getItem("cfg");
-    restoreConfig(JSON.parse(cfg),conf);
+  restore: function(cfgStr){
+    if(!cfgStr){
+      cfgStr= window.localStorage.getItem("cfg");
+    }
+    restoreConfig(JSON.parse(cfgStr),conf);
     this.dirty= false;
   },
 
@@ -147,6 +149,6 @@ try{
   configuration.restore();
 }catch(err){
   console.error(err);
-  //TODO: alert ?
-  configuration.restoreDefault();  
+  window.alert('Error retoring configuration!');
+  configuration.restoreDefault();
 }
