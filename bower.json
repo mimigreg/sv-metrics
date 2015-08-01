@@ -9,7 +9,7 @@
     "traceur": "0.0.90",
     "traceur-runtime": "0.0.90",
     "angular-material": "0.10.0",
-    "nvd3": "1.7.1",
+    "nvd3": "1.8.1",
     "es6-module-loader": "0.17.0",
     "system.js": "0.17.1"
   }
