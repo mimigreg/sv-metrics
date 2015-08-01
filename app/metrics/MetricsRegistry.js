@@ -30,6 +30,7 @@ class MetricsRegistry{
   }
 
   getValue(metric){
+    //console.info('get '+metric+', v='+ registry.values[metric]);
     return registry.values[metric];
   }
 
@@ -37,21 +38,21 @@ class MetricsRegistry{
   updateGauges(gauges){
     for(let m in gauges ){
        if(!this.metrics[m]){
-         registry.register(m,TYPES.GAUGE);
+         this.register(m,TYPES.GAUGE);
        }
 
        if( gauges[m].value ){
          // java metrics
-         registry.values[m].value= gauges[m].value;
+         this.values[m].value= gauges[m].value;
        }else{
          // node-measured
-         registry.values[m].value= gauges[m];
+         this.values[m].value= gauges[m];
        }
 
-       if(registry.values[m].timeline.length>MAX_TIMELINE_LENGTH){
-         registry.values[m].timeline.shift();
+       if(this.values[m].timeline.length>MAX_TIMELINE_LENGTH){
+         this.values[m].timeline.shift();
        }
-       registry.values[m].timeline.push([new Date(),registry.values[m].value]);
+       this.values[m].timeline.push([new Date(),registry.values[m].value]);
     }
   }
 
@@ -102,13 +103,17 @@ class MetricsRegistry{
      }
   }
 
+  notifyUpdate(){
+    for(var l of this.listeners){
+      l();
+    }
+  }
+
   update(metrics){
     this.updateGauges(metrics.gauges);
     this.updateMeters(metrics.meters);
     this.updateTimers(metrics.timers);
-    for(var l of this.listeners){
-      l();
-    }
+    this.notifyUpdate();
   }
 
   onUpdate(callback){
@@ -120,6 +125,35 @@ class MetricsRegistry{
     };
   }
 
+
+  restoreRegistry(rgJson){
+
+   function convertValues(values){
+      for(let mx in values){
+          if( values[mx].timeline ){
+              var i, tmline= values[mx].timeline;
+              for(i=0; i< tmline.length; i++){
+                  tmline[i][0]= new Date(tmline[i][0]);
+              }
+          }
+      }
+      return values;
+    }
+
+    var rg= JSON.parse(rgJson);
+    this.metrics= rg.metrics;
+    this.values= convertValues(rg.values);
+    this.notifyUpdate();
+  }
+
+  exportRegistry(){
+    return {
+      metrics: this.metrics,
+      values: this.values
+    };
+  }
+
 }
+
 
 export var registry= new MetricsRegistry();

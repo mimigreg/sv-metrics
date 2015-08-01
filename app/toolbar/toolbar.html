@@ -1,0 +1,26 @@
+<md-toolbar>
+  <div class="md-toolbar-tools" ng-controller="ToolbarCtrl">
+    <a ng-click="toggleSideNav()" ng-show="!showSideNav"><md-icon md-svg-src="img/icons/ic_menu_24px.svg"></md-icon></a>
+    <span>&nbsp;sv-metrics</span>
+    <span flex></span>
+    <md-button ng-if="configuration.metricsFetch" ng-click="toogleMetricsFetch()" class="md-icon-button" aria-label="Pause">
+      <md-icon md-svg-icon="img/icons/ic_pause_circle_outline_black_24px.svg"></md-icon>
+      <md-tooltip md-autohide="true" ng-if="configuration.metricsFetch">Click to pause metrics refresh ...</md-tooltip>
+    </md-button>
+    <md-button ng-if="!configuration.metricsFetch" ng-click="toogleMetricsFetch()" class="md-icon-button" aria-label="Run">
+      <md-icon md-svg-icon="img/icons/ic_play_circle_outline_black_24px.svg"></md-icon>
+      <md-tooltip md-autohide="true" ng-if="!configuration.metricsFetch">Click to resume metrics refresh ...</md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="exportMetricsRegistry()" aria-label="Export registry content">
+      <md-icon md-svg-icon="img/icons/ic_file_download_black_24px.svg"></md-icon>
+      <md-tooltip md-autohide="true">Click to export metrics registry content ...</md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="restoreMetricsRegistry()" aria-label="Restore registry content">
+      <md-icon md-svg-icon="img/icons/ic_input_black_24px.svg" style="color: greenyellow;"></md-icon>
+      <md-tooltip md-autohide="true" md-direction="left">Click to restore metrics registry content ...</md-tooltip>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<input id="restore-registry-input" type="file" style="display:none"></input>
+<a id="export-registry-link" href="" download="registry-export.json" style="display:none"></a>

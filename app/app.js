@@ -9,6 +9,7 @@ import {ChartsCfgCtrl} from 'configure/charts/charts-list/charts-list';
 import {ChartEditCtrl} from 'configure/charts/chart-edit/chart-edit';
 import {MetricsCfgCtrl} from 'configure/metrics/metrics';
 import {MetricsViewCtrl} from 'view/metrics/metrics';
+import {ToolbarCtrl} from 'toolbar/toolbar';
 import 'chart/chart-directives';
 
 export var app= angular.module('sv-metrics', ['ngMaterial','sv-metrics.charts','ngRoute']);
@@ -62,6 +63,12 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
     var conf= configuration.getConfiguration();
 
     function getAndScheduelMetricsUpdate(){
+
+      if(!conf.metricsFetch){
+        $timeout(getAndScheduelMetricsUpdate, conf.metricsInterval*1000);
+        return;
+      }
+
       $http.get(conf.metricsUrl).success(
         function(data){
           registry.update(data);
@@ -104,4 +111,5 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
      });
 
 })
-.controller("DashboardController",DashboardController);
+.controller("DashboardController",DashboardController)
+.controller("ToolbarCtrl",ToolbarCtrl);
