@@ -1,12 +1,20 @@
+/// <reference path="../../typings/d3/d3.d.ts"/>
+
 import {Chart} from 'chart/chart';
-import {registry} from 'metrics/MetricsRegistry';
+import {registry,Histogram} from 'metrics/MetricsRegistry';
+
+interface HistogramChartData{
+
+  key:string;
+  values:{label:string,value:number}[];
+
+}
 
 // HistogramChart
 // https://github.com/nvd3-community/nvd3/blob/gh-pages/examples/discreteBarChart.html
 export class HistogramChart extends Chart{
 
-
-  // data
+  data: HistogramChartData[];
 
   /** */
   constructor(chartId,config){
@@ -57,12 +65,13 @@ export class HistogramChart extends Chart{
 
           var val= registry.getValue(this.config.series[0].metricId);
           if(val && val.value){
-                this.data[0].values[0].value= val.value.mean;
-                this.data[0].values[1].value= val.value.median;
-                this.data[0].values[2].value= val.value.p75;
-                this.data[0].values[3].value= val.value.p95;
-                this.data[0].values[4].value= val.value.p99;
-                this.data[0].values[5].value= val.value.p999;
+              var v:Histogram = <Histogram>val.value;
+              this.data[0].values[0].value= v.mean;
+              this.data[0].values[1].value= v.median;
+              this.data[0].values[2].value= v.p75;
+              this.data[0].values[3].value= v.p95;
+              this.data[0].values[4].value= v.p99;
+              this.data[0].values[5].value= v.p999;
           }
 
   }

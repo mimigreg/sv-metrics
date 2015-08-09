@@ -1,15 +1,24 @@
+/// <reference path="../../typings/d3/d3.d.ts"/>
+
 import {registry} from 'metrics/MetricsRegistry';
 import {Chart} from 'chart/chart';
+import {Chart as ChartConfig} from 'configure/configuration';
 
+// systemjs erreor: "Invalid anonymous System.register module load"
+// https://github.com/Microsoft/TypeScript/commit/a4a1a51db6968bd13c8be02af4900083b2f0584c
 
-export class LineChart extends Chart{
+interface BarChartData {
+  key:string,
+  metricId:string, 
+  values:{date:Date,value:number}[]
+}
 
-  // config: configure.Chart
-  // chart: nv.Chart;
-  // data: Object;
+export class BarChart extends Chart{
+
+  data: BarChartData[];
 
   /** */
-  constructor(chartId, config){
+  constructor(chartId:string, config:ChartConfig){
 
     super(chartId,config);
 
@@ -33,29 +42,29 @@ export class LineChart extends Chart{
 
     nv.addGraph(function(){
 
-          var chart = nv.models.lineChart()
+          var chart = nv.models.multiBarChart()
                         //.width(scope.width)
                         //.height(scope.height)
                         .margin({left: 60, top: 50, bottom: 50, right: 50})
-                        .x(function(d){ return d[0]; })
-                        .y(function(d){ return d[1]; })
-                        .forceX([]) // List of numbers to Force into the X scale (ie. 0, or a max / min, etc.)
-                        .forceY([0]) // List of numbers to Force into the Y scale
+                        .x(function(d){ return d.date; })
+                        .y(function(d){ return d.value; })
+                        //.forceX([]) // List of numbers to Force into the X scale (ie. 0, or a max / min, etc.)
+                        //.forceY([0]) // List of numbers to Force into the Y scale
                         //.size(100) // point size
                         //.forceSize([]) // List of numbers to Force into the Size scale
-                        .showLegend(false)
+                        //.showLegend(false)
                         //.showControls(attrs.showcontrols === undefined ? false : (attrs.showcontrols === 'true'))
                         .showXAxis(true).showYAxis(true)
-                        .tooltips(true)
-                        .noData('No Data Available.')
-                        .interactive(true)
+                        //.noData('No Data Available.')
+                        //.interactive(true)
                         .clipEdge(false)
                         .color(nv.utils.defaultColor());
 
 
-          chart.useInteractiveGuideline(false);
+          chart.tooltip.enabled(true);
+          //chart.useInteractiveGuideline(false);
 
-          chart.useVoronoi(false); // bug: https://github.com/novus/nvd3/issues/402
+          //chart.useVoronoi(false); // bug: https://github.com/novus/nvd3/issues/402
 
 
                     //chart.style();    //stack, stream, stream-center, expand
@@ -96,10 +105,10 @@ export class LineChart extends Chart{
 
   update(){
 
-      for(var s of this.data){
-        var val= registry.getValue(s.metricId);
-        if(val && s.values!==val.timeline){
-          s.values= val.timeline;
+      for(var d of this.data){
+        var val= registry.getValue(d.metricId);
+        if(val && d.values!==val.timeline){
+          d.values= val.timeline;
         }
       }
 

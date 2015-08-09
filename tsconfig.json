@@ -1,0 +1,45 @@
+{
+    "version": "1.5.0",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "outDir": "dist",
+        "rootDir": "app",
+        "sourceMap": true
+    },
+    "filesGlob": [
+        "app/**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "app/app.ts",
+        "app/chart/bar-chart.ts",
+        "app/chart/bullet-chart.ts",
+        "app/chart/chart-directives.ts",
+        "app/chart/chart.ts",
+        "app/chart/histogram-chart.ts",
+        "app/chart/line-chart.ts",
+        "app/chart/nvd3.d.ts",
+        "app/chart/pie-chart.ts",
+        "app/chart/types.ts",
+        "app/configure/charts/chart-content/chart-content.ts",
+        "app/configure/charts/chart-edit/chart-edit.ts",
+        "app/configure/charts/charts-list/charts-list.ts",
+        "app/configure/configuration.ts",
+        "app/configure/dashboards/dash-content/dash-content.ts",
+        "app/configure/dashboards/dash-edit/dash-edit.ts",
+        "app/configure/dashboards/dash-list/dash-list.ts",
+        "app/configure/defaults.ts",
+        "app/configure/global/global.ts",
+        "app/configure/metrics/metrics.ts",
+        "app/metrics/MetricsRegistry.ts",
+        "app/metrics/api.ts",
+        "app/toolbar/toolbar.ts",
+        "app/view/dashboard/dashboard.ts",
+        "app/view/metrics/metrics.ts"
+    ]
+}

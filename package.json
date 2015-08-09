@@ -10,11 +10,14 @@
   },
   "license": "Apache License 2.0",
   "devDependencies": {
+    "del": "1.2.1",
     "gulp": "3.9.0",
+    "gulp-babel": "5.2.1",
     "gulp-concat": "2.5.2",
-    "gulp-jshint": "1.11.0",
+    "gulp-jshint": "1.11.2",
     "gulp-sourcemaps": "1.5.2",
-    "gulp-traceur": "0.17.1",
+    "gulp-tslint": "3.2.0",
+    "gulp-typescript": "2.8.1",
     "gulp-webserver": "0.9.1",
     "measured": "1.0.0"
   }

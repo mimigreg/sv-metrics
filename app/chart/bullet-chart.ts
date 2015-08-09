@@ -1,5 +1,19 @@
+/// <reference path="../../typings/d3/d3.d.ts"/>
+
 import {Chart} from 'chart/chart';
-import {registry} from 'metrics/MetricsRegistry';
+import {registry,Meter} from 'metrics/MetricsRegistry';
+
+interface BulletData{
+  metricId:string,
+  title:string,
+  subtitle:string,
+  rangeLabels:string[],
+  measureLabels:string[],
+  markerLabels:string[],
+  ranges:number[],
+  markers:number[],
+  measures:number[]
+}
 
 // BulletChart
 //
@@ -7,11 +21,13 @@ import {registry} from 'metrics/MetricsRegistry';
 export class BulletChart extends Chart{
 
   // chart: nv.Chart;
+  data: BulletData[];
+  vis: any;
 
   /** */
   constructor(chartId,config){
 
-    super(chartId);
+    super(chartId,config);
 
     var self= this;
 
@@ -23,7 +39,10 @@ export class BulletChart extends Chart{
         rangeLabels: ['15 min Rate','Mean Rate','5min Rate'],
         measureLabels:['Current Rate'],
         markerLabels:['Previous Current Rate'],
-        metricId: s.metricId
+        metricId: s.metricId,
+        ranges:[0,0,0],
+        markers:[0],
+        measures:[0]
       });
     }
     this.updateData();
@@ -56,12 +75,13 @@ export class BulletChart extends Chart{
 
   updateData(){
       for(let m of this.data){
-          var val= registry.getValue(m.metricId);
-          if(val && val.value){
+          var mxVal= registry.getValue(m.metricId);
+          if(mxVal && mxVal.value){
+              var val:Meter= <Meter>mxVal.value;
                 //m.ranges= [val.value.max,val.value.mean,val.value.min];
-                m.ranges= [val.value['15MinuteRate'],val.value.meanRate,val.value['5MinuteRate']];
+                m.ranges= [val.m15_rate,val.mean_rate,val.m5_rate];
                 m.markers= m.measures?m.measures:[0]; // previous
-                m.measures= [val.value.currentRate];
+                m.measures= [val.m1_rate];
           }
       }
 

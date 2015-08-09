@@ -1,12 +1,17 @@
+/// <reference path="../../typings/d3/d3.d.ts"/>
+
 import {registry} from 'metrics/MetricsRegistry';
 import {Chart} from 'chart/chart';
 
+interface LineChartData{
+  key:string,
+  metricId:string, 
+  values:{date:Date,value:number}[]
+}
 
-export class BarChart extends Chart{
+export class LineChart extends Chart{
 
-  // config: configure.Chart
-  // chart: nv.Chart;
-  // data: Object;
+  data: LineChartData[];
 
   /** */
   constructor(chartId, config){
@@ -16,7 +21,6 @@ export class BarChart extends Chart{
     var self= this;
 
     this.data= [];
-
 
     for(var s of this.config.series){
 
@@ -33,29 +37,33 @@ export class BarChart extends Chart{
 
     nv.addGraph(function(){
 
-          var chart = nv.models.multiBarChart()
+          var chart = nv.models.lineChart()
                         //.width(scope.width)
                         //.height(scope.height)
                         .margin({left: 60, top: 50, bottom: 50, right: 50})
-                        .x(function(d){ return d[0]; })
-                        .y(function(d){ return d[1]; })
-                        //.forceX([]) // List of numbers to Force into the X scale (ie. 0, or a max / min, etc.)
-                        //.forceY([0]) // List of numbers to Force into the Y scale
+                        .x(function(d){
+                          return d.date;
+                        })
+                        .y(function(d){
+                          return d.value;
+                        })
+                        .forceX([]) // List of numbers to Force into the X scale (ie. 0, or a max / min, etc.)
+                        .forceY([0]) // List of numbers to Force into the Y scale
                         //.size(100) // point size
                         //.forceSize([]) // List of numbers to Force into the Size scale
-                        //.showLegend(false)
+                        .showLegend(false)
                         //.showControls(attrs.showcontrols === undefined ? false : (attrs.showcontrols === 'true'))
                         .showXAxis(true).showYAxis(true)
-                        .tooltips(true)
-                        //.noData('No Data Available.')
-                        //.interactive(true)
+                        .noData('No Data Available.')
+                        .interactive(true)
                         .clipEdge(false)
                         .color(nv.utils.defaultColor());
 
+          chart.tooltip.enabled(true);
 
-          //chart.useInteractiveGuideline(false);
+          chart.useInteractiveGuideline(false);
 
-          //chart.useVoronoi(false); // bug: https://github.com/novus/nvd3/issues/402
+          chart.useVoronoi(false); // bug: https://github.com/novus/nvd3/issues/402
 
 
                     //chart.style();    //stack, stream, stream-center, expand

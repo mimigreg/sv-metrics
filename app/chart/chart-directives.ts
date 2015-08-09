@@ -1,3 +1,5 @@
+/// <reference path="../../typings/d3/d3.d.ts"/>
+
 import {LineChart} from 'chart/line-chart';
 import {BarChart} from 'chart/bar-chart';
 import {HistogramChart} from 'chart/histogram-chart';

@@ -9,7 +9,7 @@ export function DashboardController($scope,$routeParams){
       $scope.dashboard= configuration.getDashboards()[$routeParams.dashboardId];
       $scope.charts= $scope.dashboard.charts;
 
-      var unregisterCBs= [];
+      var unregisterCBs:Function[]= [];
 
       for(var chart of $scope.dashboard.charts){
           unregisterCBs.push(

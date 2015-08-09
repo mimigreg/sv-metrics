@@ -10,7 +10,7 @@ Runs on recent (evergreen) browsers.
 
 ## Technlogies
 
-d3, nvd3, angular, angular-material, ES6, metrics
+d3, nvd3, angular, angular-material, ES6, Typescript, metrics
 
 
 ## Build and Run
@@ -21,9 +21,11 @@ d3, nvd3, angular, angular-material, ES6, metrics
 
 - `bower install`
 
-- `gulp dev` - runs a connect server with some mocked metrics
+- `gulp`
 
-- in your browser: http://localhost:8000/index.html
+- `gulp serve` - runs a connect server with some mocked metrics
+
+- in your browser: http://localhost:8000/app/index.html
 
 
 ## License

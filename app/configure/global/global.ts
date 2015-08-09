@@ -27,19 +27,19 @@ export function GlobalCfgCtrl($scope,$mdDialog){
       var cfg= JSON.stringify(configuration.getConfiguration());
       var blob = new Blob([cfg],{type:'application/json'});
       $scope.exportURL = URL.createObjectURL(blob);
-      var a= document.querySelector('#export-config-link');
+      var a:HTMLAnchorElement= <HTMLAnchorElement>document.querySelector('#export-config-link');
       a.href= $scope.exportURL;
       a.click();
     };
 
 
     function addImportOnChange(){
-      var importInput= document.querySelector('#import-config-input');
-      importInput.onchange= function(evt){
+      var importInput:HTMLInputElement= <HTMLInputElement>document.querySelector('#import-config-input');
+      importInput.onchange= function(evt:any){
         var files = evt.target.files;
         var file= files[0];
         var reader = new FileReader();
-        reader.onload= function(evt){
+        reader.onload= function(evt:any){
           try{
             var cfg= evt.target.result;
             configuration.restore(cfg);

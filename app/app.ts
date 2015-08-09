@@ -30,7 +30,8 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
     })
     .when('/view/metrics', {
             templateUrl: 'view/metrics/metrics.html',
-            controller: MetricsViewCtrl
+            controller: MetricsViewCtrl,
+            controllerAs: 'metrics'
     })
     .when('/configure', {
         templateUrl: 'configure/global/global.html',

@@ -1,39 +1,27 @@
+var babel = require("gulp-babel");
+var concat = require('gulp-concat');
+var del = require('del');
 var gulp    = require('gulp');
 var jshint = require('gulp-jshint');
-var traceur = require('gulp-traceur');
-var webserver = require('gulp-webserver');
 var sourcemaps = require('gulp-sourcemaps');
-var concat = require('gulp-concat');
-var mockMiddleware= require('./test/mock-middleware');
+var ts = require('gulp-typescript');
+var tslint = require('gulp-tslint');
+var webserver = require('gulp-webserver');
 
-gulp.task('build', function () {
+var tsProject = ts.createProject('tsconfig.json',{});
+
+gulp.task('babel', function () {
     return gulp.src(['app/**/*.js'])
         .pipe(sourcemaps.init())
-        .pipe(
-        	traceur(
-            {
-              modules: 'instantiate' // 'commonjs','register','inline','amd'
-              //,sourceMaps: 'file'
-        	  }))
-
+        .pipe(babel(
+          {
+            "modules":"system",
+            "blacklist":["es6.forOf","es6.classes","es6.templateLiterals"] // ever green FF,CH
+          }
+        ))
         //.pipe(concat('all.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('dist'));
-});
-
-gulp.task('watch', function() {
-  gulp.watch(['app/**/*.js'], ['build']);
-});
-
-gulp.task('serve', function() {
-  gulp.src(['.'])
-    .pipe(webserver({
-      livereload: true,
-      directoryListing: true,
-      open: false,
-      port: 8000,
-      middleware: mockMiddleware
-    }));
 });
 
 gulp.task('lint', function() {
@@ -42,5 +30,42 @@ gulp.task('lint', function() {
      .pipe(jshint.reporter('default'));
  });
 
-gulp.task('dev', ['build', 'serve', 'watch']);
-gulp.task('default', ['dev']);
+gulp.task('ts', ['clean-ts'], function() {
+    var tsResult = tsProject.src()
+        .pipe(sourcemaps.init())
+        .pipe(ts(tsProject));
+
+    return tsResult.js
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest('dist'));
+});
+
+gulp.task('serve', function() {
+
+  var mockMiddleware= require('./test/mock-middleware'); // it is here because blocking (setInterval in Meters)
+
+  gulp.src(['.'])
+    .pipe(webserver({
+      livereload: false,
+      directoryListing: true,
+      open: false,
+      port: 8000,
+      middleware: mockMiddleware
+    }));
+});
+
+ gulp.task('ts-lint', function () {
+    return gulp.src('app/**/*.ts')
+    .pipe(tslint())
+    .pipe(tslint.report('prose'));
+});
+
+gulp.task('clean-ts', function (cb) {
+  var files = [
+            'dist/**/*.js',
+            'dist/*.js.map'
+  ];
+  del(files, cb);
+});
+
+gulp.task('default', ['ts-lint','ts']);

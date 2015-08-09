@@ -1,6 +1,6 @@
 import {configuration} from 'configure/configuration';
 import {DashContentCtrl} from 'configure/dashboards/dash-content/dash-content';
-import {chartTypes} from 'chart/types';
+import {CHART_TYPES} from 'chart/types';
 
 
 /** Shallow copy */
@@ -30,7 +30,7 @@ export function DashEditCtrl($scope,$routeParams,$mdDialog,$location){
     $scope.dashboard= copyDash(configuration.getDashboards()[$scope.dashboardId]);
   }
 
-  $scope.chartTypes= chartTypes;
+  $scope.chartTypes= CHART_TYPES;
 
   $scope.addChart= function(ev){
     $mdDialog.show({
@@ -41,9 +41,10 @@ export function DashEditCtrl($scope,$routeParams,$mdDialog,$location){
     });
   };
 
-  $scope.removeChart= function(index){
+  $scope.removeChart= function(chart){
     var charts= $scope.dashboard.charts;
-    charts.splice(index,1);
+    var idx= charts.indexOf(chart);
+    charts.splice(idx,1);
   };
 
   $scope.ok= function(){

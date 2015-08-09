@@ -12,7 +12,7 @@ export function ChartEditCtrl($scope,$routeParams,$mdDialog,$location){
       desc:"",
       width:2,
       height:2,
-      type: CHART_TYPES.GAUGE,
+      type: CHART_TYPES.LINE,
       series:[]
     };
   }else{
@@ -50,7 +50,7 @@ export function ChartEditCtrl($scope,$routeParams,$mdDialog,$location){
     ch.desc= $scope.chart.desc;
     ch.width= $scope.chart.width;
     ch.height= $scope.chart.height;
-    ch.type= Number.parseInt($scope.chart.type);
+    ch.type= parseInt($scope.chart.type);
     ch.series= $scope.chart.series;
 
     configuration.toBeSaved();

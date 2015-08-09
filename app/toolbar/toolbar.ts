@@ -25,19 +25,19 @@ export function ToolbarCtrl($scope,$mdDialog){
       var cfg= JSON.stringify(registry.exportRegistry());
       var blob = new Blob([cfg],{type:'application/json'});
       $scope.exportRyURL = URL.createObjectURL(blob);
-      var a= document.querySelector('#export-registry-link');
+      var a= <HTMLAnchorElement>document.querySelector('#export-registry-link');
       a.href= $scope.exportRyURL;
       a.click();
   };
 
 
   function addRestoreRgOnChange(){
-        var restoreInput= document.querySelector('#restore-registry-input');
+        var restoreInput:any= document.querySelector('#restore-registry-input');
         restoreInput.onchange= function(evt){
           var files = evt.target.files;
           var file= files[0];
           var reader = new FileReader();
-          reader.onload= function(evt){
+          reader.onload= function(evt:any){
             try{
               var rg= evt.target.result;
               registry.restoreRegistry(rg);

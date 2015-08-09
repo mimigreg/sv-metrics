@@ -2,8 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <script src="../bower_components/traceur/traceur.js"></script>
-  <script src="../bower_components/es6-module-loader/dist/es6-module-loader-dev.js"></script>
+  <!-- <script src="../bower_components/traceur/traceur.js"></script> -->
+  <!-- <script src="../bower_components/es6-module-loader/dist/es6-module-loader-dev.js"></script> -->
+  <script src="../bower_components/system.js/dist/system.js"></script>
   <script src="../bower_components/angular/angular.js"></script>
   <script src="../bower_components/angular-animate/angular-animate.js"></script>
   <script src="../bower_components/angular-aria/angular-aria.js"></script>
@@ -19,12 +20,16 @@
 
   <script>
 
-    System.transpiler= "traceur";
+    //System.transpiler= "traceur";
 
-    System.traceurOptions={
+    /*System.traceurOptions={
       //annotations: true,
       sourceMaps: true
-    };
+    };*/
+
+    System.config({
+        baseURL: '../dist'
+    });
 
     System.paths={
       '*': '*.js'

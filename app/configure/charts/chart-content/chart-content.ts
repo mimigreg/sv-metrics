@@ -1,20 +1,21 @@
 import {registry} from 'metrics/MetricsRegistry';
 import {CHART_TYPE_INFOS} from 'chart/types';
+import {Chart,configuration} from 'configure/configuration';
 
-export function ChartContentCtrl($scope, $mdDialog, chart){
+export function ChartContentCtrl($scope, $mdDialog, chart:Chart){
 
   var registeredMetrics= registry.getMetrics();
 
-  function isCompatibleMetric(chart,mx){
+  function isCompatibleMetric(chart:Chart,mx:string){
     var allowed= CHART_TYPE_INFOS[chart.type].metrics;
-    var mxType= registeredMetrics[mx].type;
+    var mxType= registeredMetrics.get(mx).type;
     return allowed.indexOf(mxType)>-1;
   }
 
   $scope.metricsWrapper=[];
-  for( var mx in registeredMetrics){
+  registeredMetrics.forEach(function(mxVal,mx){
     if( isCompatibleMetric(chart,mx) ){ // only allowed types
-      var m= {metricId:mx,inChart:false};
+      var m= {name:'',metricId:mx,inChart:false};
       for( var srs of chart.series){
         if(mx===srs.metricId){
           m.inChart=true;
@@ -23,7 +24,7 @@ export function ChartContentCtrl($scope, $mdDialog, chart){
       }
       $scope.metricsWrapper.push(m);
     }
-  }
+  });
 
 
   $scope.ok = function(metricsWrapper) {
