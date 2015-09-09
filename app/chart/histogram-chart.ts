@@ -1,7 +1,8 @@
 /// <reference path="../../typings/d3/d3.d.ts"/>
 
 import {Chart} from 'chart/chart';
-import {registry,Histogram} from 'metrics/MetricsRegistry';
+import {registry,MetricsValue} from 'metrics/MetricsRegistry';
+import {Histogram} from 'metrics/metrics';
 
 interface HistogramChartData{
 

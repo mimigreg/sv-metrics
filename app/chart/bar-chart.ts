@@ -9,7 +9,7 @@ import {Chart as ChartConfig} from 'configure/configuration';
 
 interface BarChartData {
   key:string,
-  metricId:string, 
+  metricId:string,
   values:{date:Date,value:number}[]
 }
 
@@ -34,7 +34,7 @@ export class BarChart extends Chart{
           {
                 key:s.name,
                 metricId: s.metricId,
-                values: val ? val.timeline : []
+                values: val ? val.timeline.timeline : []
           }
         );
     }
@@ -107,8 +107,8 @@ export class BarChart extends Chart{
 
       for(var d of this.data){
         var val= registry.getValue(d.metricId);
-        if(val && d.values!==val.timeline){
-          d.values= val.timeline;
+        if(val && d.values!==val.timeline.timeline){
+          d.values= val.timeline.timeline;
         }
       }
 

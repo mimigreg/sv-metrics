@@ -1,48 +1,53 @@
 /// <reference path="../../typings/tsd.d.ts" />
 
+import {Metric,Histogram,Gauge,Counter,Timer,Meter} from "metrics/metrics";
+
 var MAX_TIMELINE_LENGTH=100;
 
 export enum TYPES {
   GAUGE= 0,
   METER= 1,
   TIMER= 2,
-  HISTOGRAM= 3
+  HISTOGRAM= 3,
+  COUNTER= 4,
+  UNKNOWN=5
 };
 
+export class Timeline{
 
-interface MetricsBase{
+  id:string;
+  timeline: {date:Date,value:number}[];
+
+  constructor(id:string,tmln:Array<any>){
+    this.id= id;
+    this.timeline= tmln?tmln:[];
+  }
+
+  update(value:number){
+    if(this.timeline.length>MAX_TIMELINE_LENGTH){
+        this.timeline.shift();
+    }
+    this.timeline.push({date:new Date(),value:value});
+  }
 }
 
-export interface Meter extends MetricsBase{
-  count:number,
-  m1_rate:number,
-  m5_rate:number,
-  m15_rate:number,
-  //currentRate:number, //  -> node-mesured
-  mean_rate:number
-}
+export class MetricsValue{
 
-export interface Gauge extends MetricsBase{
-  value:number
-}
+  value: Metric|Histogram|Gauge|Timer|Meter;
+  timeline: Timeline;
 
-export interface Timer extends Histogram,Meter{
-  duration_units:string,
-  rate_units:string
-}
+  constructor(value:Metric){
+    this.value= value;
+  }
 
-export interface Histogram extends MetricsBase{
-  count:number,
-  max:number, mean:number, median:number, min:number,
-  p50:number, p75:number, p95:number, p99:number, p999:number,
-  stddev:number ,sum:number, variance:number
-}
-
-
-export interface MetricsValue{
-  type: TYPES,
-  value: Histogram|Gauge|Timer|Meter,
-  timeline: {date:Date,value:number}[]
+  getType():TYPES{
+    if( this.value instanceof Gauge ) return TYPES.GAUGE;
+    if( this.value instanceof Counter ) return TYPES.COUNTER;
+    if( this.value instanceof Histogram ) return TYPES.HISTOGRAM;
+    if( this.value instanceof Timer ) return TYPES.TIMER;
+    if( this.value instanceof Meter ) return TYPES.METER;
+    return TYPES.UNKNOWN;
+  }
 }
 
 export class MetricsRegistry{
@@ -59,8 +64,10 @@ export class MetricsRegistry{
     this.listeners= [];
   }
 
-  register(id:string,type:TYPES){
-    this.metrics.set(id,{type,value:undefined,timeline:[]});
+  register(id:string,value:Metric){
+    var mv= new MetricsValue(value);
+    this.metrics.set(id,mv);
+    return mv;
   }
 
   getMetrics():Map<string,MetricsValue>{
@@ -74,22 +81,14 @@ export class MetricsRegistry{
 
   updateGauges(gauges){
     for(let m in gauges ){
-       if(!this.metrics.get(m)){
-         this.register(m,TYPES.GAUGE);
+      var mx= this.metrics.get(m);
+       if(!mx){
+         mx= this.register(m,new Gauge());
+         mx.timeline= new Timeline('value',[]);
        }
+       mx.value.update(gauges[m]);
 
-       if( gauges[m].value ){
-         // java metrics
-         this.metrics.get(m).value= gauges[m];
-       }else{
-         // node-measured
-         this.metrics.get(m).value= {value:gauges[m]};
-       }
-
-       if(this.metrics.get(m).timeline.length>MAX_TIMELINE_LENGTH){
-         this.metrics.get(m).timeline.shift();
-       }
-       this.metrics.get(m).timeline.push({date:new Date(),value:(<Gauge>this.metrics.get(m).value).value});
+       mx.timeline.update((<Gauge>mx.value).value);
     }
   }
 
@@ -97,25 +96,14 @@ export class MetricsRegistry{
   // 1MinuteRate,5MinuteRate,15MinuteRate,count,currentRate,mean
   updateMeters(meters){
     for(let m in meters ){
-       if(!this.metrics.get(m)){
-         registry.register(m,TYPES.METER);
+       var mx= this.metrics.get(m);
+       if(!mx){
+         mx= registry.register(m, new Meter());
+         mx.timeline= new Timeline('m1_rate',[]);
        }
+       mx.value.update(meters[m]);
 
-       var value= <Meter>{
-         m1_rate: <number>(meters[m].m1_rate?meters[m].m1_rate:meters[m]['1MinuteRate']), // dropwizard:nodemeasured
-         m5_rate: <number>(meters[m].m1_rate?meters[m].m1_rate:meters[m]['5MinuteRate']),
-         m15_rate: <number>(meters[m].m1_rate?meters[m].m1_rate:meters[m]['15MinuteRate']),
-         count: <number>meters[m].count,
-         currentRate:<number>meters[m].currentRate,
-         mean_rate: <number>(meters[m].mean?meters[m].mean:meters[m].mean_rate)
-       };
-
-       registry.metrics.get(m).value= value;
-
-        if(registry.metrics.get(m).timeline.length>MAX_TIMELINE_LENGTH){
-          registry.metrics.get(m).timeline.shift();
-        }
-        registry.metrics.get(m).timeline.push({date:new Date(),value:value.m1_rate});
+      mx.timeline.update((<Meter>mx.value).m1_rate);
     }
   }
 
@@ -125,71 +113,14 @@ export class MetricsRegistry{
   // timer (java metrics): count,max,mean,min,p50,p75,p95,p98,p99,p999,stddev,m15_rate,m1_rate,m5_rate,mean_rate,duration_units,rate_units
   updateTimers(timers){
     for(let m in timers ){
-       if(!this.metrics.get(m)){
-         registry.register(m,TYPES.TIMER);
+       var mx= this.metrics.get(m);
+       if(!mx){
+         mx= registry.register(m, new Timer());
+         mx.timeline= new Timeline('mean',[]);
        }
-       if(timers[m].meter && timers[m].histogram){
-         // node-measured
-         registry.metrics.get(m).value= timers[m].meter;
-         (<Timer>registry.metrics.get(m).value).mean_rate= timers[m].meter.mean; // mean will be overwritten by histogram (TODO: dropwizzard metrics?)
+       mx.value.update(timers[m]);
 
-        registry.metrics.get(m).value= <Timer>{
-              m1_rate: <number>timers[m].meter['1MinuteRate'],
-              m5_rate: <number>timers[m].meter['5MinuteRate'],
-              m15_rate: <number>timers[m].meter['15MinuteRate'],
-              count: <number>timers[m].meter.count,
-                       currentRate:<number>timers[m].meter.currentRate,
-                       mean_rate: <number>timers[m].meter.mean,
-                       max:<number>timers[m].histogram.max,
-                       mean:<number>timers[m].histogram.mean,
-                       min:<number>timers[m].histogram.min,
-                       p50:<number>timers[m].histogram.p50,
-                       p75:<number>timers[m].histogram.p75,
-                       p95:<number>timers[m].histogram.p95,
-                       p98:<number>timers[m].histogram.p98,
-                       p99:<number>timers[m].histogram.p99,
-                       p999:<number>timers[m].histogram.p999,
-                       stddev:<number>timers[m].histogram.stddev,
-                       median:<number>timers[m].histogram.median,
-                       sum:<number>timers[m].histogram.sum,
-                       variance:<number>timers[m].histogram.variance,
-                       duration_units:<string>timers[m].histogram.duration_units,
-                       rate_units:<string>timers[m].histogram.rate_units
-          };
-       }else{
-         // DropWizzard metrics
-         //registry.metrics.get(m).value= timers[m];
-
-         registry.metrics.get(m).value= <Timer>{
-              m1_rate: <number>timers[m].m1_rate,
-              m5_rate: <number>timers[m].m5_rate,
-              m15_rate: <number>timers[m].m15_rate,
-              count: <number>timers[m].count,
-              currentRate:<number>timers[m].currentRate,
-              mean_rate: <number>timers[m].mean_rate,
-              max:<number>timers[m].max,
-              mean:<number>timers[m].mean,
-              min:<number>timers[m].min,
-              p50:<number>timers[m].p50,
-              p75:<number>timers[m].p75,
-              p95:<number>timers[m].p95,
-              p98:<number>timers[m].p98,
-              p99:<number>timers[m].p99,
-              p999:<number>timers[m].p999,
-              stddev:<number>timers[m].stddev,
-              median:<number>timers[m].median,
-              sum:<number>timers[m].sum,
-              variance:<number>timers[m].variance,
-              duration_units:<string>timers[m].duration_units,
-              rate_units:<string>timers[m].rate_units
-        };
-       }
-
-       if(registry.metrics.get(m).timeline.length>MAX_TIMELINE_LENGTH){
-             registry.metrics.get(m).timeline.shift();
-        }
-        // mean timeline
-        registry.metrics.get(m).timeline.push({date:new Date(),value:(<Timer>registry.metrics.get(m).value).mean}); //TODO: 1MinuteRate,5MinuteRate,15MinuteRate ?
+       mx.timeline.update((<Timer>registry.metrics.get(m).value).mean); //TODO: 1MinuteRate,5MinuteRate,15MinuteRate ?
         // TODO: + rate timeline ?
      }
   }
@@ -221,15 +152,24 @@ export class MetricsRegistry{
 
     var metrics= new Map<string,MetricsValue>();
 
+    function restoreMetricValue(obj):MetricsValue{
+          var mx= Metric.importMetric(obj.value);
+          return new MetricsValue(mx);
+    }
+
    function convertValues(metrics:string[],values:any[]):Map<string,MetricsValue>{
      var mxs= new Map<string,MetricsValue>();
       for(let i=0; i<values.length; i++){
-        mxs.set(metrics[i],values[i]);
+        var mxVal= restoreMetricValue(values[i]);
+        mxs.set(metrics[i],mxVal);
           if( values[i].timeline ){
-              var j, tmline= values[i].timeline;
-              for(j=0; j< tmline.length; j++){
-                  tmline[j].date= new Date(<string>tmline[j].date);
+              var tmLine:{date:Date,value:number}[]= [];
+              var j;
+              var tlObj= values[i].timeline;
+              for(j=0; j< tlObj.timeline.length; j++){
+                  tmLine.push({date:new Date(<string>tlObj.timeline[j].date),value:<number>tlObj.timeline[j].value});
               }
+              mxVal.timeline= new Timeline( tlObj.id, tmLine );
           }
       }
       return mxs;

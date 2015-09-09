@@ -5,7 +5,7 @@ import {Chart} from 'chart/chart';
 
 interface LineChartData{
   key:string,
-  metricId:string, 
+  metricId:string,
   values:{date:Date,value:number}[]
 }
 
@@ -29,7 +29,7 @@ export class LineChart extends Chart{
           {
                 key:s.name,
                 metricId: s.metricId,
-                values: val ? val.timeline : []
+                values: val ? val.timeline.timeline : []
           }
         );
     }
@@ -106,8 +106,8 @@ export class LineChart extends Chart{
 
       for(var s of this.data){
         var val= registry.getValue(s.metricId);
-        if(val && s.values!==val.timeline){
-          s.values= val.timeline;
+        if(val && s.values!==val.timeline.timeline){
+          s.values= val.timeline.timeline;
         }
       }
 

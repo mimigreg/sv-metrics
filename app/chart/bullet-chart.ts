@@ -1,7 +1,8 @@
 /// <reference path="../../typings/d3/d3.d.ts"/>
 
 import {Chart} from 'chart/chart';
-import {registry,Meter} from 'metrics/MetricsRegistry';
+import {registry} from 'metrics/MetricsRegistry';
+import {Meter} from 'metrics/metrics';
 
 interface BulletData{
   metricId:string,

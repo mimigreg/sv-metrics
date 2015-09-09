@@ -1,14 +1,15 @@
 /// <reference path="../../typings/d3/d3.d.ts"/>
 
-import {registry,Gauge,Meter,Histogram,Timer,MetricsValue,TYPES} from 'metrics/MetricsRegistry';
+import {registry,MetricsValue,TYPES} from 'metrics/MetricsRegistry';
+import {Gauge,Meter,Histogram,Timer} from 'metrics/metrics';
 import {Chart} from 'chart/chart';
 import {Chart as ChartConfig} from 'configure/configuration';
 
 class PieChartData{
-  
-  key:string;
-  metricId:string;
-  value:number;
+
+  key: string;
+  metricId: string;
+  value: number;
 
   constructor(key:string,mxId:string,value:number){
     this.key=key;
@@ -22,20 +23,16 @@ function extractData(mx:MetricsValue):number{ // TODO: make extract function con
 
       var value;
 
-      switch(mx.type){
-        case TYPES.GAUGE:
-                  value= (<Gauge>mx.value).value;
-                  break;
-        case TYPES.METER:
-                  value= (<Meter>mx.value).m1_rate;
-                  break;
-        case TYPES.HISTOGRAM:
-                  value= (<Histogram>mx.value).mean;
-                  break;
-        case TYPES.TIMER:
-                  value= (<Timer>mx.value).mean;
-                  break;
-        default: throw Error('Unknown type: '+mx.type);
+      if(mx.value instanceof Gauge){
+          value= (<Gauge>mx.value).value;
+      }else if(mx.value instanceof Meter){
+          value= (<Meter>mx.value).m1_rate;
+      }else if(mx.value instanceof Histogram){
+        value= (<Histogram>mx.value).mean;
+      }else if(mx.value instanceof Timer){
+        value= (<Timer>mx.value).mean;
+      }else{
+        throw Error('Unknown type of metrics: '+mx);
       }
       return value;
 }

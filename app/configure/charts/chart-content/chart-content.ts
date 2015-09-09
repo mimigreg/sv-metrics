@@ -8,7 +8,7 @@ export function ChartContentCtrl($scope, $mdDialog, chart:Chart){
 
   function isCompatibleMetric(chart:Chart,mx:string){
     var allowed= CHART_TYPE_INFOS[chart.type].metrics;
-    var mxType= registeredMetrics.get(mx).type;
+    var mxType= registeredMetrics.get(mx).getType();
     return allowed.indexOf(mxType)>-1;
   }
 

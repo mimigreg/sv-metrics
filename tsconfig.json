@@ -38,6 +38,7 @@
         "app/configure/metrics/metrics.ts",
         "app/metrics/MetricsRegistry.ts",
         "app/metrics/api.ts",
+        "app/metrics/metrics.ts",
         "app/toolbar/toolbar.ts",
         "app/view/dashboard/dashboard.ts",
         "app/view/metrics/metrics.ts"
