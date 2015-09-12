@@ -7,7 +7,7 @@ function copyProperties(propNames,source,target){
   return target;
 }
 
-function shallowCopy(source,target):any {
+function shallowCopy<T>(source:any,target:T):T {
   for(var p in source){
     if(typeof source[p]!=="object" && !p.startsWith('$$')){ // don't copy objects or angular properties ($$hashKey,...)
       target[p]=source[p];
@@ -24,45 +24,71 @@ function shallowArrayCopy(array:any[]):any[]{
   return cp;
 }
 
-function copyCharts(charts) {
-  var copiedCharts= [];
-  for (var i = 0; i < charts.length; i++) {
-    copiedCharts[i]= shallowCopy(charts[i],{});
-    copiedCharts[i].series= shallowArrayCopy(charts[i].series);
+export class Chart{
+  name:string;
+  desc:string;
+  type:number;
+  width:number;
+  height:number;
+  series:{metricId:string,name:string}[];
+
+  constructor(name?:string,desc?:string,type?:number){
+    this.name= name;
+    this.desc= desc;
+    this.type= type;
+    this.width= 2;
+    this.height= 2;
+    this.series=[];
   }
-  return copiedCharts;
+
+  static restore(source:any):Chart{
+    var chart= new Chart();
+    chart= shallowCopy(source,new Chart());
+    chart.series= shallowArrayCopy(source.series);
+    return chart;
+  }
+
+  save():any{
+    var savedChart:any= shallowCopy(this,{});
+    savedChart.series= shallowArrayCopy(this.series);
+    return savedChart;
+  }
 }
 
-function restoreDash(dash,charts) {
-  var restoredDash= shallowCopy(dash,{});
-  restoredDash.charts= dash.charts.map(chartIdx=>charts[chartIdx]);
-  return restoredDash;
-}
+export class Dashboard{
 
-function resotreDashboards(dashs,charts) {
-  return dashs.map( d => restoreDash(d,charts) );
-}
+  name:string;
+  desc:string;
+  charts:Chart[];
 
-function restoreConfig(sourceConf,targetConf) {
-  shallowCopy(sourceConf,targetConf);
-  targetConf.charts= copyCharts(sourceConf.charts);
-  targetConf.dashboards= resotreDashboards(sourceConf.dashboards,targetConf.charts);
-  return targetConf;
-}
+  constructor(name:string='',desc:string='',charts:Chart[]=[]){
+    this.name= name;
+    this.desc= desc;
+    this.charts=charts;
+  }
 
-export interface Chart{
-  name:string,
-  desc:string,
-  width:number,
-  height:number,
-  type:number,
-  series:{metricId:string,name:string}[]
-}
+  static restore(source:any,charts:Chart[]):Dashboard{
+    var restoredDash= shallowCopy(source, new Dashboard());
+    restoredDash.charts= source.charts.map(chartIdx=>charts[chartIdx]);
+    return restoredDash;
+  }
 
-export interface Dashboard{
-  name:string,
-  desc:string,
-  charts:Chart[]
+  save():any{
+
+    function findIndex(arr:any[],elm:any):number{ // typescript missing Array.findIndex :-(
+          for(let i=0; i<arr.length; i++){
+              if(arr[i]===elm) return i;
+          }
+    }
+
+    // find indeces of contained charts (avoid stringifying references)
+    var chartIdxs= this.charts.map(
+      sc => findIndex(this.charts,sc)
+    );
+    var copiedDash:any= shallowCopy(this,{});
+    copiedDash.charts= chartIdxs;
+    return copiedDash;
+  }
 }
 
 export enum SAVE_ON_FLAG {
@@ -91,41 +117,56 @@ class ConfigData{
         this.charts= [];
         this.dashboards= []
     }
+
+    private restoreCharts(charts:any[]):Chart[]{
+      let copiedCharts:Chart[]= [];
+      for (var i = 0; i < charts.length; i++) {
+        copiedCharts.push(Chart.restore(charts[i]));
+      }
+      return copiedCharts;
+    }
+
+    restore(source:any){
+      shallowCopy(source,this);
+      this.charts= this.restoreCharts(source.charts);
+      this.dashboards= source.dashboards.map( d => Dashboard.restore(d,this.charts) );
+    }
+
 }
 
-var conf:ConfigData= new ConfigData();
 
+export class Configuration{
 
-export var configuration={
+  dirty:boolean= false;
 
-  dirty: false,
+  conf:ConfigData= new ConfigData();
 
   /** save configuration immediatly or set dirty=false (depending on the 'saveOn' flag) */
-  toBeSaved: function(){
-    if(conf.saveOn===SAVE_ON_FLAG.ON_MODIFICATION){
+  toBeSaved(){
+    if(this.conf.saveOn===SAVE_ON_FLAG.ON_MODIFICATION){
       this.save();
       this.dirty= false;
     }else{
       this.dirty= true;
     }
-  },
+  };
 
-  getConfiguration: function(){
-    return conf;
-  },
+  getConfiguration(){
+    return this.conf;
+  };
 
-  getDashboards: function(){
-    return conf.dashboards;
-  },
+  getDashboards(){
+    return this.conf.dashboards;
+  };
 
-  getCharts: function(){
-    return conf.charts;
-  },
+  getCharts(){
+    return this.conf.charts;
+  };
 
-  removeChart: function(chartIdx){
-    var ch= conf.charts[chartIdx];
-    for (var i = 0; i < conf.dashboards.length; i++) {
-      var dash= conf.dashboards[i];
+  removeChart(chartIdx){
+    var ch= this.conf.charts[chartIdx];
+    for (var i = 0; i < this.conf.dashboards.length; i++) {
+      var dash= this.conf.dashboards[i];
       for (var ii = 0; ii < dash.charts.length; ii++) {
         if(dash.charts[ii]===ch){
           dash.charts.splice(ii,1);
@@ -133,54 +174,39 @@ export var configuration={
         }
       }
     }
-    conf.charts.splice(chartIdx,1);
+    this.conf.charts.splice(chartIdx,1);
     this.toBeSaved();
-  },
+  };
 
-  save: function() {
+  save() {
 
-    conf.saved= new Date().toISOString();
+    this.conf.saved= new Date().toISOString();
 
-    var copiedConf= shallowCopy(conf,{});
+    var copiedConf:any= shallowCopy(this.conf,{});
 
-    copiedConf.charts= copyCharts(conf.charts);
+    copiedConf.charts= this.conf.charts.map( chart => chart.save() );
 
-    var copiedDashs=
-      conf.dashboards.map(function(d){
-
-        function findIndex(arr:any[],elm:any):number{ // typescript missing Array.findIndex :-(
-          for(let i=0; i<arr.length; i++){
-            if(arr[i]===elm) return i;
-          }
-        }
-
-        // find indeces of contained charts (avoid stringifying references)
-        var chartIdxs= d.charts.map(function(sc){
-            return findIndex(conf.charts,sc);
-        });
-        var copiedDash= shallowCopy(d,{});
-        copiedDash.charts= chartIdxs;
-        return copiedDash;
-      });
-      copiedConf.dashboards= copiedDashs;
+    copiedConf.dashboards=  this.conf.dashboards.map( d => d.save() );
 
     window.localStorage.setItem("cfg",JSON.stringify(copiedConf));
     this.dirty= false;
-  },
+  };
 
-  restore: function(cfgStr:string=undefined){
+  restore(cfgStr:string=undefined){
     if(!cfgStr){
         cfgStr= window.localStorage.getItem("cfg");
     }
-    restoreConfig(JSON.parse(cfgStr),conf);
+    this.conf.restore(JSON.parse(cfgStr));
     this.dirty= false;
-  },
+  };
 
-  restoreDefault: function(){
-    conf= restoreConfig(DEFAULT_CONF,conf);
-    this.dirt= false;
+  restoreDefault(){
+    this.conf.restore(DEFAULT_CONF);
+    this.dirty= false;
   }
 };
+
+export var configuration= new Configuration();
 
 try{
   configuration.restore();

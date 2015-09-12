@@ -43,7 +43,8 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
     })
     .when('/configure/dashboards/:dashboardId', {
       templateUrl: 'configure/dashboards/dash-edit/dash-edit.html',
-      controller: DashEditCtrl
+      controller: DashEditCtrl,
+      controllerAs: 'dashEdit'
     })
     .when('/configure/charts', {
       templateUrl: 'configure/charts/charts-list/charts-list.html',

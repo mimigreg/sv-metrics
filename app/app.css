@@ -14,7 +14,6 @@
   position: relative;
   text-align: left;
   text-decoration: none;
-  width: 100%;
   z-index: 1;
   -webkit-transition: 0.2s ease-in-out;
   -webkit-transition-property: max-height, background-color, opacity;

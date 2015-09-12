@@ -1,4 +1,4 @@
-import {configuration} from 'configure/configuration';
+import {configuration,Dashboard} from 'configure/configuration';
 
 
 export function DashContentCtrl($scope, $mdDialog, dashboard){
@@ -25,14 +25,13 @@ export function DashContentCtrl($scope, $mdDialog, dashboard){
 }
 
 /** Shallow copy */
-function copyDash(dash){
-  var cp={
-    name: dash.name,
-    desc: dash.desc,
-    charts:[]
-  };
-  for(var ch of dash.charts){
-    cp.charts.push(ch);
-  }
+function copyDash(dash:Dashboard):Dashboard{
+
+  var cp=new Dashboard(dash.name,dash.desc,
+    dash.charts.map(ch=>ch)
+  );
+
+  //for(var ch of dash.charts){  cp.charts.push(ch);  }
+
   return cp;
 }

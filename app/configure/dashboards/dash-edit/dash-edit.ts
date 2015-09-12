@@ -1,63 +1,65 @@
-import {configuration} from 'configure/configuration';
+import {configuration,Dashboard} from 'configure/configuration';
 import {DashContentCtrl} from 'configure/dashboards/dash-content/dash-content';
 import {CHART_TYPES} from 'chart/types';
 
 
 /** Shallow copy */
-function copyDash(dash){
-  var cp={
-    name: dash.name,
-    desc: dash.desc,
-    charts:[]
-  };
-  for(var ch of dash.charts){
-    cp.charts.push(ch);
-  }
-  return cp;
+function copyDash(dash:Dashboard):Dashboard{
+  return new Dashboard(dash.name,dash.desc,
+    dash.charts.map(ch=>ch)
+  );
 }
 
-export function DashEditCtrl($scope,$routeParams,$mdDialog,$location){
+export class DashEditCtrl{
+
+  dashboard:Dashboard;
+  dashboardId:string;
+
+  $mdDialog: any;
+  $location: any;
 
 
-  if($routeParams.dashboardId=='new'){
-    $scope.dashboard= {
-      name:"",
-      desc:"",
-      charts:[]
-    };
-  }else{
-    $scope.dashboardId= $routeParams.dashboardId;
-    $scope.dashboard= copyDash(configuration.getDashboards()[$scope.dashboardId]);
+  constructor($scope,$routeParams,$mdDialog,$location){
+
+    this.$mdDialog= $mdDialog;
+    this.$location= $location;
+
+    if($routeParams.dashboardId=='new'){
+      this.dashboard= new Dashboard("","",[]);
+    }else{
+      this.dashboardId= $routeParams.dashboardId;
+      this.dashboard= copyDash(configuration.getDashboards()[this.dashboardId]);
+    }
+
+    $scope.chartTypes= CHART_TYPES;
   }
 
-  $scope.chartTypes= CHART_TYPES;
-
-  $scope.addChart= function(ev){
-    $mdDialog.show({
+  addChart(ev){
+    this.$mdDialog.show({
       controller: DashContentCtrl,
       templateUrl: 'configure/dashboards/dash-content/dash-content.html',
       targetEvent: ev,
-      locals:{dashboard:$scope.dashboard}
+      locals:{dashboard:this.dashboard}
     });
   };
 
-  $scope.removeChart= function(chart){
-    var charts= $scope.dashboard.charts;
+  removeChart(chart){
+    var charts= this.dashboard.charts;
     var idx= charts.indexOf(chart);
     charts.splice(idx,1);
   };
 
-  $scope.ok= function(){
-    if($scope.dashboardId){
-      configuration.getDashboards()[$scope.dashboardId]= $scope.dashboard;
+  ok(){
+    if(this.dashboardId){
+      configuration.getDashboards()[this.dashboardId]= this.dashboard;
     }else{
-      configuration.getDashboards().push($scope.dashboard);
+      configuration.getDashboards().push(this.dashboard);
     }
-    $location.path("/configure/dashboards");
+    this.$location.path("/configure/dashboards");
   };
 
-  $scope.cancel= function(){
-    $location.path("/configure/dashboards");
+  cancel(){
+    this.$location.path("/configure/dashboards");
   };
 
 }
