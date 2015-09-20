@@ -1,7 +1,7 @@
 /// <reference path="../../typings/d3/d3.d.ts"/>
 
-import {registry,MetricsValue,TYPES} from 'metrics/MetricsRegistry';
-import {Gauge,Meter,Histogram,Timer} from 'metrics/metrics';
+import {registry,MetricsValue,TYPES} from 'core/MetricsRegistry';
+import {Gauge,Meter,Histogram,Timer} from 'core/metrics';
 import {Chart} from 'chart/chart';
 import {Chart as ChartConfig} from 'configure/configuration';
 

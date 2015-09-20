@@ -1,5 +1,5 @@
 import {configuration} from 'configure/configuration';
-import {registry} from 'metrics/MetricsRegistry';
+import {registry} from 'core/MetricsRegistry';
 
 export function ToolbarCtrl($scope,$mdDialog){
 

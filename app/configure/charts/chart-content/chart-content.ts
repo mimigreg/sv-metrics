@@ -1,4 +1,4 @@
-import {registry} from 'metrics/MetricsRegistry';
+import {registry} from 'core/MetricsRegistry';
 import {CHART_TYPE_INFOS} from 'chart/types';
 import {Chart,configuration} from 'configure/configuration';
 

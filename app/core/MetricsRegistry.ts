@@ -1,6 +1,6 @@
 /// <reference path="../../typings/tsd.d.ts" />
 
-import {Metric,Histogram,Gauge,Counter,Timer,Meter} from "metrics/metrics";
+import {Metric,Histogram,Gauge,Counter,Timer,Meter} from "core/metrics";
 
 var MAX_TIMELINE_LENGTH=100;
 
@@ -198,3 +198,5 @@ export class MetricsRegistry{
 
 
 export var registry= new MetricsRegistry();
+
+export {Counter,Gauge,Meter,Histogram,Timer} from "core/metrics";

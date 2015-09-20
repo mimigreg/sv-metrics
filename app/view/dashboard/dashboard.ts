@@ -1,4 +1,4 @@
-import {registry} from 'metrics/MetricsRegistry';
+import {registry} from 'core/MetricsRegistry';
 import {configuration} from 'configure/configuration';
 
 

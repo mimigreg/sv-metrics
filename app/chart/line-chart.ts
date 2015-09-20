@@ -1,6 +1,6 @@
 /// <reference path="../../typings/d3/d3.d.ts"/>
 
-import {registry} from 'metrics/MetricsRegistry';
+import {registry} from 'core/MetricsRegistry';
 import {Chart} from 'chart/chart';
 
 interface LineChartData{

@@ -1,8 +1,8 @@
 {
-    "version": "1.5.0",
+    "version": "1.6.0",
     "compilerOptions": {
         "target": "es5",
-        "module": "commonjs",
+        "module": "system",
         "declaration": false,
         "noImplicitAny": false,
         "removeComments": true,
@@ -36,9 +36,9 @@
         "app/configure/defaults.ts",
         "app/configure/global/global.ts",
         "app/configure/metrics/metrics.ts",
-        "app/metrics/MetricsRegistry.ts",
-        "app/metrics/api.ts",
-        "app/metrics/metrics.ts",
+        "app/core/MetricsRegistry.ts",
+        "app/core/api.ts",
+        "app/core/metrics.ts",
         "app/toolbar/toolbar.ts",
         "app/view/dashboard/dashboard.ts",
         "app/view/metrics/metrics.ts"

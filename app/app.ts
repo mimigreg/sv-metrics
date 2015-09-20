@@ -1,5 +1,5 @@
-import {registry} from 'metrics/MetricsRegistry';
-import {api} from 'metrics/api';
+import {registry} from 'core/MetricsRegistry';
+import {api} from 'core/api';
 import {DashboardController} from 'view/dashboard/dashboard';
 import {configuration,SAVE_ON_FLAG} from 'configure/configuration';
 import {GlobalCfgCtrl} from 'configure/global/global';

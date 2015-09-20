@@ -1,4 +1,4 @@
-import {TYPES} from 'metrics/MetricsRegistry';
+import {TYPES} from 'core/MetricsRegistry';
 
 export const CHART_TYPES={
   LINE: 0,

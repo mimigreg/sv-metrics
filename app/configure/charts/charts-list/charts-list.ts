@@ -1,5 +1,5 @@
 import {configuration} from 'configure/configuration';
-import {registry} from 'metrics/MetricsRegistry';
+import {registry} from 'core/MetricsRegistry';
 import {CHART_TYPE_INFOS} from 'chart/types';
 
 export function ChartsCfgCtrl($scope,$location){
