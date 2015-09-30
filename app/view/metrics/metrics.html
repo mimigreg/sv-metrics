@@ -1,8 +1,36 @@
 
-<md-list>
-      <md-item ng-repeat="id in metrics.metricIds">
-        <div class="md-tile-content">
-          {{id}}: {{registry.getValue(id).value}}
+<md-content layout="column" id="metrics-view" flex>
+<md-virtual-repeat-container id="metrics-view-container" flex>
+  <div md-virtual-repeat="item in metrics" md-on-demand class="repeated-item" md-item-size="44" flex>
+    <div  layout="row" layout-margin  class="md-whiteframe-z1 svm-list-item">
+      <div class="md-tile-left" flex="5" style="min-width:350px">item: {{item.id}}</div>
+      <div ng-if="metrics.isGauge(item)" flex>
+        <div layout="row">
+          <div flex="20"><span class="gauge-type-tag">Gauge</span></div>
+          <div flex="20"><i>{{item.mx.value.value}}</i></div>
         </div>
-      </md-item>
-<md-list>
+      </div>
+      
+      <div ng-if="metrics.isCounter(item)"><span class="counter-type-tag">Counter</span></div>
+      <div ng-if="metrics.isHistogram(item)"><span class="histogram-type-tag">Histogram</span></div>
+      
+      <div ng-if="metrics.isMeter(item)" flex>
+        <div layout="row">
+          <div flex="20"><span class="meter-type-tag">Meter</span></div>
+          <div flex="20"><i>rate: {{item.mx.value.m1_rate | number:3}}</i></div>
+        </div>
+      </div>
+      
+      <div ng-if="metrics.isTimer(item)" flex>
+        <div layout="row">
+          <div flex="20"><span class="timer-type-tag">Timer</span></div>
+          <div flex="20"><i>time: {{item.mx.value.mean | number:3}} {{item.mx.value.duration_units}}</i></div>
+          <div flex="20">rate: {{item.mx.value.m1_rate | number:3}} {{item.mx.value.rate_units}}</div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</md-virtual-repeat-container>
+</md-content>
+

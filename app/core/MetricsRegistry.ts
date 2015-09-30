@@ -41,11 +41,11 @@ export class MetricsValue{
   }
 
   getType():TYPES{
-    if( this.value instanceof Gauge ) return TYPES.GAUGE;
-    if( this.value instanceof Counter ) return TYPES.COUNTER;
-    if( this.value instanceof Histogram ) return TYPES.HISTOGRAM;
-    if( this.value instanceof Timer ) return TYPES.TIMER;
-    if( this.value instanceof Meter ) return TYPES.METER;
+    if( this.value.constructor===Gauge ) return TYPES.GAUGE;
+    if( this.value.constructor===Counter ) return TYPES.COUNTER;
+    if( this.value.constructor===Histogram ) return TYPES.HISTOGRAM;
+    if( this.value.constructor===Timer ) return TYPES.TIMER;
+    if( this.value.constructor===Meter ) return TYPES.METER;
     return TYPES.UNKNOWN;
   }
 }

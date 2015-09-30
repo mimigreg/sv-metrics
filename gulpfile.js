@@ -1,28 +1,15 @@
-var babel = require("gulp-babel");
 var concat = require('gulp-concat');
 var del = require('del');
 var gulp    = require('gulp');
 var jshint = require('gulp-jshint');
 var sourcemaps = require('gulp-sourcemaps');
+var sass = require('gulp-sass');
 var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var webserver = require('gulp-webserver');
 
 var tsProject = ts.createProject('tsconfig.json',{});
 
-gulp.task('babel', function () {
-    return gulp.src(['app/**/*.js'])
-        .pipe(sourcemaps.init())
-        .pipe(babel(
-          {
-            "modules":"system",
-            "blacklist":["es6.forOf","es6.classes","es6.templateLiterals"] // ever green FF,CH
-          }
-        ))
-        //.pipe(concat('all.js'))
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('dist'));
-});
 
 gulp.task('lint', function() {
    return gulp.src('app/**/*.js')
@@ -54,6 +41,10 @@ gulp.task('serve', function() {
     }));
 });
 
+gulp.task('watch', ['ts'], function() {
+    gulp.watch('app/**/*.ts', ['ts']);
+});
+
  gulp.task('ts-lint', function () {
     return gulp.src('app/**/*.ts')
     .pipe(tslint())
@@ -66,6 +57,18 @@ gulp.task('clean-ts', function (cb) {
             'dist/*.js.map'
   ];
   del(files, cb);
+});
+
+gulp.task('sass', function () {
+  gulp.src('./app/**/*.scss')
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('sass:watch', function () {
+  gulp.watch('./app/**/*.scss', ['sass']);
 });
 
 gulp.task('default', ['ts-lint','ts']);

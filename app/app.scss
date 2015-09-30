@@ -85,3 +85,52 @@
 .svm-actions .md-button{
   margin: 1em
 }
+
+/* -------- view/metrics  -----*/
+
+#metrics-view-container {
+  width: 100%; 
+}
+repeated-item {
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  padding-top: 10px; 
+} 
+#metrics-view{
+  margin: 16px; 
+}
+#metrics-view md-virtual-repeat-container {
+  border: solid 1px grey; 
+}
+#metrics-view md-virtual-repeat-container .md-virtual-repeat-offsetter {
+  padding-left: 16px; 
+}
+
+.mx-type-tag{
+  border-radius: 3px;
+  padding: 2px;
+  box-shadow: 0px -2px 0px rgba(0, 0, 0, 0.12) inset;
+  background-color: #E5D5F0;
+  font-size: 11px
+}
+
+.gauge-type-tag{
+  @extend .mx-type-tag;
+  background-color: #E5E5D5;
+}
+.counter-type-tag{
+  @extend .mx-type-tag;
+  background-color: #A5E5D5;
+}
+.histogram-type-tag{
+  @extend .mx-type-tag;
+  background-color: #E5E5A5;
+}
+.meter-type-tag{
+  @extend .mx-type-tag;
+  background-color: #D5E5E5;
+}
+.timer-type-tag{
+  @extend .mx-type-tag;
+  background-color: #E5D5E5;
+}

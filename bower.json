@@ -6,9 +6,9 @@
     "angular-animate": "1.4.5",
     "angular-route": "1.4.5",
     "angular-aria": "1.4.5",
-    "angular-material": "0.11.0",
+    "angular-material": "0.11.1",
     "nvd3": "1.8.1",
-    "es6-module-loader": "0.17.6",
-    "system.js": "0.18.17"
+    "es6-module-loader": "0.17.7",
+    "system.js": "0.19.0"
   }
 }
