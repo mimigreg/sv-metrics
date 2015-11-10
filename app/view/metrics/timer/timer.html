@@ -1,0 +1,86 @@
+ <md-subheader class="md-primary">{{timer.metricId}} (Timer)</md-subheader>
+
+<div layout="row" layout-margin layout-padding>
+	<i>count:</i> {{timer.value.count}}
+</div>
+
+<div layout="row" layout-padding layout-wrap>
+<md-whiteframe class="md-whiteframe-1dp" flex-sm="100" flex-gt-sm="100" flex-gt-md="50" layout layout-align="center center" layout-margin>
+	<table class="mx-values-table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>min</th>
+				<th>max</th>
+				<th>mean</th>
+				<th>stddev</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>Response Time <span ng-if="timer.value.duration_units">({{timer.value.duration_units}})</span></th>
+				<td>{{timer.value.min|number:3}}</td>
+				<td>{{timer.value.max|number:3}}</td>
+				<td>{{timer.value.mean|number:3}}</td>
+				<td>{{timer.value.stddev|number:3}}</td>
+			</tr>
+		</tbody>
+	</table>
+</md-whiteframe>
+	
+<md-whiteframe class="md-whiteframe-1dp" flex-sm="100" flex-gt-sm="100" flex-gt-md="45" layout layout-align="center center" layout-margin>
+	<table class="mx-values-table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>1 minute</th>
+				<th>5 minute</th>
+				<th>15 minute</th>
+				<th>mean</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>Rate <span ng-if="timer.value.rate_units">({{timer.value.rate_units}})</span></th>
+				<td>{{timer.value.m1_rate|number:3}}</td>
+				<td>{{timer.value.m5_rate|number:3}}</td>
+				<td>{{timer.value.m15_rate|number:3}}</td>
+				<td>{{timer.value.mean_rate|number:3}}</td>
+			</tr>
+		</tbody>
+	</table>
+</md-whiteframe>
+
+<md-whiteframe class="md-whiteframe-1dp" flex-sm="100" flex-gt-sm="100" flex-gt-md="50" layout layout-align="center center" layout-margin>
+	<table class="mx-values-table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>50</th>
+				<th>75</th>
+				<th>95</th>
+				<th>98</th>
+				<th>99</th>
+				<th>999</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>Percentiles</th>
+				<td>{{timer.value.p50|number:3}}</td>
+				<td>{{timer.value.p75|number:3}}</td>
+				<td>{{timer.value.p95|number:3}}</td>
+				<td>{{timer.value.p98|number:3}}</td>
+				<td>{{timer.value.p99|number:3}}</td>
+				<td>{{timer.value.p999|number:3}}</td>
+			</tr>
+		</tbody>
+	</table>
+</md-whiteframe>
+</div>
+
+<div layout="row" layout-margin></div>
+
+<div layout="row" layout-margin>
+
+</div>

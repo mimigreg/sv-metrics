@@ -36,11 +36,15 @@
         "app/configure/defaults.ts",
         "app/configure/global/global.ts",
         "app/configure/metrics/metrics.ts",
-        "app/core/MetricsRegistry.ts",
         "app/core/api.ts",
         "app/core/metrics.ts",
+        "app/core/MetricsRegistry.ts",
         "app/toolbar/toolbar.ts",
         "app/view/dashboard/dashboard.ts",
-        "app/view/metrics/metrics.ts"
-    ]
+        "app/view/metrics/metrics.ts",
+        "app/view/metrics/gauge/gauge.ts",
+        "app/view/metrics/meter/meter.ts",
+        "app/view/metrics/timer/timer.ts"
+    ],
+    "exclude": []
 }

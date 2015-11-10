@@ -27,7 +27,7 @@ gulp.task('ts', ['clean-ts'], function() {
       .pipe(gulp.dest('dist'));
 });
 
-gulp.task('serve', function() {
+gulp.task('serve', ['watch'], function() {
 
   var mockMiddleware= require('./test/mock-middleware'); // it is here because blocking (setInterval in Meters)
 
@@ -42,7 +42,8 @@ gulp.task('serve', function() {
 });
 
 gulp.task('watch', ['ts'], function() {
-    gulp.watch('app/**/*.ts', ['ts']);
+  gulp.watch('app/**/*.ts', ['ts']);
+  gulp.watch('./app/**/*.scss', ['sass']);
 });
 
  gulp.task('ts-lint', function () {
@@ -65,10 +66,6 @@ gulp.task('sass', function () {
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('sass:watch', function () {
-  gulp.watch('./app/**/*.scss', ['sass']);
 });
 
 gulp.task('default', ['ts-lint','ts']);

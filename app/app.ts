@@ -11,6 +11,9 @@ import {MetricsCfgCtrl} from 'configure/metrics/metrics';
 import {MetricsViewCtrl} from 'view/metrics/metrics';
 import {ToolbarCtrl} from 'toolbar/toolbar';
 import 'chart/chart-directives';
+import {GaugeController} from 'view/metrics/gauge/gauge';
+import {MeterController} from 'view/metrics/meter/meter';
+import {TimerController} from 'view/metrics/timer/timer';
 
 export var app= angular.module('sv-metrics', ['ngMaterial','sv-metrics.charts','ngRoute']);
 app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
@@ -36,6 +39,21 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
     .when('/configure', {
         templateUrl: 'configure/global/global.html',
         controller: GlobalCfgCtrl
+    })
+    .when('/view/metrics/gauge/:metricId', {
+      templateUrl: 'view/metrics/gauge/gauge.html',
+      controller: GaugeController,
+      controllerAs: 'gauge'
+    })
+    .when('/view/metrics/meter/:metricId', {
+      templateUrl: 'view/metrics/meter/meter.html',
+      controller: MeterController,
+      controllerAs: 'meter'
+    })
+    .when('/view/metrics/timer/:metricId', {
+      templateUrl: 'view/metrics/timer/timer.html',
+      controller: TimerController,
+      controllerAs: 'timer'
     })
     .when('/configure/dashboards', {
       templateUrl: 'configure/dashboards/dash-list/dash-list.html',

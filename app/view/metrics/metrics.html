@@ -1,7 +1,7 @@
 
 <md-content layout="column" id="metrics-view" flex>
 <md-virtual-repeat-container id="metrics-view-container" flex>
-  <div md-virtual-repeat="item in metrics" md-on-demand class="repeated-item" md-item-size="44" flex>
+  <div md-virtual-repeat="item in metrics" md-on-demand class="repeated-item" md-item-size="44" ng-click="metrics.view(item)" flex>
     <div  layout="row" layout-margin  class="md-whiteframe-z1 svm-list-item">
       <div class="md-tile-left" flex="5" style="min-width:350px">item: {{item.id}}</div>
       <div ng-if="metrics.isGauge(item)" flex>

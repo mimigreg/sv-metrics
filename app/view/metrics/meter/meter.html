@@ -1,0 +1,28 @@
+<md-subheader class="md-primary">{{meter.metricId}} (Meter)</md-subheader>
+
+<div layout="row" layout-margin layout-padding>
+	<i>count:</i> {{meter.value.count}}
+</div>
+	
+<md-whiteframe class="md-whiteframe-1dp" flex-sm="100" flex-gt-sm="100" flex-gt-md="45" layout layout-align="center center" layout-margin>
+	<table class="mx-values-table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>1 minute</th>
+				<th>5 minute</th>
+				<th>15 minute</th>
+				<th>mean</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>Rate <span ng-if="timer.value.rate_units">({{timer.value.rate_units}})</span></th>
+				<td>{{meter.value.m1_rate|number:3}}</td>
+				<td>{{meter.value.m5_rate|number:3}}</td>
+				<td>{{meter.value.m15_rate|number:3}}</td>
+				<td>{{meter.value.mean_rate|number:3}}</td>
+			</tr>
+		</tbody>
+	</table>
+</md-whiteframe>

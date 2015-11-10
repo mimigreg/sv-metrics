@@ -134,3 +134,23 @@ repeated-item {
   @extend .mx-type-tag;
   background-color: #E5D5E5;
 }
+
+/* - - - - - table - - - - - */
+
+
+table.mx-values-table{
+		width: 100%;
+		table-layout:fixed;
+		text-align: center;
+		border-spacing: 5px;
+		border-collapse: collapse;
+}
+table.mx-values-table > thead > tr{
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #555;
+		background-color: #F3F3F3;
+}
+table.mx-values-table tr, table.mx-values-table th{
+		padding: 6px;
+}
