@@ -57,7 +57,7 @@ gulp.task('clean-ts', function (cb) {
             'dist/**/*.js',
             'dist/*.js.map'
   ];
-  del(files, cb);
+  return del(files, cb);
 });
 
 gulp.task('sass', function () {

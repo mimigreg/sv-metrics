@@ -9,16 +9,25 @@
     "url": "git://github.com/mduriancik/c-metrics.git"
   },
   "license": "Apache License 2.0",
+  "dependencies": {
+    "angular": "1.4.7",
+    "angular-animate": "1.4.7",
+    "angular-route": "1.4.7",
+    "angular-aria": "1.4.7",
+    "angular-material": "0.11.4",
+    "nvd3": "1.8.1",
+    "es6-module-loader": "0.17.8",
+    "systemjs": "0.19.5"
+  },
   "devDependencies": {
-    "del": "1.2.1",
+    "del": "2.1.0",
     "gulp": "3.9.0",
-    "gulp-concat": "2.5.2",
-    "gulp-jshint": "1.11.2",
-    "gulp-sass": "^2.0.4",
-    "gulp-sourcemaps": "1.5.2",
-    "gulp-tslint": "3.2.0",
-    "gulp-typescript": "2.9.0",
+    "gulp-concat": "2.6.0",
+    "gulp-sass": "2.1.0",
+    "gulp-sourcemaps": "1.6.0",
+    "gulp-tslint": "3.6.0",
+    "gulp-typescript": "2.9.2",
     "gulp-webserver": "0.9.1",
-    "measured": "1.0.0"
+    "measured": "1.0.2"
   }
 }
