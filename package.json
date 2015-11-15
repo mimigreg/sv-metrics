@@ -28,6 +28,8 @@
     "gulp-tslint": "3.6.0",
     "gulp-typescript": "2.9.2",
     "gulp-webserver": "0.9.1",
-    "measured": "1.0.2"
+    "measured": "1.0.2",
+    "tslint": "^3.0.0",
+    "typescript": "^1.6.2"
   }
 }

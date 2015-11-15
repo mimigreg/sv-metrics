@@ -4,16 +4,16 @@ import {Chart} from 'chart/chart';
 import {registry} from 'core/MetricsRegistry';
 import {Meter} from 'core/metrics';
 
-interface BulletData{
-  metricId:string,
-  title:string,
-  subtitle:string,
-  rangeLabels:string[],
-  measureLabels:string[],
-  markerLabels:string[],
-  ranges:number[],
-  markers:number[],
-  measures:number[]
+interface BulletData {
+  metricId: string;
+  title: string;
+  subtitle: string;
+  rangeLabels: string[];
+  measureLabels: string[];
+  markerLabels: string[];
+  ranges: number[];
+  markers: number[];
+  measures: number[];
 }
 
 // BulletChart
@@ -26,9 +26,9 @@ export class BulletChart extends Chart{
   vis: any;
 
   /** */
-  constructor(chartId,config){
+  constructor(chartId, config){
 
-    super(chartId,config);
+    super(chartId, config);
 
     var self= this;
 
@@ -37,28 +37,28 @@ export class BulletChart extends Chart{
       self.data.push({
         title: s.name,
         subtitle: '(rq/sec)',
-        rangeLabels: ['15 min Rate','Mean Rate','5min Rate'],
+        rangeLabels: ['15 min Rate', 'Mean Rate', '5min Rate'],
         measureLabels:['Current Rate'],
         markerLabels:['Previous Current Rate'],
         metricId: s.metricId,
-        ranges:[0,0,0],
-        markers:[0],
-        measures:[0]
+        ranges: [0, 0, 0],
+        markers: [0],
+        measures: [0]
       });
     }
     this.updateData();
 
     nv.addGraph(function(){
 
-        var width=500,height=100;
-        var margin={right:10,left:10,top:10,bottom:10};
+        var width = 500, height = 100;
+        var margin = {right: 10, left: 10, top: 10, bottom: 10};
 
         self.chart = nv.models.bulletChart()
               .width(width - margin.right - margin.left)
               .height(height - margin.top - margin.bottom);
 
         self.vis= d3.select('[data-chartid=' + chartId + ']').selectAll("svg")
-        //var vis = d3.select("#chart").selectAll("svg")
+        // var vis = d3.select("#chart").selectAll("svg")
               .data(self.data)
               .enter().append("svg")
               .attr("class", "bullet nvd3")
@@ -74,7 +74,7 @@ export class BulletChart extends Chart{
     });
   }
 
-  updateData(){
+  public updateData(){
       for(let m of this.data){
           var mxVal= registry.getValue(m.metricId);
           if(mxVal && mxVal.value){
@@ -88,11 +88,11 @@ export class BulletChart extends Chart{
 
   }
 
-  update(){
-      //this.data[0].markers[0]=200;
+  public update(){
+      // this.data[0].markers[0]=200;
       this.updateData();
       this.vis.data(this.data).transition().duration(250).call(this.chart);
-      //this.chart.update();
+      // this.chart.update();
   }
 
 }

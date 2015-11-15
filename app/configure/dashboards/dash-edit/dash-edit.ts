@@ -4,62 +4,62 @@ import {CHART_TYPES} from 'chart/types';
 
 
 /** Shallow copy */
-function copyDash(dash:Dashboard):Dashboard{
-  return new Dashboard(dash.name,dash.desc,
-    dash.charts.map(ch=>ch)
+function copyDash(dash: Dashboard): Dashboard {
+  return new Dashboard(dash.name, dash.desc,
+    dash.charts.map(ch => ch)
   );
 }
 
-export class DashEditCtrl{
+export class DashEditCtrl {
 
-  dashboard:Dashboard;
-  dashboardId:string;
+  private dashboard: Dashboard;
+  private dashboardId: string;
 
-  $mdDialog: any;
-  $location: any;
+  private $mdDialog: any;
+  private $location: any;
 
 
-  constructor($scope,$routeParams,$mdDialog,$location){
+  constructor($scope, $routeParams, $mdDialog, $location){
 
-    this.$mdDialog= $mdDialog;
-    this.$location= $location;
+    this.$mdDialog = $mdDialog;
+    this.$location = $location;
 
-    if($routeParams.dashboardId=='new'){
-      this.dashboard= new Dashboard("","",[]);
+    if($routeParams.dashboardId === 'new'){
+      this.dashboard = new Dashboard('', '', []);
     }else{
-      this.dashboardId= $routeParams.dashboardId;
-      this.dashboard= copyDash(configuration.getDashboards()[this.dashboardId]);
+      this.dashboardId = $routeParams.dashboardId;
+      this.dashboard = copyDash(configuration.getDashboards()[this.dashboardId]);
     }
 
-    $scope.chartTypes= CHART_TYPES;
+    $scope.chartTypes = CHART_TYPES;
   }
 
-  addChart(ev){
+  public addChart(ev): void{
     this.$mdDialog.show({
       controller: DashContentCtrl,
       templateUrl: 'configure/dashboards/dash-content/dash-content.html',
       targetEvent: ev,
-      locals:{dashboard:this.dashboard}
+      locals: {dashboard:this.dashboard}
     });
   };
 
-  removeChart(chart){
-    var charts= this.dashboard.charts;
-    var idx= charts.indexOf(chart);
-    charts.splice(idx,1);
+  public removeChart(chart): void{
+    let charts = this.dashboard.charts;
+    let idx = charts.indexOf(chart);
+    charts.splice(idx, 1);
   };
 
-  ok(){
+  public ok(): void{
     if(this.dashboardId){
-      configuration.getDashboards()[this.dashboardId]= this.dashboard;
+      configuration.getDashboards()[this.dashboardId] = this.dashboard;
     }else{
       configuration.getDashboards().push(this.dashboard);
     }
-    this.$location.path("/configure/dashboards");
+    this.$location.path('/configure/dashboards');
   };
 
-  cancel(){
-    this.$location.path("/configure/dashboards");
+  public cancel(): void{
+    this.$location.path('/configure/dashboards');
   };
 
 }

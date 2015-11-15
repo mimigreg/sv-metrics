@@ -1,17 +1,19 @@
 import {configuration} from 'configure/configuration';
 
-export function DashListCtrl($scope,$location){
+export function DashListCtrl($scope, $location): void {
 
-      $scope.configuration= configuration.getConfiguration();
+      'use strict';
 
-      $scope.add= function(){
+      $scope.configuration = configuration.getConfiguration();
 
-        $location.path("/configure/dashboards/new");
+      $scope.add = function(){
+
+        $location.path('/configure/dashboards/new');
       };
 
-      $scope.remove= function(dashIdx){
-        var dashboards= configuration.getDashboards();
-        dashboards.splice(dashIdx,1);
+      $scope.remove = function(dashIdx){
+        let dashboards = configuration.getDashboards();
+        dashboards.splice(dashIdx, 1);
         configuration.toBeSaved();
       };
 

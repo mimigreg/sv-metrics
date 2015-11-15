@@ -24,21 +24,21 @@ export class HistogramChart extends Chart{
 
 
     // count,max,mean,median,min,p75,p95,p99,p999,stddev,sum,variance
-    this.data= [
+    this.data = [
       {
-        key:"xx",
-      values:[
-        {label:'mean', value:0},
-        {label:'median', value:0},
-        {label:'p75',  value:0},
-        {label:'p95',  value:0},
-        {label:'p99',  value:0},
-        {label:'p999', value:0}
+        key: 'xx',
+      values: [
+        {label: 'mean', value: 0},
+        {label: 'median', value: 0},
+        {label: 'p75',  value: 0},
+        {label: 'p95',  value: 0},
+        {label: 'p99',  value: 0},
+        {label: 'p999', value: 0}
       ]}
     ];
     this.updateData();
 
-    var self= this;
+    var self = this;
 
     nv.addGraph(function(){
 
@@ -48,7 +48,7 @@ export class HistogramChart extends Chart{
                     return d.value;
                   })
                   .staggerLabels(true)
-                  //.staggerLabels(historicalBarChart[0].values.length > 8)
+                  // .staggerLabels(historicalBarChart[0].values.length > 8)
                   .showValues(true)
                   .duration(250);
 
@@ -62,22 +62,22 @@ export class HistogramChart extends Chart{
     });
   }
 
-  updateData(){
+  public updateData(): void {
 
-          var val= registry.getValue(this.config.series[0].metricId);
+          let val = registry.getValue(this.config.series[0].metricId);
           if(val && val.value){
-              var v:Histogram = <Histogram>val.value;
-              this.data[0].values[0].value= v.mean;
-              this.data[0].values[1].value= v.median;
-              this.data[0].values[2].value= v.p75;
-              this.data[0].values[3].value= v.p95;
-              this.data[0].values[4].value= v.p99;
-              this.data[0].values[5].value= v.p999;
+              let v:Histogram = <Histogram>val.value;
+              this.data[0].values[0].value = v.mean;
+              this.data[0].values[1].value = v.median;
+              this.data[0].values[2].value = v.p75;
+              this.data[0].values[3].value = v.p95;
+              this.data[0].values[4].value = v.p99;
+              this.data[0].values[5].value = v.p999;
           }
 
   }
 
-  update(){
+  public update(): void {
       this.updateData();
       this.chart.update();
   }

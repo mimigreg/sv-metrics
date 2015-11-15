@@ -1,13 +1,16 @@
 /// <reference path="../../typings/d3/d3.d.ts"/>
+
+/* tslint:disable */
+
 declare module nvd3{
 
   interface Tooltip{
-		enabled(b:boolean):void;
+		enabled(b: boolean): void;
 	}
 
 	interface Chart{
-		(transition:any,...args:any[]):any, // (transition: Transition<Datum>, ...args: any[]) => any
-		tooltip:Tooltip
+		(transition: any, ...args: any[]): any, // (transition: Transition<Datum>, ...args: any[]) => any
+		tooltip: Tooltip
 	}
 
 	interface Axis{

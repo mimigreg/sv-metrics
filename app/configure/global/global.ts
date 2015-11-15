@@ -1,47 +1,47 @@
-import {configuration,SAVE_ON_FLAG} from 'configure/configuration';
+import {configuration, SAVE_ON_FLAG} from 'configure/configuration';
 
-export function GlobalCfgCtrl($scope,$mdDialog){
+export function GlobalCfgCtrl($scope, $mdDialog) {
 
-    $scope.configuration= configuration.getConfiguration();
-    $scope.SAVE_ON_FLAG= SAVE_ON_FLAG;
+    $scope.configuration = configuration.getConfiguration();
+    $scope.SAVE_ON_FLAG = SAVE_ON_FLAG;
 
-    $scope.exportURL= undefined; // import config. blob URL
+    $scope.exportURL = undefined; // import config. blob URL
 
-    $scope.save= function(){
+    $scope.save = function(){
       configuration.save();
     };
 
-    $scope.restore= function(){
+    $scope.restore = function(){
       configuration.restore();
     };
 
-    $scope.default= function(){
+    $scope.default = function(){
       configuration.restoreDefault();
-      $scope.configuration= configuration.getConfiguration();
+      $scope.configuration = configuration.getConfiguration();
     };
 
-    $scope.export= function(){
+    $scope.export = function(){
       if($scope.exportURL){
         URL.revokeObjectURL($scope.exportURL);
       }
-      var cfg= JSON.stringify(configuration.getConfiguration());
-      var blob = new Blob([cfg],{type:'application/json'});
+      var cfg = JSON.stringify(configuration.getConfiguration());
+      var blob = new Blob([cfg], {type: 'application/json'});
       $scope.exportURL = URL.createObjectURL(blob);
-      var a:HTMLAnchorElement= <HTMLAnchorElement>document.querySelector('#export-config-link');
-      a.href= $scope.exportURL;
+      var a: HTMLAnchorElement = <HTMLAnchorElement>document.querySelector('#export-config-link');
+      a.href = $scope.exportURL;
       a.click();
     };
 
 
     function addImportOnChange(){
-      var importInput:HTMLInputElement= <HTMLInputElement>document.querySelector('#import-config-input');
-      importInput.onchange= function(evt:any){
+      var importInput: HTMLInputElement = <HTMLInputElement>document.querySelector('#import-config-input');
+      importInput.onchange= function(evt: any){
         var files = evt.target.files;
-        var file= files[0];
+        var file = files[0];
         var reader = new FileReader();
-        reader.onload= function(evt:any){
+        reader.onload= function(evt: any){
           try{
-            var cfg= evt.target.result;
+            var cfg = evt.target.result;
             configuration.restore(cfg);
             $mdDialog.show(
               $mdDialog.alert()
@@ -50,7 +50,7 @@ export function GlobalCfgCtrl($scope,$mdDialog){
                 .content('Configuration imported!')
                 .ariaLabel('Import OK')
                 .ok('OK')
-                //.targetEvent(evt)
+                // .targetEvent(evt)
             );
           }catch(err){
             console.error(err);
@@ -61,24 +61,22 @@ export function GlobalCfgCtrl($scope,$mdDialog){
                 .content('Configuration import error!')
                 .ariaLabel('Import Error')
                 .ok('OK')
-                //.targetEvent(evt)
+                // .targetEvent(evt)
             );
           }
         };
-        //var content=
-        reader.readAsText(file,'UTF-8');
-        //console.log(content);
+        reader.readAsText(file, 'UTF-8');
       };
       return importInput;
     }
 
-    $scope.importInput= addImportOnChange();
+    $scope.importInput = addImportOnChange();
 
-    $scope.import= function(clickEvt){
+    $scope.import = function(clickEvt){
       $scope.importInput.click();
     };
 
-    $scope.$destroy= function(){
+    $scope.$destroy = function(){
       if($scope.form.$dirty){
         configuration.toBeSaved();
       }

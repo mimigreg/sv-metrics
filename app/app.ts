@@ -15,10 +15,10 @@ import {GaugeController} from 'view/metrics/gauge/gauge';
 import {MeterController} from 'view/metrics/meter/meter';
 import {TimerController} from 'view/metrics/timer/timer';
 
-export var app= angular.module('sv-metrics', ['ngMaterial','sv-metrics.charts','ngRoute']);
-app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
+export var app = angular.module('sv-metrics', ['ngMaterial', 'sv-metrics.charts', 'ngRoute']);
+app.config(function($routeProvider, $locationProvider, $mdThemingProvider) {
 
-   $mdThemingProvider.theme('default')
+  $mdThemingProvider.theme('default')
     .primaryPalette('deep-orange')
     .accentPalette('orange');
 
@@ -76,28 +76,28 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
       templateUrl: 'configure/metrics/metrics.html',
       controller: MetricsCfgCtrl
     })
-    .otherwise("/view");
+    .otherwise('/view');
 
-}).run(function($timeout,$http){
+}).run(function($timeout, $http){
 
-    var conf= configuration.getConfiguration();
+    var conf = configuration.getConfiguration();
 
     function getAndScheduelMetricsUpdate(){
 
       if(!conf.metricsFetch){
-        $timeout(getAndScheduelMetricsUpdate, conf.metricsInterval*1000);
+        $timeout(getAndScheduelMetricsUpdate, conf.metricsInterval * 1000);
         return;
       }
 
       $http.get(conf.metricsUrl).success(
         function(data){
           registry.update(data);
-          $timeout(getAndScheduelMetricsUpdate, conf.metricsInterval*1000);
+          $timeout(getAndScheduelMetricsUpdate, conf.metricsInterval * 1000);
         }
       ).error(
         function(e){
           console.error(e);
-          $timeout(getAndScheduelMetricsUpdate, conf.metricsInterval*1000); // TODO: toast?, metricsInterval or failover interval?
+          $timeout(getAndScheduelMetricsUpdate, conf.metricsInterval * 1000); // TODO: toast?, metricsInterval or failover interval?
         }
       );
 
@@ -105,31 +105,27 @@ app.config(function($routeProvider, $locationProvider,$mdThemingProvider) {
 
     getAndScheduelMetricsUpdate();
 
-}).controller("MainCtrl",function MainCtrl($scope,$mdSidenav,$location){
+}).controller('MainCtrl', function MainCtrl($scope, $mdSidenav, $location){
 
       $scope.toggleSideNav = function() {
-        //$mdSidenav('side-nav').toggle();
-        $scope.showSideNav= ! $scope.showSideNav;
+        $scope.showSideNav = ! $scope.showSideNav;
       };
 
-      //$mdSidenav('side-nav').toggle();
-      $scope.showSideNav= true;
+      $scope.showSideNav = true;
 
-      $scope.registry= registry;
+      $scope.registry = registry;
 
-     // $scope.$route = $route;
      $scope.$location = $location;
-     // $scope.$routeParams = $routeParams;
 
-     $scope.configuration= configuration.getConfiguration();
+     $scope.configuration = configuration.getConfiguration();
 
-     window.addEventListener('beforeunload',function(){
-       if( $scope.configuration.saveOn===SAVE_ON_FLAG.ON_EXIT){
+     window.addEventListener('beforeunload', function(){
+       if( $scope.configuration.saveOn === SAVE_ON_FLAG.ON_EXIT){
          configuration.save();
        }
        return null;
      });
 
 })
-.controller("DashboardController",DashboardController)
-.controller("ToolbarCtrl",ToolbarCtrl);
+.controller('DashboardController', DashboardController)
+.controller('ToolbarCtrl', ToolbarCtrl);

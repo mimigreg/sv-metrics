@@ -18,16 +18,16 @@ export class LineChart extends Chart{
 
     super(chartId,config);
 
-    var self= this;
+    var self = this;
 
-    this.data= [];
+    this.data = [];
 
     for(var s of this.config.series){
 
-        var val= registry.getValue(s.metricId);
+        var val = registry.getValue(s.metricId);
         this.data.push(
           {
-                key:s.name,
+                key: s.name,
                 metricId: s.metricId,
                 values: val ? val.timeline.timeline : []
           }
@@ -38,8 +38,8 @@ export class LineChart extends Chart{
     nv.addGraph(function(){
 
           var chart = nv.models.lineChart()
-                        //.width(scope.width)
-                        //.height(scope.height)
+                        // .width(scope.width)
+                        // .height(scope.height)
                         .margin({left: 60, top: 50, bottom: 50, right: 50})
                         .x(function(d){
                           return d.date;
@@ -49,10 +49,10 @@ export class LineChart extends Chart{
                         })
                         .forceX([]) // List of numbers to Force into the X scale (ie. 0, or a max / min, etc.)
                         .forceY([0]) // List of numbers to Force into the Y scale
-                        //.size(100) // point size
-                        //.forceSize([]) // List of numbers to Force into the Size scale
+                        // .size(100) // point size
+                        // .forceSize([]) // List of numbers to Force into the Size scale
                         .showLegend(false)
-                        //.showControls(attrs.showcontrols === undefined ? false : (attrs.showcontrols === 'true'))
+                        // .showControls(attrs.showcontrols === undefined ? false : (attrs.showcontrols === 'true'))
                         .showXAxis(true).showYAxis(true)
                         .noData('No Data Available.')
                         .interactive(true)
@@ -102,12 +102,12 @@ export class LineChart extends Chart{
       });
   }
 
-  update(){
+  public update(): void{
 
       for(var s of this.data){
         var val= registry.getValue(s.metricId);
-        if(val && s.values!==val.timeline.timeline){
-          s.values= val.timeline.timeline;
+        if(val && s.values !== val.timeline.timeline){
+          s.values = val.timeline.timeline;
         }
       }
 

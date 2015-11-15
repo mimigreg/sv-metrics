@@ -1,7 +1,6 @@
 var concat = require('gulp-concat');
 var del = require('del');
 var gulp    = require('gulp');
-var jshint = require('gulp-jshint');
 var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 var ts = require('gulp-typescript');
@@ -9,13 +8,6 @@ var tslint = require('gulp-tslint');
 var webserver = require('gulp-webserver');
 
 var tsProject = ts.createProject('tsconfig.json',{});
-
-
-gulp.task('lint', function() {
-   return gulp.src('app/**/*.js')
-     .pipe(jshint())
-     .pipe(jshint.reporter('default'));
- });
 
 gulp.task('ts', ['clean-ts'], function() {
     var tsResult = tsProject.src()
@@ -35,7 +27,7 @@ gulp.task('serve', ['watch'], function() {
     .pipe(webserver({
       livereload: false,
       directoryListing: true,
-      open: false,
+      open: 'http://localhost:8000/app/index.html',
       port: 8000,
       middleware: mockMiddleware
     }));

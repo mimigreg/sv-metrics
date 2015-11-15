@@ -1,18 +1,19 @@
 import {configuration} from 'configure/configuration';
-import {registry} from 'core/MetricsRegistry';
 import {CHART_TYPE_INFOS} from 'chart/types';
 
-export function ChartsCfgCtrl($scope,$location){
+export function ChartsCfgCtrl($scope, $location): void {
 
-      $scope.configuration= configuration.getConfiguration();
-      $scope.charts= configuration.getCharts();
-      $scope.chartTypeInfos= CHART_TYPE_INFOS;
+      'use strict';
 
-      $scope.add= function(){
-        $location.path("/configure/charts/new");
+      $scope.configuration = configuration.getConfiguration();
+      $scope.charts = configuration.getCharts();
+      $scope.chartTypeInfos = CHART_TYPE_INFOS;
+
+      $scope.add = function(){
+        $location.path('/configure/charts/new');
       };
 
-      $scope.remove= function(chartIdx){
+      $scope.remove = function(chartIdx){
         configuration.removeChart(chartIdx);
       };
 

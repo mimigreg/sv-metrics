@@ -1,17 +1,17 @@
-import {configuration,Dashboard} from 'configure/configuration';
+import {configuration, Dashboard} from 'configure/configuration';
 
 
 export function DashContentCtrl($scope, $mdDialog, dashboard){
 
-  $scope.chartsWrapper= configuration.getCharts().map(
+  $scope.chartsWrapper = configuration.getCharts().map(
     function(ch){
-      return { chart:ch, inDash:dashboard.charts.some(e=>ch===e) };
+      return { chart: ch, inDash: dashboard.charts.some(e => ch === e) };
     }
   );
 
   $scope.ok = function(chartsWrapper) {
     $mdDialog.hide();
-    dashboard.charts= [];
+    dashboard.charts = [];
     for(var w of chartsWrapper){
       if(w.inDash){
         dashboard.charts.push(w.chart);
@@ -25,13 +25,11 @@ export function DashContentCtrl($scope, $mdDialog, dashboard){
 }
 
 /** Shallow copy */
-function copyDash(dash:Dashboard):Dashboard{
+function copyDash(dash: Dashboard): Dashboard{
 
-  var cp=new Dashboard(dash.name,dash.desc,
-    dash.charts.map(ch=>ch)
+  var cp = new Dashboard(dash.name, dash.desc,
+    dash.charts.map(ch => ch)
   );
-
-  //for(var ch of dash.charts){  cp.charts.push(ch);  }
 
   return cp;
 }

@@ -1,3 +1,4 @@
+/* tslint:disable */
 export var METRICS_MOCK=[
 {
   "version":"3.0.0",

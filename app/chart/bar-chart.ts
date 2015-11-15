@@ -8,31 +8,31 @@ import {Chart as ChartConfig} from 'configure/configuration';
 // https://github.com/Microsoft/TypeScript/commit/a4a1a51db6968bd13c8be02af4900083b2f0584c
 
 interface BarChartData {
-  key:string,
-  metricId:string,
-  values:{date:Date,value:number}[]
+  key: string;
+  metricId: string;
+  values: {date: Date, value: number}[];
 }
 
-export class BarChart extends Chart{
+export class BarChart extends Chart {
 
-  data: BarChartData[];
+  public data: BarChartData[];
 
   /** */
-  constructor(chartId:string, config:ChartConfig){
+  constructor(chartId: string, config: ChartConfig) {
 
-    super(chartId,config);
+    super(chartId, config);
 
-    var self= this;
+    var self = this;
 
-    this.data= [];
+    this.data = [];
 
 
     for(var s of this.config.series){
 
-        var val= registry.getValue(s.metricId);
+        let val = registry.getValue(s.metricId);
         this.data.push(
           {
-                key:s.name,
+                key: s.name,
                 metricId: s.metricId,
                 values: val ? val.timeline.timeline : []
           }
@@ -43,31 +43,31 @@ export class BarChart extends Chart{
     nv.addGraph(function(){
 
           var chart = nv.models.multiBarChart()
-                        //.width(scope.width)
-                        //.height(scope.height)
+                        // .width(scope.width)
+                        // .height(scope.height)
                         .margin({left: 60, top: 50, bottom: 50, right: 50})
                         .x(function(d){ return d.date; })
                         .y(function(d){ return d.value; })
-                        //.forceX([]) // List of numbers to Force into the X scale (ie. 0, or a max / min, etc.)
-                        //.forceY([0]) // List of numbers to Force into the Y scale
-                        //.size(100) // point size
-                        //.forceSize([]) // List of numbers to Force into the Size scale
-                        //.showLegend(false)
-                        //.showControls(attrs.showcontrols === undefined ? false : (attrs.showcontrols === 'true'))
+                        // .forceX([]) // List of numbers to Force into the X scale (ie. 0, or a max / min, etc.)
+                        // .forceY([0]) // List of numbers to Force into the Y scale
+                        // .size(100) // point size
+                        // .forceSize([]) // List of numbers to Force into the Size scale
+                        // .showLegend(false)
+                        // .showControls(attrs.showcontrols === undefined ? false : (attrs.showcontrols === 'true'))
                         .showXAxis(true).showYAxis(true)
-                        //.noData('No Data Available.')
-                        //.interactive(true)
+                        // .noData('No Data Available.')
+                        // .interactive(true)
                         .clipEdge(false)
                         .color(nv.utils.defaultColor());
 
 
           chart.tooltip.enabled(true);
-          //chart.useInteractiveGuideline(false);
+          // chart.useInteractiveGuideline(false);
 
-          //chart.useVoronoi(false); // bug: https://github.com/novus/nvd3/issues/402
+          // chart.useVoronoi(false); // bug: https://github.com/novus/nvd3/issues/402
 
 
-                    //chart.style();    //stack, stream, stream-center, expand
+                    // chart.style();    //stack, stream, stream-center, expand
 
                     // chart.order(attrs.order);
                     // chart.offset(attrs.offset);       //zero, wiggle, silhouette, expand
@@ -82,16 +82,16 @@ export class BarChart extends Chart{
 
 
           chart.xAxis.tickFormat(function(d) {
-                  return d3.time.format("%H:%M:%S")(new Date(d));
+                  return d3.time.format('%H:%M:%S')(new Date(d));
           });
 
           chart.yAxis
-                  //.axisLabel('Voltage (v)')
+                  // .axisLabel('Voltage (v)')
                   .tickFormat(d3.format('>.3r'));
 
           d3.select('[data-chartid=' + chartId + ']').append('svg')
-                //.attr('height', scope.height)
-                //.attr('width', scope.width)
+                // .attr('height', scope.height)
+                // .attr('width', scope.width)
                 .datum(self.data)
                 .transition().duration(250)
                 .call(chart);
@@ -103,12 +103,12 @@ export class BarChart extends Chart{
       });
   }
 
-  update(){
+  public update(): void {
 
-      for(var d of this.data){
-        var val= registry.getValue(d.metricId);
-        if(val && d.values!==val.timeline.timeline){
-          d.values= val.timeline.timeline;
+      for (let d of this.data){
+        let val = registry.getValue(d.metricId);
+        if (val && d.values !== val.timeline.timeline) {
+          d.values = val.timeline.timeline;
         }
       }
 

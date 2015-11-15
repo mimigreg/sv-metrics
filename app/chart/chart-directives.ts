@@ -10,7 +10,7 @@ import {CHART_TYPES} from 'chart/types';
 angular.module('sv-metrics.charts', [])
 .directive('svmChart', [function(){
 
-  var maxChartId= 0;
+  let maxChartId: number = 0;
 
   return {
 
@@ -20,40 +20,39 @@ angular.module('sv-metrics.charts', [])
             config: '='
         },
 
-        controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs){
+        controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
 
-          $element.css({width:"100%",height:"100%","padding":"15px"});
+          $element.css({width: '100%', height: '100%', 'padding': '15px'});
 
         }],
 
         link: function(scope, element, attrs){
 
-          var chartId= 'chart_'+maxChartId++;
-          //var dataAttributeChartID= 'chartid' + Math.floor(Math.random()*1000000001);
+          var chartId = 'chart_' + maxChartId++;
+          // var dataAttributeChartID= 'chartid' + Math.floor(Math.random()*1000000001);
           element.attr('data-chartid', chartId);
 
           switch(scope.config.type){
             case CHART_TYPES.LINE:
-                  scope.chart= new LineChart(chartId, scope.config);
+                  scope.chart = new LineChart(chartId, scope.config);
                   break;
             case CHART_TYPES.BAR:
-                  scope.chart= new BarChart(chartId, scope.config);
+                  scope.chart = new BarChart(chartId, scope.config);
                   break;
             case CHART_TYPES.HISTOGRAM:
-                  scope.chart= new HistogramChart(chartId, scope.config);
+                  scope.chart = new HistogramChart(chartId, scope.config);
                   break;
             case CHART_TYPES.BULLET:
-                  scope.chart= new BulletChart(chartId, scope.config);
+                  scope.chart = new BulletChart(chartId, scope.config);
                   break;
             case CHART_TYPES.PIE:
-                  scope.chart= new PieChart(chartId, scope.config);
+                  scope.chart = new PieChart(chartId, scope.config);
                   break;
-            default: console.error("unknown chart type: "+scope.config.type);
+            default: console.error('unknown chart type: ' + scope.config.type);
           }
 
 
-
-          scope.$on("mx-ud",function(){
+          scope.$on('mx-ud', function(): void{
             scope.chart.update();
           });
 
