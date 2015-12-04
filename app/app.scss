@@ -135,8 +135,8 @@ repeated-item {
   background-color: #E5D5E5;
 }
 
-/* - - - - - table - - - - - */
 
+/* - - - - - table - - - - - */
 
 table.mx-values-table{
 		width: 100%;
@@ -153,4 +153,9 @@ table.mx-values-table > thead > tr{
 }
 table.mx-values-table tr, table.mx-values-table th{
 		padding: 6px;
+}
+
+div.mx-gauge-timeline{
+  height:450px;
+  padding: 10px 7%;
 }

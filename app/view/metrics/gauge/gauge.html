@@ -1,3 +1,7 @@
 <md-subheader class="md-primary">{{gauge.metricId}} (Gauge)</md-subheader>
 
 <div><i>value:</i> {{gauge.value.value}}</div>
+
+<div class="mx-gauge-timeline">
+ <svm-chart config="gauge.chart"></svm-chart>
+</div>

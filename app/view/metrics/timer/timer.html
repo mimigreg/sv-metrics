@@ -27,7 +27,7 @@
 		</tbody>
 	</table>
 </md-whiteframe>
-	
+
 <md-whiteframe class="md-whiteframe-1dp" flex-sm="100" flex-gt-sm="100" flex-gt-md="45" layout layout-align="center center" layout-margin>
 	<table class="mx-values-table">
 		<thead>
@@ -79,8 +79,11 @@
 </md-whiteframe>
 </div>
 
-<div layout="row" layout-margin></div>
-
 <div layout="row" layout-margin>
-
+	<div class="mx-gauge-timeline" flex="60">
+		<svm-chart config="timer.responseTimeChart"></svm-chart>
+	</div>
+  <div class="mx-gauge-timeline" flex>
+		<svm-chart config="timer.histogramChart"></svm-chart>
+	</div>
 </div>
